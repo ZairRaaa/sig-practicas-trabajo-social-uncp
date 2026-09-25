@@ -1,3 +1,5 @@
+import Catalog from './features/catalog/Catalog'
+
 const steps = [
   { number: '01', title: 'Explora el territorio', text: 'Consulta las sedes y su ubicación en el ámbito de estudio.' },
   { number: '02', title: 'Compara con contexto', text: 'Revisa proximidad, condiciones y experiencias por periodo.' },
@@ -17,7 +19,7 @@ export default function App() {
           <a href="#catalogo">Centros de prácticas</a>
           <a href="#guia">Cómo funciona</a>
         </nav>
-        <span className="version">Versión inicial</span>
+        <span className="version">Demostración</span>
       </header>
 
       <main id="contenido">
@@ -39,23 +41,12 @@ export default function App() {
           </div>
         </section>
 
-        <section className="catalog section" id="catalogo" aria-labelledby="catalog-title">
-          <div className="section-heading">
-            <div><p className="eyebrow">DIRECTORIO INSTITUCIONAL</p><h2 id="catalog-title">Centros de prácticas</h2></div>
-            <span className="status"><span aria-hidden="true" />Padrón pendiente</span>
-          </div>
-          <div className="empty-state">
-            <span className="empty-symbol" aria-hidden="true">◎</span>
-            <h3>Estamos preparando el catálogo</h3>
-            <p>Las sedes aparecerán cuando se incorpore y verifique el padrón institucional. Aún no hay centros ni valoraciones disponibles en esta versión.</p>
-            <a className="text-link" href="#guia">Conoce cómo consultar la información <span aria-hidden="true">→</span></a>
-          </div>
-        </section>
+        <Catalog />
 
         <section className="section guide" id="guia" aria-labelledby="guide-title">
           <p className="eyebrow">UNA ELECCIÓN INFORMADA</p>
           <h2 id="guide-title">Del lugar a la experiencia</h2>
-          <p className="section-description">Así se organizará la consulta cuando el catálogo esté disponible.</p>
+          <p className="section-description">Explora la demostración para conocer cómo se organizará la consulta.</p>
           <div className="steps">
             {steps.map(step => (
               <article key={step.number} className="step">
