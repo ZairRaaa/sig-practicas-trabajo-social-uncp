@@ -1,0 +1,15 @@
+node_modules/
+dist/
+.env
+.env.*
+!.env.example
+*.local
+*.log
+.venv/
+__pycache__/
+.pytest_cache/
+coverage/
+data/private/
+backups/
+.DS_Store
+Thumbs.db
