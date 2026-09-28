@@ -7,11 +7,13 @@ Sistema en desarrollo para consultar y comparar centros mediante información in
 - [Propuesta original conservada](docs/propuesta_original.md).
 - [Guía autónoma para trabajar el informe con otra IA](docs/guia_informe_para_otra_ia.md): bases, índice, enfoque de encuesta y contexto técnico.
 
-## Estado actual: fase 2 — catálogo de demostración
+## Estado actual: navegación y explorador amplio
 
 Interfaz con React, TypeScript, Vite y Leaflet en `frontend/`. Incluye mapa, seis sedes ficticias, búsqueda, filtros por distrito/ámbito y fichas seleccionables. Diseño adaptable a móviles. Todavía no hay datos institucionales reales, cuentas ni backend. «Territorio» es un nombre de trabajo para la interfaz. Ver el [detalle de este avance](docs/avance_02_catalogo.md).
 
 Tecnologías siguientes: Leaflet, Python/FastAPI y PostgreSQL/PostGIS. Ver el [plan de fases y commits](docs/plan_desarrollo.md).
+
+Ahora hay páginas de Inicio, Explorador, Centros y El proyecto. El mapa ocupa una vista amplia y permite ocultar el panel. Ver [avance 03](docs/avance_03_paginas_y_explorador.md). Esta versión se entrega sin tests ni verificaciones, por indicación del usuario.
 
 ## Ejecutar localmente
 

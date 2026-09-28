@@ -1,22 +1,25 @@
 import { useCallback, useMemo, useState } from 'react'
+import { Link, useSearchParams } from 'react-router-dom'
 import { centerTypes, demoCenters, districts, filterCenters } from './centers'
 import CenterMap from './CenterMap'
 import './catalog.css'
 
-export default function Catalog() {
+export default function Catalog({ mode = 'explorer' }: { mode?: 'explorer' | 'directory' }) {
+  const [params] = useSearchParams()
+  const [expanded, setExpanded] = useState(false)
   const [query, setQuery] = useState('')
   const [district, setDistrict] = useState('')
   const [type, setType] = useState('')
-  const [selectedId, setSelectedId] = useState<string | null>(null)
+  const [selectedId, setSelectedId] = useState<string | null>(() => params.get('sede'))
   const centers = useMemo(() => filterCenters(demoCenters, query, district, type), [query, district, type])
   const selected = centers.find(center => center.id === selectedId)
   const selectCenter = useCallback((id: string) => setSelectedId(id), [])
   const clear = () => { setQuery(''); setDistrict(''); setType(''); setSelectedId(null) }
 
-  return <section className="catalog section" id="catalogo" aria-labelledby="catalog-title">
+  return <section className={`catalog section catalog-${mode} ${expanded ? 'map-expanded' : ''}`} id="catalogo" aria-labelledby="catalog-title">
     <div className="section-heading">
-      <div><p className="eyebrow">EXPLORA EL TERRITORIO</p><h2 id="catalog-title">Encuentra tu próximo lugar</h2></div>
-      <span className="status"><span aria-hidden="true" />Catálogo de demostración</span>
+      <div><p className="eyebrow">HUANCAYO / EL TAMBO / CHILCA</p><h1 id="catalog-title">{mode === 'explorer' ? 'Explorador geográfico' : 'Directorio de centros'}</h1></div>
+      <div className="catalog-actions"><Link to={mode === 'explorer' ? '/centros' : '/explorar'} className="view-link">{mode === 'explorer' ? 'Ver directorio ↗' : 'Abrir mapa ↗'}</Link>{mode === 'explorer' && <button className="view-link" onClick={() => setExpanded(value => !value)} aria-pressed={expanded}>{expanded ? 'Mostrar panel' : 'Ampliar mapa'}</button>}</div>
     </div>
     <p className="catalog-description">Explora el mapa y abre una ficha para conocer cómo se presentará cada sede.</p>
     <div className="demo-notice"><strong>Datos ficticios.</strong> Los nombres, distritos asignados y ubicaciones son ejemplos de interfaz. No representan centros habilitados ni vacantes reales.</div>
@@ -41,9 +44,10 @@ export default function Catalog() {
         </div>
       </div>
       <div className="map-column">
-        <CenterMap centers={centers} selectedId={selected?.id ?? null} onSelect={selectCenter} />
+        {mode === 'explorer' && <CenterMap centers={centers} selectedId={selected?.id ?? null} onSelect={selectCenter} />}
         <div id="center-detail" className="center-detail" aria-live="polite">
           {selected ? <><div className="detail-top"><span className="eyebrow">FICHA DE DEMOSTRACIÓN</span><button aria-label="Cerrar ficha" onClick={() => setSelectedId(null)}>×</button></div><h3>{selected.name}</h3><p>{selected.description}</p><dl><div><dt>Distrito de ejemplo</dt><dd>{selected.district}</dd></div><div><dt>Ámbito</dt><dd>{selected.type}</dd></div><div><dt>Valoraciones</dt><dd>Sin encuestas</dd></div><div><dt>Disponibilidad</dt><dd>No verificada</dd></div></dl><p className="detail-note">Esta ficha es ficticia. La información institucional se incorporará después de verificar el padrón.</p></> : <div className="detail-placeholder"><span aria-hidden="true">◎</span><div><h3>Un punto, una historia por conocer</h3><p>Selecciona una sede en el mapa o en la lista para abrir su ficha.</p></div></div>}
+          {selected && mode === 'directory' && <Link className="button detail-map-link" to={`/explorar?sede=${encodeURIComponent(selected.id)}`}>Ubicar en el mapa ↗</Link>}
         </div>
       </div>
     </div>

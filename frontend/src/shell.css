@@ -1,0 +1,55 @@
+/* Application shell and page-level layouts. Feature styles remain in catalog/. */
+.app-shell { min-height: 100dvh; }
+.app-header { max-width: none; padding: 18px 4%; background: #f7f8f3; min-height: 88px; }
+.app-header nav { gap: 8px; }
+.app-header nav a { padding: 9px 15px; border-radius: 7px; color: #637160; }
+.app-header nav a.active { color: #244a37; background: #e4ebdc; }
+.app-header nav a:hover { background: #edf1e8; text-decoration: none; }
+.page-main { width: 100%; }
+.explorer-main { max-width: none; width: 100%; }
+#contenido:focus { outline: none; }
+.hero { min-height: 570px; }
+.hero h1 { font-size: clamp(40px, 5vw, 68px); }
+.hero .territory-art { height: 400px; }
+.catalog-actions { display: flex; gap: 10px; align-items: center; }
+.view-link { border: 1px solid #ccd7c5; border-radius: 7px; padding: 9px 13px; background: #fafbf7; color: #37553c; font-size: 12px; white-space: nowrap; }
+.view-link:hover { background: #e6ecdf; }
+.catalog h1 { font-size: 28px; letter-spacing: -1px; margin: 0; line-height: 1.25; }
+.catalog-explorer { padding: 24px 3% 20px; border: 0; }
+.catalog-explorer .eyebrow { margin-bottom: 5px; font-size: 9px; }
+.catalog-explorer .catalog-description { display: none; }
+.catalog-explorer .demo-notice { margin: 14px 0 0; padding: 8px 12px; font-size: 11px; }
+.catalog-explorer .catalog-filters { padding: 16px 0; }
+.catalog-explorer .catalog-workspace { grid-template-columns: 310px minmax(0, 1fr); gap: 18px; }
+.catalog-explorer .catalog-list { max-height: max(540px, calc(100dvh - 300px)); overflow-y: auto; padding: 2px 5px 10px 2px; scrollbar-width: thin; }
+.catalog-explorer .results-heading span { display: none; }
+.catalog-explorer .center-map { height: max(510px, calc(100dvh - 330px)); }
+.catalog-explorer .map-column { position: relative; min-width: 0; }
+.catalog-explorer .map-shell { box-shadow: 0 8px 30px #2443320c; }
+.catalog-explorer .center-detail:has(.detail-top) { position: absolute; right: 18px; bottom: 52px; width: 330px; max-width: calc(100% - 36px); max-height: 65%; overflow-y: auto; z-index: 2; background: #f8faf4f5; box-shadow: 0 14px 40px #193b3226; backdrop-filter: blur(12px); }
+.catalog-explorer .center-detail:has(.detail-placeholder) { padding: 8px 15px; margin-top: 10px; background: transparent; border: 0; }
+.catalog-explorer .detail-placeholder { padding: 0; }
+.catalog-explorer.map-expanded .catalog-workspace { grid-template-columns: minmax(0, 1fr); }
+.map-expanded .catalog-list { display: none; }
+.map-expanded .center-map { height: max(580px, calc(100dvh - 285px)); }
+.catalog-directory { border: 0; padding-top: 48px; }
+.catalog-directory .catalog-workspace { grid-template-columns: minmax(0, 1fr) 310px; }
+.catalog-directory .cards { grid-template-columns: 1fr 1fr; }
+.catalog-directory .center-card { min-height: 160px; align-items: flex-start; padding: 22px 16px; }
+.catalog-directory .card-content { gap: 12px; }
+.catalog-directory .card-number { font-size: 25px; }
+.catalog-directory .map-column { position: sticky; top: 24px; }
+.catalog-directory .center-detail { margin-top: 32px; }
+.detail-map-link { margin-top: 18px; font-size: 12px; }
+.about-page { padding: 60px 40px; }
+.about-intro { max-width: 780px; }
+.about-intro > p:not(.eyebrow) { max-width: 640px; font-size: 18px; color: #657360; margin-bottom: 28px; }
+.about-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; margin: 55px 0; }
+.about-grid article { padding: 28px; border-radius: 12px; background: #edf1e6; border: 1px solid #dce4d3; }
+.about-grid h2 { font-size: 24px; margin: 15px 0; }
+.about-grid p, .about-status p { color: #63725b; font-size: 14px; }
+.about-status { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; padding-top: 35px; border-top: 1px solid #dce4d3; }
+.not-found { min-height: 65dvh; padding-top: 80px; }
+@media(min-width: 1600px) { .catalog-explorer .catalog-workspace { grid-template-columns: 360px minmax(0, 1fr); } }
+@media(max-width: 900px) { .catalog-directory .catalog-workspace { grid-template-columns: 1fr; } .catalog-directory .map-column { position: static; } .catalog-explorer .catalog-workspace { grid-template-columns: 260px minmax(0, 1fr); } .app-header { padding: 16px 20px; gap: 15px; } .app-header nav a { padding: 8px 10px; } .about-grid { gap: 12px; } .about-grid article { padding: 20px; } }
+@media(max-width: 760px) { .app-header nav { order: 3; width: 100%; overflow-x: auto; flex-wrap: nowrap; white-space: nowrap; } .hero { min-height: auto; } .hero .territory-art { height: 280px; } .about-page { padding: 35px 20px; } .about-grid, .about-status { grid-template-columns: 1fr; gap: 20px; } .catalog-actions { width: 100%; flex-wrap: wrap; } .catalog-explorer .catalog-workspace { grid-template-columns: 1fr; } .catalog-explorer .map-column { grid-row: 1; } .catalog-explorer .catalog-list { max-height: none; overflow: visible; } .catalog-explorer .center-map { height: 60dvh; min-height: 370px; } .catalog-explorer .center-detail:has(.detail-top) { position: static; width: auto; max-width: none; max-height: none; background: #eef2e8; box-shadow: none; } .catalog-directory .cards { grid-template-columns: 1fr; } .catalog-directory .center-card { min-height: 120px; } .catalog-explorer { padding: 20px 16px; } .catalog h1 { font-size: 26px; } .map-expanded .center-map { height: 75dvh; } }
