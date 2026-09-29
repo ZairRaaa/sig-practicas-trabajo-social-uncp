@@ -13,6 +13,6 @@ export default function AboutPage() {
       <article><span className="step-number">02</span><h2>Las experiencias</h2><p>Un cuestionario recogerá prioridades y experiencias de las estudiantes. Las valoraciones se mostrarán con su periodo y cantidad de respuestas.</p></article>
       <article><span className="step-number">03</span><h2>La información</h2><p>El padrón institucional permitirá identificar sedes y registrar la fuente y fecha de sus datos. La disponibilidad deberá confirmarse con la coordinación.</p></article>
     </div>
-    <section className="about-status"><div><p className="eyebrow">DÓNDE ESTAMOS</p><h2>Una aplicación en construcción</h2></div><p>Esta versión permite explorar sedes ficticias y consultar sus fichas. Aún no contiene padrón verificado, respuestas de encuestas ni vacantes reales. El acceso, los cuestionarios y las funciones administrativas se incorporarán progresivamente.</p></section>
+    <section className="about-status"><div><p className="eyebrow">DÓNDE ESTAMOS</p><h2>Una aplicación en construcción</h2></div><p>El catálogo consulta los registros de la base a través de la API. Las sedes de demostración se identifican como ficticias. Aún no se dispone de cuestionarios, gestión de vacantes o acceso por roles; estas funciones se incorporarán progresivamente.</p></section>
   </div>
 }

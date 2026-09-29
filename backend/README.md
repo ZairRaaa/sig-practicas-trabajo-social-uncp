@@ -74,8 +74,9 @@ Mantener abierta la terminal. La documentación interactiva de la API estará en
 | `GET /api/v1/sites` | Sedes activas, paginadas |
 | `GET /api/v1/sites/{uuid}` | Ficha o 404 |
 | `GET /api/v1/districts` | Distritos registrados |
+| `GET /api/v1/categories` | Ámbitos presentes en sedes activas |
 
-Filtros de sedes: `q` busca texto en el nombre sin distinguir mayúsculas; `district` recibe UBIGEO de seis dígitos; `category` exige coincidencia exacta; `limit` entre 1 y 100; `offset` entre 0 y 100000. A diferencia de la demo web, esta búsqueda todavía no normaliza tildes. La siguiente integración deberá unificar su comportamiento.
+Filtros de sedes: `q` busca texto en nombre de sede, institución, ámbito y distrito sin distinguir mayúsculas ni tildes españolas; `district` recibe un código de seis dígitos; `category` exige coincidencia exacta; `limit` entre 1 y 100; `offset` entre 0 y 100000. Los códigos de distrito de la carga demo son sintéticos y están documentados como tales.
 
 Ejemplo de respuesta de una **base vacía**, sin registros inventados:
 
@@ -94,3 +95,13 @@ La base separa institución y sede; el distrito puede quedar sin asignar hasta v
 CORS permite los dos orígenes locales de Vite del archivo de ejemplo; si Vite cambia de puerto, actualizar `CORS_ORIGINS` (lista JSON) y reiniciar la API. CORS no sustituye autenticación.
 
 No se ejecutaron instalación Python, migraciones, servidor, endpoints, compilaciones ni tests durante esta entrega.
+
+## Integración y ejemplos (avance 05)
+
+La interfaz ya tiene código para consumir esta API mediante el proxy de Vite. Se añadió una carga local opcional, sin endpoints públicos de escritura:
+
+```powershell
+.\.venv\Scripts\python.exe -m scripts.seed_demo --confirm-demo
+```
+
+Ejecutar desde `backend` únicamente si se desean ejemplos ficticios en la base configurada. No se lanza automáticamente. Consulta el [avance 05](../docs/avance_05_conexion_catalogo.md) para límites, códigos sintéticos e instrucciones de arranque.

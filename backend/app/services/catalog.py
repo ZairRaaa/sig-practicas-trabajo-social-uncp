@@ -1,4 +1,5 @@
 from uuid import UUID
+import unicodedata
 from sqlalchemy import func, select
 from sqlalchemy.orm import Session
 from app.models import District, Institution, Site
@@ -22,8 +23,13 @@ def list_sites(session: Session, *, query: str | None, district: str | None,
                category: str | None, limit: int, offset: int) -> SitePage:
     statement = site_query()
     if query and query.strip():
-        # autoescape convierte % y _ en caracteres literales para la búsqueda.
-        statement = statement.where(Site.name.icontains(query.strip(), autoescape=True))
+        # Búsqueda española sin tildes, sin exigir la extensión unaccent.
+        search = ''.join(char for char in unicodedata.normalize('NFD', query.strip().lower())
+                         if not unicodedata.combining(char))
+        haystack = func.lower(func.concat_ws(' ', Site.name, Institution.name,
+                                             Institution.category, District.name))
+        normalized = func.translate(haystack, 'áéíóúüñ', 'aeiouun')
+        statement = statement.where(normalized.contains(search, autoescape=True))
     if district:
         statement = statement.where(Site.district_ubigeo == district)
     if category:

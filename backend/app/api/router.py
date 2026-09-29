@@ -4,7 +4,7 @@ from fastapi import APIRouter, Depends, HTTPException, Query
 from sqlalchemy import select, text
 from sqlalchemy.orm import Session
 from app.db.session import get_session
-from app.models import District
+from app.models import District, Institution, Site
 from app.schemas.catalog import DistrictRead, SitePage, SiteRead
 from app.services.catalog import get_site, list_sites
 
@@ -50,3 +50,11 @@ def site(site_id: UUID, session: Database) -> SiteRead:
 def districts(session: Database) -> list[DistrictRead]:
     rows = session.execute(select(District.ubigeo, District.name).order_by(District.name)).mappings()
     return [DistrictRead.model_validate(row) for row in rows]
+
+
+@router.get('/categories', response_model=list[str], tags=['Catálogo'])
+def categories(session: Database) -> list[str]:
+    statement = select(Institution.category).join(
+        Site, Site.institution_id == Institution.id
+    ).where(Site.active.is_(True)).distinct().order_by(Institution.category)
+    return list(session.scalars(statement))

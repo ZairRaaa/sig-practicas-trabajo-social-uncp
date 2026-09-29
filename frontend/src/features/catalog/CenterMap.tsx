@@ -36,7 +36,7 @@ export default function CenterMap({ centers, selectedId, onSelect }: Props) {
     markers.current.clear()
     centers.forEach((center, index) => {
       const label = document.createElement('span')
-      label.textContent = `${center.name} · Ubicación ficticia`
+      label.textContent = `${center.name}${center.isDemo ? ' · Ubicación ficticia' : ''}`
       const marker = L.marker(center.coordinates, {
         title: center.name,
         alt: `Seleccionar ${center.name}`,
@@ -57,8 +57,8 @@ export default function CenterMap({ centers, selectedId, onSelect }: Props) {
   }, [selectedId, centers])
 
   return <div className="map-shell">
-    <div ref={container} className="center-map" role="region" aria-label="Mapa de ubicaciones ficticias; también disponibles en la lista de centros" />
-    <div className="map-caption"><span className="map-dot" />Ubicaciones de demostración</div>
+    <div ref={container} className="center-map" role="region" aria-label="Mapa de sedes; también disponibles en la lista de centros" />
+    <div className="map-caption"><span className="map-dot" />Mapa de esta página · {centers.length} sedes{centers.some(center => center.isDemo) ? ' · Incluye ubicaciones ficticias' : ''}</div>
     {tileError && <p className="map-error" role="status">No se pudo cargar parte del mapa base. Puedes seguir consultando las fichas en la lista.</p>}
   </div>
 }
