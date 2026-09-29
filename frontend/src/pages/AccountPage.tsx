@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
-import { Navigate } from 'react-router-dom'
+import { Link, Navigate } from 'react-router-dom'
 import { roleLabels, useAuth } from '../features/auth/AuthContext'
 import { getJson } from '../services/api'
 
@@ -26,7 +26,8 @@ export default function AccountPage() {
   if (!auth.user) return <Navigate to="/acceso" replace />
   return <section className="account-page"><p className="eyebrow">MI CUENTA / TERRITORIO</p><h1>Hola, {auth.user.display_name}.</h1><p className="account-intro">Este es tu espacio de acceso al proyecto.</p>
     <div className="account-grid"><article className="auth-card"><h2>Tu perfil</h2><dl><dt>Usuario</dt><dd>{auth.user.username}</dd><dt>Rol</dt><dd>{roleLabels[auth.user.role]}</dd></dl><button className="view-link" disabled={busy} onClick={() => action(false)}>Cerrar sesión</button></article>
-      <article className="auth-card"><h2>Participación y permisos</h2><p>{auth.user.role === 'student' ? 'Tu cuenta de estudiante está habilitada. El cuestionario se incorporará cuando se cierre su instrumento y se habiliten las experiencias elegibles.' : 'Tu rol permite acceder a las funciones de gestión. El padrón y la administración de experiencias se incorporarán en los siguientes avances.'}</p>
+      <article className="auth-card"><h2>Participación y permisos</h2><p>{auth.user.role === 'student' ? 'Consulta el cuestionario piloto y las experiencias habilitadas para tu cuenta. Participar es voluntario.' : 'Puedes consultar el instrumento piloto. Los envíos están reservados a cuentas de estudiante; la administración visual llegará en el siguiente avance.'}</p>
+        <Link className="button" to="/cuestionario">{auth.user.role === 'student' ? 'Ir al cuestionario' : 'Consultar instrumento'} ↗</Link>
         {auth.user.role !== 'student' && <button className="view-link" disabled={busy} onClick={() => action(true)}>Consultar acceso de gestión</button>}
       </article></div>
     {message && <div className="auth-message" role="status"><p>{message}</p><button className="view-link" disabled={busy} onClick={auth.reload}>Actualizar sesión</button></div>}

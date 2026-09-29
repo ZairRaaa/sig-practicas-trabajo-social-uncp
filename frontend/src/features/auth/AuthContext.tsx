@@ -7,6 +7,7 @@ export const roleLabels: Record<Role, string> = { student: 'Estudiante', coordin
 interface User { id: string; username: string; display_name: string; role: Role }
 interface Session { user: User; csrf_token: string }
 interface AuthState {
+  csrfToken: string | null
   user: User | null; loading: boolean; error: string | null
   reload: () => void
   signIn: (username: string, password: string, signal: AbortSignal) => Promise<void>
@@ -43,7 +44,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     await postJson('/auth/logout', {}, signal, { 'X-CSRF-Token': session.csrf_token })
     setSession(null); setError(null)
   }
-  return <AuthContext.Provider value={{ user: session?.user ?? null, loading, error,
+  return <AuthContext.Provider value={{ user: session?.user ?? null, csrfToken: session?.csrf_token ?? null, loading, error,
     reload: () => setRevision(value => value + 1), signIn, signOut }}>{children}</AuthContext.Provider>
 }
 

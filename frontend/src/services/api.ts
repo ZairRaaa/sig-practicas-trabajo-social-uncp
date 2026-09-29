@@ -25,8 +25,8 @@ async function requestJson<T>(path: string, signal: AbortSignal, body?: unknown,
         : response.status === 429 ? 'Demasiados intentos. Espera un minuto antes de continuar.'
         : response.status === 404 ? 'La sede no existe o ya no está disponible.'
         : response.status === 422 ? 'Revisa los datos enviados; algún valor no es válido.'
-        : response.status === 503 ? 'El catálogo no está disponible. Puede faltar la conexión a la base o aplicar sus migraciones.'
-          : 'No se pudo consultar el catálogo. Inténtalo de nuevo.'
+        : response.status === 503 ? 'El servicio no está disponible. Puede faltar la conexión a la base o aplicar sus migraciones.'
+          : 'No se pudo completar la solicitud. Inténtalo de nuevo.'
       throw new ApiError(message, response.status)
     }
     return await response.json() as T
@@ -34,7 +34,7 @@ async function requestJson<T>(path: string, signal: AbortSignal, body?: unknown,
     if (signal.aborted) throw new DOMException('Solicitud cancelada', 'AbortError')
     if (timedOut) throw new ApiError('El servidor tardó demasiado en responder. Inténtalo de nuevo.')
     if (error instanceof ApiError) throw error
-    throw new ApiError('No se pudo conectar con el catálogo. Comprueba que el backend esté en ejecución.')
+    throw new ApiError('No se pudo conectar con el servicio. Comprueba que el backend esté en ejecución.')
   } finally {
     window.clearTimeout(timeout)
     signal.removeEventListener('abort', abort)

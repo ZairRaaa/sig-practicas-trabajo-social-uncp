@@ -6,6 +6,7 @@ import AboutPage from './pages/AboutPage'
 import ComparePage from './pages/ComparePage'
 import LoginPage from './pages/LoginPage'
 import AccountPage from './pages/AccountPage'
+import QuestionnairePage from './pages/QuestionnairePage'
 import { AuthProvider, useAuth } from './features/auth/AuthContext'
 import './features/auth/auth.css'
 import { CompareProvider, useComparison } from './features/compare/CompareContext'
@@ -21,6 +22,7 @@ function Application() {
     const titles: Record<string, string> = { '/': 'Inicio', '/explorar': 'Explorador geográfico', '/centros': 'Centros de prácticas', '/comparar': 'Comparador de sedes', '/proyecto': 'El proyecto' }
     titles['/acceso'] = 'Iniciar sesión'
     titles['/cuenta'] = 'Mi cuenta'
+    titles['/cuestionario'] = 'Cuestionario piloto'
     document.title = `${titles[location.pathname] ?? 'Página no encontrada'} · Territorio UNCP`
     window.scrollTo({ top: 0, behavior: 'instant' })
     document.getElementById('contenido')?.focus({ preventScroll: true })
@@ -48,6 +50,7 @@ function Application() {
         <Route path="/comparar" element={<ComparePage />} />
         <Route path="/acceso" element={<LoginPage />} />
         <Route path="/cuenta" element={<AccountPage />} />
+        <Route path="/cuestionario" element={<QuestionnairePage />} />
         <Route path="*" element={<section className="section not-found"><p className="eyebrow">404 / FUERA DEL RECORRIDO</p><h1>No encontramos esa página</h1><p>Puedes volver al inicio o explorar las sedes de demostración.</p><Link className="button" to="/explorar">Ir al explorador ↗</Link></section>} />
       </Routes>
     </main>
