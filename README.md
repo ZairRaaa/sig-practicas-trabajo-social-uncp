@@ -7,7 +7,7 @@ Sistema en desarrollo para consultar y comparar centros mediante información in
 - [Propuesta original conservada](docs/propuesta_original.md).
 - [Guía autónoma para trabajar el informe con otra IA](docs/guia_informe_para_otra_ia.md): bases, índice, enfoque de encuesta y contexto técnico.
 
-## Estado actual: integración del catálogo con la API
+## Estado actual: consultas espaciales por origen y radio
 
 Interfaz React, TypeScript, Vite y Leaflet en `frontend/`. El catálogo consulta la API e incluye búsqueda, filtros, fichas y paginación sincronizada con el mapa. No incluye datos fijos ocultos: una base vacía se muestra vacía. Puede cargarse opcionalmente un conjunto ficticio en PostgreSQL. «Territorio» es un nombre de trabajo para la interfaz.
 
@@ -35,7 +35,7 @@ cd frontend
 npm run dev
 ```
 
-Abrir la dirección local que muestre Vite. Para detener cada proceso, usar Ctrl+C. PostgreSQL debe estar iniciado. No reinstalar dependencias ni ejecutar migraciones en cada arranque. Esta integración no añade dependencias ni migraciones; reiniciar Vite para aplicar su proxy de API. Si aún no se instalaron las dependencias, usar `npm ci` en `frontend` y seguir la preparación del backend.
+Abrir la dirección local que muestre Vite. Para detener cada proceso, usar Ctrl+C. PostgreSQL debe estar iniciado. No reinstalar dependencias ni ejecutar migraciones en cada arranque. El avance 06 añade la migración 0002_spatial_index: aplicarla una vez. No hay dependencias nuevas. Si aún no se instalaron las dependencias, usar `npm ci` en `frontend` y seguir la preparación del backend.
 
 ## Verificar y compilar
 
@@ -50,4 +50,4 @@ Este comando verifica tipos y crea `frontend/dist`. Para revisar esa compilació
 
 Se conserva el repositorio existente y su primer commit. El arranque se realiza en `codex/fase-1-base-react`, con commits separados para documentación e interfaz. Los cambios se guardan localmente; no se ha hecho push ni merge a `main`.
 
-Siguiente fase: búsqueda por radio y distancias con PostGIS. Los datos institucionales reales requieren autorización y revisión. Este avance se entrega sin tests ni verificaciones, conforme a la instrucción del usuario.
+Radio y distancia geográfica añadidos. Ver [avance 06 y su migración](docs/avance_06_consultas_espaciales.md) y [hoja de ruta de 10 avances](docs/hoja_de_ruta.md). Siguiente parte: comparador de sedes. Los datos institucionales reales requieren autorización y revisión. Este avance se entrega sin tests ni verificaciones, conforme a la instrucción del usuario.

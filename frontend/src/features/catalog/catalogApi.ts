@@ -1,4 +1,4 @@
-import { ApiError, getJson } from '../../services/api'
+import { ApiError, getJson, postJson } from '../../services/api'
 import type { CatalogFilters, CatalogPage, Center, DistrictOption } from './centers'
 
 interface SiteResponse {
@@ -15,6 +15,7 @@ interface SiteResponse {
   is_demo: boolean
   verification_status: 'pending' | 'verified'
   verified_at: string | null
+  distance_m?: number | null
 }
 interface PageResponse { items: SiteResponse[]; total: number; limit: number; offset: number }
 export const PAGE_SIZE = 12
@@ -30,6 +31,7 @@ function toCenter(site: SiteResponse): Center {
     type: site.category, coordinates: [site.latitude, site.longitude],
     description: site.description || 'Sin descripción registrada.', address: site.address,
     isDemo: site.is_demo, verificationStatus: site.verification_status, verifiedAt: site.verified_at,
+    distanceM: site.distance_m ?? null,
   }
 }
 
@@ -37,6 +39,14 @@ export async function loadCatalog(filters: CatalogFilters, signal: AbortSignal):
   if (filters.siteId) {
     const site = await getJson<SiteResponse>(`/sites/${encodeURIComponent(filters.siteId)}`, signal)
     return { items: [toCenter(site)], total: 1, limit: PAGE_SIZE, offset: 0 }
+  }
+  if (filters.origin) {
+    const page = await postJson<PageResponse>('/spatial/search', {
+      latitude: filters.origin[0], longitude: filters.origin[1], radius_m: filters.radiusM,
+      q: filters.query.trim() || null, district: filters.district || null,
+      category: filters.category || null, limit: PAGE_SIZE, offset: filters.offset,
+    }, signal)
+    return { ...page, items: page.items.map(toCenter) }
   }
   const query = new URLSearchParams({ limit: String(PAGE_SIZE), offset: String(filters.offset) })
   if (filters.query.trim()) query.set('q', filters.query.trim())

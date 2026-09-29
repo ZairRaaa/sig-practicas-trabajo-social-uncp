@@ -67,6 +67,25 @@ button:focus-visible, input:focus-visible, select:focus-visible { outline: 3px s
 .loading-dot { width: 8px; height: 8px; border-radius: 50%; background: #66845a; }
 .record-tag { font-size: 9px; color: #637656; }
 .record-demo { color: #8a692d; }
+.spatial-controls { margin: 0 0 20px; padding: 18px 20px; background: #eef2e7; border: 1px solid #d6e0ce; border-radius: 10px; }
+.spatial-heading { display: flex; align-items: center; justify-content: space-between; gap: 16px; }
+.spatial-heading .eyebrow { font-size: 9px; }
+.spatial-heading h2 { font-size: 21px; margin-top: 3px; }
+.spatial-heading p, .spatial-status { font-size: 12px; color: #5c7251; }
+.spatial-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 14px; margin: 14px 0; }
+.spatial-actions label { display: flex; align-items: center; gap: 8px; font-size: 12px; }
+.spatial-actions select, .coordinate-entry input { border: 1px solid #c8d5be; border-radius: 6px; padding: 9px; background: #fff; color: #355137; }
+.picking-active { background: #31563e; color: #fff; }
+.coordinate-entry { font-size: 12px; color: #526749; }
+.coordinate-entry summary { cursor: pointer; padding: 5px 0; }
+.coordinate-entry form { display: flex; flex-wrap: wrap; gap: 12px; align-items: flex-end; margin-top: 10px; }
+.coordinate-entry label { display: grid; gap: 5px; }
+.coordinate-entry input { width: 145px; }
+.spatial-disclaimer { font-size: 10px; color: #68765f; margin: 14px 0 0; }
+.picking-origin { cursor: crosshair; }
+.card-tail { display: flex; flex-direction: column; align-items: flex-end; gap: 10px; }
+.distance-badge { white-space: nowrap; color: #80582d; background: #f7eddb; padding: 3px 7px; border-radius: 5px; font-size: 10px; }
+@media(max-width: 650px) { .spatial-controls { padding: 14px; } .spatial-heading { align-items: flex-start; flex-direction: column; gap: 0; } .coordinate-entry label { flex: 1; min-width: 100px; } .coordinate-entry input { width: 100%; } }
 .catalog-pagination { display: flex; justify-content: center; align-items: center; gap: 18px; margin-top: 24px; }
 .catalog-pagination > span { font-size: 11px; color: #66775e; }
 .center-detail dd { overflow-wrap: anywhere; }

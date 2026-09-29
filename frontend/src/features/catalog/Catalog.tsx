@@ -3,6 +3,9 @@ import { Link, useSearchParams } from 'react-router-dom'
 import CenterMap from './CenterMap'
 import CenterDetails from './CenterDetails'
 import { useCatalog } from './useCatalog'
+import SpatialControls from './SpatialControls'
+import { formatDistance } from './centers'
+import type { Origin } from './centers'
 import './catalog.css'
 
 export default function Catalog({ mode = 'explorer' }: { mode?: 'explorer' | 'directory' }) {
@@ -14,8 +17,11 @@ export default function Catalog({ mode = 'explorer' }: { mode?: 'explorer' | 'di
   const [type, setType] = useState('')
   const [offset, setOffset] = useState(0)
   const [selectedId, setSelectedId] = useState<string | null>(null)
+  const [origin, setOrigin] = useState<Origin | null>(null)
+  const [radiusM, setRadiusM] = useState(2000)
+  const [pickingOrigin, setPickingOrigin] = useState(false)
   const { page, loading, error, districts, categories, retry } = useCatalog({
-    query, district, category: type, offset, siteId: focusedId,
+    query, district, category: type, offset, siteId: focusedId, origin, radiusM,
   })
   const centers = page.items
   const selected = centers.find(center => center.id === (focusedId ?? selectedId))
@@ -28,8 +34,9 @@ export default function Catalog({ mode = 'explorer' }: { mode?: 'explorer' | 'di
     }
   }
   const resetPage = () => { setOffset(0); setSelectedId(null); releaseFocus() }
-  const clear = () => { setQuery(''); setDistrict(''); setType(''); resetPage() }
-  const hasFilters = Boolean(query || district || type || focusedId)
+  const clear = () => { setQuery(''); setDistrict(''); setType(''); setOrigin(null); setPickingOrigin(false); resetPage() }
+  const chooseOrigin = (point: Origin) => { setOrigin(point); setPickingOrigin(false); resetPage() }
+  const hasFilters = Boolean(query || district || type || focusedId || origin)
   const ready = !loading && !error
 
   return <section className={`catalog section catalog-${mode} ${expanded ? 'map-expanded' : ''}`} id="catalogo" aria-labelledby="catalog-title">
@@ -49,6 +56,11 @@ export default function Catalog({ mode = 'explorer' }: { mode?: 'explorer' | 'di
       <button className="clear-filters" onClick={clear} disabled={!hasFilters && !selectedId && !offset}>Limpiar</button>
     </div>
 
+    {mode === 'explorer' && <SpatialControls origin={origin} radiusM={radiusM} picking={pickingOrigin}
+      onPick={() => setPickingOrigin(value => !value)} onOrigin={chooseOrigin}
+      onRadius={radius => { setRadiusM(radius); resetPage() }}
+      onClear={() => { setOrigin(null); setPickingOrigin(false); resetPage() }} />}
+
     {loading && <div className="catalog-feedback" role="status"><span className="loading-dot" />Consultando el catálogo…</div>}
     {error && <div className="catalog-feedback catalog-error" role="alert"><div><strong>No pudimos cargar las sedes</strong><p>{error}</p></div><button className="view-link" onClick={retry}>Reintentar</button></div>}
 
@@ -59,13 +71,14 @@ export default function Catalog({ mode = 'explorer' }: { mode?: 'explorer' | 'di
           {centers.map((center, index) => <button key={center.id} className={`center-card ${selected?.id === center.id ? 'selected' : ''}`} onClick={() => selectCenter(center.id)} aria-pressed={selected?.id === center.id} aria-controls="center-detail">
             <span className="card-number" aria-hidden="true">{String(index + 1).padStart(2, '0')}</span>
             <span className="card-content"><span className={`type-badge type-${center.type === 'Salud' ? 'health' : center.type === 'Educación' ? 'education' : 'community'}`}>{center.type}</span><strong>{center.name}</strong><span className="card-district">{center.district}</span><span className={`record-tag ${center.isDemo ? 'record-demo' : ''}`}>{center.isDemo ? 'Demostración' : center.verificationStatus === 'verified' ? 'Registro verificado' : 'Por verificar'}</span></span>
-            <span className="card-arrow" aria-hidden="true">↗</span>
+            <span className="card-tail">{center.distanceM !== null && <span className="distance-badge" aria-label={`Distancia geográfica: ${formatDistance(center.distanceM)}`}>{formatDistance(center.distanceM)}</span>}<span className="card-arrow" aria-hidden="true">↗</span></span>
           </button>)}
           {ready && !centers.length && <div className="no-results"><span aria-hidden="true">⌕</span><h3>{hasFilters ? 'No encontramos coincidencias' : 'El catálogo está vacío'}</h3><p>{hasFilters ? 'Prueba otro nombre o combina menos filtros.' : 'Las sedes aparecerán cuando se incorporen registros a la base de datos.'}</p>{(hasFilters || offset > 0) && <button className="button" onClick={clear}>Restablecer búsqueda</button>}</div>}
         </div>
       </div>
       <div className="map-column">
-        {mode === 'explorer' && <CenterMap centers={centers} selectedId={selected?.id ?? null} onSelect={selectCenter} />}
+        {mode === 'explorer' && <CenterMap centers={centers} selectedId={selected?.id ?? null} onSelect={selectCenter}
+          origin={origin} radiusM={radiusM} pickingOrigin={pickingOrigin} onOrigin={chooseOrigin} />}
         <CenterDetails center={selected} directory={mode === 'directory'} onClose={() => { setSelectedId(null); releaseFocus() }} />
       </div>
     </div>

@@ -18,7 +18,9 @@ export function useCatalog(filters: CatalogFilters) {
   const [state, setState] = useState<CatalogState>({
     key: '', loading: true, error: null, page: emptyPage, districts: [], categories: [],
   })
-  const { query, district, category, offset, siteId } = filters
+  const { query, district, category, offset, siteId, radiusM } = filters
+  const latitude = filters.origin?.[0] ?? null
+  const longitude = filters.origin?.[1] ?? null
 
   useEffect(() => {
     const controller = new AbortController()
@@ -26,7 +28,8 @@ export function useCatalog(filters: CatalogFilters) {
     // Debounce y cancelación para evitar resultados de una búsqueda anterior.
     const timer = window.setTimeout(() => {
       Promise.all([
-        loadCatalog({ query, district, category, offset, siteId }, controller.signal),
+        loadCatalog({ query, district, category, offset, siteId, radiusM,
+          origin: latitude !== null && longitude !== null ? [latitude, longitude] : null }, controller.signal),
         loadOptions(controller.signal),
       ]).then(([page, [districts, categories]]) => {
         if (!controller.signal.aborted) setState({ key, loading: false, error: null, page, districts, categories })
@@ -38,7 +41,7 @@ export function useCatalog(filters: CatalogFilters) {
       })
     }, 250)
     return () => { window.clearTimeout(timer); controller.abort() }
-  }, [query, district, category, offset, siteId, key])
+  }, [query, district, category, offset, siteId, radiusM, latitude, longitude, key])
 
   const current = state.key === key
   return {

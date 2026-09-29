@@ -5,11 +5,19 @@ from sqlalchemy import select, text
 from sqlalchemy.orm import Session
 from app.db.session import get_session
 from app.models import District, Institution, Site
-from app.schemas.catalog import DistrictRead, SitePage, SiteRead
+from app.schemas.catalog import DistrictRead, SitePage, SiteRead, SpatialSearch
 from app.services.catalog import get_site, list_sites
 
 router = APIRouter(prefix='/api/v1')
 Database = Annotated[Session, Depends(get_session)]
+
+
+@router.post('/spatial/search', response_model=SitePage, tags=['Análisis espacial'])
+def spatial_search(search: SpatialSearch, session: Database) -> SitePage:
+    """Consulta sin escritura. El origen viaja en el cuerpo, no en la URL."""
+    return list_sites(session, query=search.q, district=search.district,
+                      category=search.category, limit=search.limit, offset=search.offset,
+                      origin=(search.latitude, search.longitude), radius_m=search.radius_m)
 
 
 @router.get('/health', tags=['Estado'])

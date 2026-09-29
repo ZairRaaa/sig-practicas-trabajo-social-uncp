@@ -84,11 +84,11 @@ Ejemplo de respuesta de una **base vacía**, sin registros inventados:
 {"items": [], "total": 0, "limit": 30, "offset": 0}
 ```
 
-Las coordenadas se devuelven en campos `longitude` y `latitude` separados. Al conectarlas a Leaflet se convertirán explícitamente al orden `[latitude, longitude]`. En PostGIS se almacenan puntos EPSG:4326, con longitud primero. Todavía no se realizan consultas de distancia ni radio.
+Las coordenadas se devuelven en campos `longitude` y `latitude` separados. Al conectarlas a Leaflet se convertirán explícitamente al orden `[latitude, longitude]`. En PostGIS se almacenan puntos EPSG:4326, con longitud primero. El avance 06 añade POST /api/v1/spatial/search con latitude, longitude y radius_m en el cuerpo. Aplicar la migración 0002_spatial_index.
 
 ## Alcance y límites
 
-Solo se implementan lecturas HTTP. No hay endpoints públicos de creación/edición, autenticación, encuestas ni importación. Los datos reales no deben exponerse hasta definir permisos. `active` indica que la sede no fue desactivada, no certifica convenio vigente ni vacantes. `verified` exige fuente y fecha, pero no sustituye una revisión institucional.
+Las rutas son de consulta; el POST espacial tampoco modifica la base. No hay endpoints públicos de creación/edición, autenticación, encuestas ni importación. Los datos reales no deben exponerse hasta definir permisos. `active` indica que la sede no fue desactivada, no certifica convenio vigente ni vacantes. `verified` exige fuente y fecha, pero no sustituye una revisión institucional.
 
 La base separa institución y sede; el distrito puede quedar sin asignar hasta verificarlo. Los polígonos distritales, periodos, convenios y experiencias se incorporarán mediante migraciones posteriores. No se cargan UBIGEO o coordenadas supuestamente oficiales sin fuente.
 
@@ -105,3 +105,6 @@ La interfaz ya tiene código para consumir esta API mediante el proxy de Vite. S
 ```
 
 Ejecutar desde `backend` únicamente si se desean ejemplos ficticios en la base configurada. No se lanza automáticamente. Consulta el [avance 05](../docs/avance_05_conexion_catalogo.md) para límites, códigos sintéticos e instrucciones de arranque.
+
+
+Consultas espaciales y migración del índice: [avance 06](../docs/avance_06_consultas_espaciales.md).

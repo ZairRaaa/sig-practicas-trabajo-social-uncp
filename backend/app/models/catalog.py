@@ -1,8 +1,8 @@
 from datetime import datetime
 from uuid import UUID, uuid4
 
-from geoalchemy2 import Geometry, WKBElement
-from sqlalchemy import Boolean, CheckConstraint, DateTime, ForeignKey, String, Text, func
+from geoalchemy2 import Geography, Geometry, WKBElement
+from sqlalchemy import Boolean, CheckConstraint, DateTime, ForeignKey, Index, String, Text, cast, func
 from sqlalchemy.orm import Mapped, mapped_column
 from app.db.base import Base
 
@@ -62,3 +62,6 @@ class Site(Base):
     active: Mapped[bool] = mapped_column(Boolean, server_default='true')
     is_demo: Mapped[bool] = mapped_column(Boolean, server_default='false')
     created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), server_default=func.now())
+
+
+Index('idx_sites_location_geography', cast(Site.location, Geography(srid=4326)), postgresql_using='gist')
