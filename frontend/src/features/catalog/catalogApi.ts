@@ -20,6 +20,10 @@ interface SiteResponse {
 interface PageResponse { items: SiteResponse[]; total: number; limit: number; offset: number }
 export const PAGE_SIZE = 12
 
+export async function loadCenter(id: string, signal: AbortSignal): Promise<Center> {
+  return toCenter(await getJson<SiteResponse>(`/sites/${encodeURIComponent(id)}`, signal))
+}
+
 function toCenter(site: SiteResponse): Center {
   if (!Number.isFinite(site.latitude) || !Number.isFinite(site.longitude)
     || Math.abs(site.latitude) > 90 || Math.abs(site.longitude) > 180) {

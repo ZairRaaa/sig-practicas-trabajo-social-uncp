@@ -7,7 +7,7 @@ Sistema en desarrollo para consultar y comparar centros mediante información in
 - [Propuesta original conservada](docs/propuesta_original.md).
 - [Guía autónoma para trabajar el informe con otra IA](docs/guia_informe_para_otra_ia.md): bases, índice, enfoque de encuesta y contexto técnico.
 
-## Estado actual: consultas espaciales por origen y radio
+## Estado actual: comparador de sedes
 
 Interfaz React, TypeScript, Vite y Leaflet en `frontend/`. El catálogo consulta la API e incluye búsqueda, filtros, fichas y paginación sincronizada con el mapa. No incluye datos fijos ocultos: una base vacía se muestra vacía. Puede cargarse opcionalmente un conjunto ficticio en PostgreSQL. «Territorio» es un nombre de trabajo para la interfaz.
 
@@ -50,4 +50,7 @@ Este comando verifica tipos y crea `frontend/dist`. Para revisar esa compilació
 
 Se conserva el repositorio existente y su primer commit. El arranque se realiza en `codex/fase-1-base-react`, con commits separados para documentación e interfaz. Los cambios se guardan localmente; no se ha hecho push ni merge a `main`.
 
-Radio y distancia geográfica añadidos. Ver [avance 06 y su migración](docs/avance_06_consultas_espaciales.md) y [hoja de ruta de 10 avances](docs/hoja_de_ruta.md). Siguiente parte: comparador de sedes. Los datos institucionales reales requieren autorización y revisión. Este avance se entrega sin tests ni verificaciones, conforme a la instrucción del usuario.
+Radio y distancia geográfica añadidos. Ver [avance 06 y su migración](docs/avance_06_consultas_espaciales.md) y [hoja de ruta de 10 avances](docs/hoja_de_ruta.md). Siguiente parte: acceso y preparación del cuestionario, en entregas acotadas. Los datos institucionales reales requieren autorización y revisión. Este avance se entrega sin tests ni verificaciones, conforme a la instrucción del usuario.
+
+
+Avance 07: nueva página de comparación de hasta tres sedes, con selección compartida y datos consultados a la API. [Detalle y arranque](docs/avance_07_comparador.md). No añade dependencias ni migraciones. Sin pruebas ni verificaciones en esta entrega.

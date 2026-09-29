@@ -3,13 +3,17 @@ import { BrowserRouter, Link, NavLink, Route, Routes, useLocation } from 'react-
 import Catalog from './features/catalog/Catalog'
 import HomePage from './pages/HomePage'
 import AboutPage from './pages/AboutPage'
+import ComparePage from './pages/ComparePage'
+import { CompareProvider, useComparison } from './features/compare/CompareContext'
+import './features/compare/compare.css'
 import './shell.css'
 
 function Application() {
+  const { selections } = useComparison()
   const location = useLocation()
   const explorer = location.pathname === '/explorar'
   useEffect(() => {
-    const titles: Record<string, string> = { '/': 'Inicio', '/explorar': 'Explorador geográfico', '/centros': 'Centros de prácticas', '/proyecto': 'El proyecto' }
+    const titles: Record<string, string> = { '/': 'Inicio', '/explorar': 'Explorador geográfico', '/centros': 'Centros de prácticas', '/comparar': 'Comparador de sedes', '/proyecto': 'El proyecto' }
     document.title = `${titles[location.pathname] ?? 'Página no encontrada'} · Territorio UNCP`
     window.scrollTo({ top: 0, behavior: 'instant' })
     document.getElementById('contenido')?.focus({ preventScroll: true })
@@ -23,6 +27,7 @@ function Application() {
         <NavLink to="/" end>Inicio</NavLink>
         <NavLink to="/explorar">Explorador</NavLink>
         <NavLink to="/centros">Centros</NavLink>
+        <NavLink to="/comparar">Comparar{selections.length ? ` (${selections.length})` : ''}</NavLink>
         <NavLink to="/proyecto">El proyecto</NavLink>
       </nav>
       <span className="version">Demo académica</span>
@@ -33,6 +38,7 @@ function Application() {
         <Route path="/explorar" element={<Catalog key="explorer" mode="explorer" />} />
         <Route path="/centros" element={<Catalog key="directory" mode="directory" />} />
         <Route path="/proyecto" element={<AboutPage />} />
+        <Route path="/comparar" element={<ComparePage />} />
         <Route path="*" element={<section className="section not-found"><p className="eyebrow">404 / FUERA DEL RECORRIDO</p><h1>No encontramos esa página</h1><p>Puedes volver al inicio o explorar las sedes de demostración.</p><Link className="button" to="/explorar">Ir al explorador ↗</Link></section>} />
       </Routes>
     </main>
@@ -40,4 +46,4 @@ function Application() {
   </div>
 }
 
-export default function App() { return <BrowserRouter><Application /></BrowserRouter> }
+export default function App() { return <BrowserRouter><CompareProvider><Application /></CompareProvider></BrowserRouter> }

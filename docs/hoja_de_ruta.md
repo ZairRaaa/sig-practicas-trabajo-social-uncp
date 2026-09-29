@@ -10,7 +10,7 @@ Antes de esta entrega se habían documentado cinco avances. Estos bloques organi
 | 04 | Backend y PostgreSQL/PostGIS | Código entregado |
 | 05 | Integración API y carga demo | Código entregado; usuario informa seis demos cargadas |
 | 06 | Origen, radio y distancias | Código entregado; migración pendiente del usuario |
-| 07 | Comparador de hasta tres sedes | Pendiente |
+| 07 | Comparador de hasta tres sedes | Código entregado; características del catálogo, sin ranking |
 | 08 | Acceso, experiencias habilitadas y cuestionario | Pendiente |
 | 09 | Administración y resultados agregados | Pendiente |
 | 10 | Preparación de entrega y documentación de operación | Pendiente |

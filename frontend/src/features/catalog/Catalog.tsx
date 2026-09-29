@@ -6,6 +6,8 @@ import { useCatalog } from './useCatalog'
 import SpatialControls from './SpatialControls'
 import { formatDistance } from './centers'
 import type { Origin } from './centers'
+import CompareButton from '../compare/CompareButton'
+import CompareTray from '../compare/CompareTray'
 import './catalog.css'
 
 export default function Catalog({ mode = 'explorer' }: { mode?: 'explorer' | 'directory' }) {
@@ -68,11 +70,11 @@ export default function Catalog({ mode = 'explorer' }: { mode?: 'explorer' | 'di
       <div className="catalog-list">
         <div className="results-heading"><p role="status">{ready ? `${page.total} ${page.total === 1 ? 'sede encontrada' : 'sedes encontradas'}` : 'Catálogo de sedes'}</p></div>
         <div className="cards">
-          {centers.map((center, index) => <button key={center.id} className={`center-card ${selected?.id === center.id ? 'selected' : ''}`} onClick={() => selectCenter(center.id)} aria-pressed={selected?.id === center.id} aria-controls="center-detail">
+          {centers.map((center, index) => <div key={center.id} className="catalog-card-item"><button className={`center-card ${selected?.id === center.id ? 'selected' : ''}`} onClick={() => selectCenter(center.id)} aria-pressed={selected?.id === center.id} aria-controls="center-detail">
             <span className="card-number" aria-hidden="true">{String(index + 1).padStart(2, '0')}</span>
             <span className="card-content"><span className={`type-badge type-${center.type === 'Salud' ? 'health' : center.type === 'Educación' ? 'education' : 'community'}`}>{center.type}</span><strong>{center.name}</strong><span className="card-district">{center.district}</span><span className={`record-tag ${center.isDemo ? 'record-demo' : ''}`}>{center.isDemo ? 'Demostración' : center.verificationStatus === 'verified' ? 'Registro verificado' : 'Por verificar'}</span></span>
             <span className="card-tail">{center.distanceM !== null && <span className="distance-badge" aria-label={`Distancia geográfica: ${formatDistance(center.distanceM)}`}>{formatDistance(center.distanceM)}</span>}<span className="card-arrow" aria-hidden="true">↗</span></span>
-          </button>)}
+          </button><CompareButton id={center.id} name={center.name} /></div>)}
           {ready && !centers.length && <div className="no-results"><span aria-hidden="true">⌕</span><h3>{hasFilters ? 'No encontramos coincidencias' : 'El catálogo está vacío'}</h3><p>{hasFilters ? 'Prueba otro nombre o combina menos filtros.' : 'Las sedes aparecerán cuando se incorporen registros a la base de datos.'}</p>{(hasFilters || offset > 0) && <button className="button" onClick={clear}>Restablecer búsqueda</button>}</div>}
         </div>
       </div>
@@ -82,6 +84,7 @@ export default function Catalog({ mode = 'explorer' }: { mode?: 'explorer' | 'di
         <CenterDetails center={selected} directory={mode === 'directory'} onClose={() => { setSelectedId(null); releaseFocus() }} />
       </div>
     </div>
+    <CompareTray />
     {ready && !focusedId && (page.total > page.limit || offset > 0) && <nav className="catalog-pagination" aria-label="Páginas del catálogo">
       <button className="view-link" disabled={offset === 0} onClick={() => { setOffset(value => Math.max(0, value - page.limit)); setSelectedId(null) }}>← Anterior</button>
       <span>Página {Math.floor(offset / page.limit) + 1} · El mapa muestra esta página</span>

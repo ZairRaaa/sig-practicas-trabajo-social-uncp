@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom'
 import type { Center } from './centers'
 import { formatDistance } from './centers'
+import CompareButton from '../compare/CompareButton'
 
 export default function CenterDetails({ center, directory, onClose }: {
   center: Center | undefined; directory: boolean; onClose: () => void
@@ -9,6 +10,7 @@ export default function CenterDetails({ center, directory, onClose }: {
     {center ? <>
       <div className="detail-top"><span className="eyebrow">{center.isDemo ? 'FICHA DE DEMOSTRACIÓN' : 'FICHA DE SEDE'}</span><button aria-label="Cerrar ficha" onClick={onClose}>×</button></div>
       <h3>{center.name}</h3><p>{center.description}</p>
+      <CompareButton id={center.id} name={center.name} />
       <dl>
         <div><dt>Institución</dt><dd>{center.institution}</dd></div>
         <div><dt>Distrito</dt><dd>{center.district}</dd></div>
