@@ -54,3 +54,7 @@ Radio y distancia geográfica añadidos. Ver [avance 06 y su migración](docs/av
 
 
 Avance 07: nueva página de comparación de hasta tres sedes, con selección compartida y datos consultados a la API. [Detalle y arranque](docs/avance_07_comparador.md). No añade dependencias ni migraciones. Sin pruebas ni verificaciones en esta entrega.
+
+## Avance 08A: acceso y roles
+
+Página de acceso y cuenta, roles y sesiones en PostgreSQL. Requiere instalar la nueva dependencia Python, aplicar la migración y crear una cuenta local. Sigue [la guía 08A](docs/avance_08a_acceso_y_roles.md). El cuestionario llegará en 08B. Código entregado sin tests ni verificaciones.

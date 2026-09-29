@@ -20,6 +20,8 @@ class Settings(BaseSettings):
     db_user: str = 'territorio_app'
     db_password: SecretStr = SecretStr('')
     cors_origins: list[str] = ['http://localhost:5173', 'http://127.0.0.1:5173']
+    session_cookie_secure: bool = False  # True al publicar con HTTPS.
+    session_hours: int = Field(default=8, ge=1, le=24)
 
     @property
     def database_url(self) -> URL:

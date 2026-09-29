@@ -4,7 +4,7 @@ export class ApiError extends Error {
   constructor(message: string, public readonly status?: number) { super(message) }
 }
 
-async function requestJson<T>(path: string, signal: AbortSignal, body?: unknown): Promise<T> {
+async function requestJson<T>(path: string, signal: AbortSignal, body?: unknown, extraHeaders: Record<string, string> = {}): Promise<T> {
   const controller = new AbortController()
   const abort = () => controller.abort()
   signal.addEventListener('abort', abort, { once: true })
@@ -14,13 +14,17 @@ async function requestJson<T>(path: string, signal: AbortSignal, body?: unknown)
   try {
     const response = await fetch(`${baseUrl}${path}`, {
       signal: controller.signal,
+      credentials: 'include',
       method: body === undefined ? 'GET' : 'POST',
-      headers: { Accept: 'application/json', ...(body === undefined ? {} : { 'Content-Type': 'application/json' }) },
+      headers: { Accept: 'application/json', ...(body === undefined ? {} : { 'Content-Type': 'application/json' }), ...extraHeaders },
       body: body === undefined ? undefined : JSON.stringify(body),
     })
     if (!response.ok) {
-      const message = response.status === 404 ? 'La sede no existe o ya no está disponible.'
-        : response.status === 422 ? 'Los parámetros de la consulta no son válidos. Revisa las coordenadas y el radio.'
+      const message = response.status === 401 ? 'La sesión no está activa o las credenciales son incorrectas.'
+        : response.status === 403 ? 'No tienes permiso para esta acción o la sesión debe actualizarse.'
+        : response.status === 429 ? 'Demasiados intentos. Espera un minuto antes de continuar.'
+        : response.status === 404 ? 'La sede no existe o ya no está disponible.'
+        : response.status === 422 ? 'Revisa los datos enviados; algún valor no es válido.'
         : response.status === 503 ? 'El catálogo no está disponible. Puede faltar la conexión a la base o aplicar sus migraciones.'
           : 'No se pudo consultar el catálogo. Inténtalo de nuevo.'
       throw new ApiError(message, response.status)
@@ -41,6 +45,6 @@ export function getJson<T>(path: string, signal: AbortSignal): Promise<T> {
   return requestJson<T>(path, signal)
 }
 
-export function postJson<T>(path: string, body: unknown, signal: AbortSignal): Promise<T> {
-  return requestJson<T>(path, signal, body)
+export function postJson<T>(path: string, body: unknown, signal: AbortSignal, headers: Record<string, string> = {}): Promise<T> {
+  return requestJson<T>(path, signal, body, headers)
 }

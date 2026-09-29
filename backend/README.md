@@ -108,3 +108,7 @@ Ejecutar desde `backend` únicamente si se desean ejemplos ficticios en la base 
 
 
 Consultas espaciales y migración del índice: [avance 06](../docs/avance_06_consultas_espaciales.md).
+
+## Acceso y roles (08A)
+
+Se añade Argon2 y la migración 0003_auth. Instalar requirements, aplicar migraciones y crear el administrador mediante la herramienta local. Ver [instrucciones completas](../docs/avance_08a_acceso_y_roles.md). El catálogo sigue abierto; las rutas de sesión y gestión aplican permisos. No se han ejecutado estos cambios.

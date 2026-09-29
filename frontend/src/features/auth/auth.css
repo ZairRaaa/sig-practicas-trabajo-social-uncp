@@ -1,0 +1,25 @@
+.auth-page { display: grid; grid-template-columns: 1.1fr 1fr; gap: 70px; align-items: center; padding: 70px 40px; min-height: 70dvh; }
+.auth-story h1 { font-size: clamp(38px, 4vw, 58px); }
+.auth-story > p:not(.eyebrow) { color: #607257; max-width: 410px; font-size: 15px; margin-bottom: 25px; }
+.auth-card { padding: 32px; background: #fff; border: 1px solid #dae3d1; border-radius: 14px; box-shadow: 0 12px 40px #284b3508; }
+.auth-card h2 { font-size: 25px; }
+.auth-card > p { color: #66765f; font-size: 13px; }
+.auth-card form { display: grid; gap: 10px; margin-top: 24px; }
+.auth-card label { font-size: 12px; color: #415c37; font-weight: 600; }
+.auth-card input { width: 100%; min-width: 0; padding: 12px; border: 1px solid #cbd8c0; background: #fafcf8; border-radius: 7px; font: inherit; margin-bottom: 8px; }
+.password-field { display: flex; align-items: center; border: 1px solid #cbd8c0; border-radius: 7px; background: #fafcf8; }
+.password-field input { border: 0; margin: 0; }
+.password-field button { background: transparent; border: 0; color: #586f4e; padding: 12px; font-size: 11px; }
+.auth-submit { border: 0; justify-content: center; margin-top: 12px; min-height: 46px; }
+.auth-card .auth-help { font-size: 11px; margin-top: 25px; padding-top: 18px; border-top: 1px solid #e3e9dd; }
+.auth-message { padding: 14px 18px; border-radius: 7px; background: #f4eddc; color: #7a5d30; font-size: 13px; }
+.auth-loading { padding: 60px 40px; color: #637658; }
+.account-page { padding: 60px 40px; min-height: 70dvh; }
+.account-page h1 { font-size: 42px; overflow-wrap: anywhere; }
+.account-intro { color: #607257; }
+.account-grid { display: grid; grid-template-columns: 1fr 1.4fr; gap: 24px; margin-top: 30px; }
+.account-grid dt { color: #6c7c62; font-size: 11px; margin-top: 14px; }
+.account-grid dd { margin: 3px 0 16px; font-size: 15px; overflow-wrap: anywhere; }
+.account-link { border: 1px solid #cbd9c0; border-radius: 7px; padding: 9px 13px; font-size: 12px; color: #375431; white-space: nowrap; }
+@media(max-width: 900px) { .auth-page { gap: 30px; } }
+@media(max-width: 760px) { .auth-page, .account-grid { grid-template-columns: 1fr; } .auth-page, .account-page { padding: 35px 20px; } .auth-card { padding: 24px; } .account-link { margin-left: auto; } }
