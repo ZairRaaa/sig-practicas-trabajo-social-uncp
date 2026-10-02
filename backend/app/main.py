@@ -6,6 +6,7 @@ from sqlalchemy.exc import SQLAlchemyError
 from app.api.router import router
 from app.api.auth import router as auth_router
 from app.api.survey import router as survey_router
+from app.api.management import router as management_router
 from fastapi.exceptions import RequestValidationError
 from app.core.config import get_settings
 from app.db.session import engine
@@ -26,6 +27,7 @@ app.add_middleware(CORSMiddleware, allow_origins=settings.cors_origins,
 app.include_router(router)
 app.include_router(auth_router)
 app.include_router(survey_router)
+app.include_router(management_router)
 
 
 @app.exception_handler(RequestValidationError)

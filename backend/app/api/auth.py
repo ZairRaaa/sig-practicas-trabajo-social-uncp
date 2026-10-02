@@ -102,4 +102,4 @@ def logout(request: Request, response: Response, session: Database):
 @router.get('/staff-access')
 def staff_access(response: Response, user: Annotated[User, Depends(require_roles('admin', 'coordinator'))]):
     response.headers['Cache-Control'] = 'no-store'
-    return {'role': user.role, 'message': 'Acceso de gestión autorizado. Los módulos de gestión se implementarán en su fase.'}
+    return {'role': user.role, 'message': 'Acceso autorizado a la gestión de experiencias en /gestion.'}

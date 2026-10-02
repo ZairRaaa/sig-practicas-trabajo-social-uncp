@@ -1,5 +1,7 @@
 # Avance 08B — Experiencias y cuestionario piloto
 
+Actualización 09A: ya puedes habilitar experiencias desde **Mi cuenta → Gestionar experiencias** con tu administrador. Consulta [la guía de gestión visual](avance_09a_gestion_de_experiencias.md). El comando descrito abajo sigue siendo una alternativa local.
+
 Este avance incorpora `/cuestionario`, accesible desde Mi cuenta. El administrador consulta el instrumento; las cuentas con rol `student` pueden responder cuando se habilite la recepción. No hay resultados inventados ni respuestas cargadas automáticamente.
 
 ## Alcance
