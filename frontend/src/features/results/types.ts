@@ -1,2 +1,2 @@
-export interface ResultOptions { version: string; experiences: { site_id: string; site_name: string; is_demo: boolean; period: string }[] }
+export interface ResultOptions { version: string; versions: string[]; experiences: { site_id: string; site_name: string; is_demo: boolean; period: string }[] }
 export interface Summary { version: string; is_pilot: boolean; kind: 'priorities' | 'experience'; title: string; scope: 'demo' | 'non_demo' | null; submissions: number; participants: number; excluded: number; generated_at: string; items: { id: string; text: string; valid: number; not_applicable: number; distribution: { score: number; label: string; count: number; percent: number | null }[] }[] }

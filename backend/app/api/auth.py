@@ -5,15 +5,13 @@ from uuid import UUID
 from fastapi import APIRouter, Depends, HTTPException, Request, Response
 from pydantic import BaseModel, Field, SecretStr
 from sqlalchemy import delete, select
-from sqlalchemy.orm import Session
 from app.core.config import get_settings
 from app.core.security import (COOKIE_NAME, COOKIE_PATH, csrf_token, dummy_hash,
     limit_login, password_hasher, require_csrf, require_origin, token_hash, verify_password)
-from app.db.session import get_session
+from app.api.dependencies import Database, current_user, require_roles
 from app.models import User, UserSession
 
 router = APIRouter(prefix='/api/v1/auth', tags=['Acceso'])
-Database = Annotated[Session, Depends(get_session)]
 
 
 class LoginInput(BaseModel):
@@ -36,26 +34,6 @@ class SessionRead(BaseModel):
 def session_response(user: User, token: str) -> SessionRead:
     return SessionRead(user=UserRead(id=user.id, username=user.username,
         display_name=user.display_name, role=user.role), csrf_token=csrf_token(token))
-
-
-def current_user(request: Request, session: Database) -> User:
-    token = request.cookies.get(COOKIE_NAME)
-    if not token or len(token) > 128:
-        raise HTTPException(401, 'Inicia sesión para continuar.')
-    user = session.scalar(select(User).join(UserSession).where(
-        UserSession.token_hash == token_hash(token),
-        UserSession.expires_at > datetime.now(timezone.utc), User.active.is_(True)))
-    if user is None:
-        raise HTTPException(401, 'La sesión terminó. Inicia sesión nuevamente.')
-    return user
-
-
-def require_roles(*roles: str):
-    def authorized(user: Annotated[User, Depends(current_user)]) -> User:
-        if user.role not in roles:
-            raise HTTPException(403, 'Tu cuenta no tiene permiso para esta acción.')
-        return user
-    return authorized
 
 
 @router.post('/login', response_model=SessionRead, dependencies=[Depends(require_origin), Depends(limit_login)])

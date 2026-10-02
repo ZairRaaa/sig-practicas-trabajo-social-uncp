@@ -18,6 +18,19 @@ class Experience(Base):
     created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), server_default=func.now())
 
 
+class ExperienceEvent(Base):
+    __tablename__ = 'experience_events'
+    id: Mapped[UUID] = mapped_column(primary_key=True, default=uuid4)
+    experience_id: Mapped[UUID] = mapped_column(ForeignKey('experiences.id', ondelete='RESTRICT'), index=True)
+    actor_id: Mapped[UUID | None] = mapped_column(ForeignKey('users.id', ondelete='RESTRICT'))
+    origin: Mapped[str] = mapped_column(String(20))
+    previous_enabled: Mapped[bool | None] = mapped_column(Boolean)
+    enabled: Mapped[bool] = mapped_column(Boolean)
+    previous_reference: Mapped[str | None] = mapped_column(String(250))
+    reference: Mapped[str] = mapped_column(String(250))
+    created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), server_default=func.now())
+
+
 class SurveySubmission(Base):
     __tablename__ = 'survey_submissions'
     __table_args__ = (

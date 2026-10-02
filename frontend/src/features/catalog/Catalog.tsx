@@ -22,7 +22,7 @@ export default function Catalog({ mode = 'explorer' }: { mode?: 'explorer' | 'di
   const [origin, setOrigin] = useState<Origin | null>(null)
   const [radiusM, setRadiusM] = useState(2000)
   const [pickingOrigin, setPickingOrigin] = useState(false)
-  const { page, loading, error, districts, categories, retry } = useCatalog({
+  const { page, loading, error, districts, categories, retry, optionsLoading, optionsError, retryOptions } = useCatalog({
     query, district, category: type, offset, siteId: focusedId, origin, radiusM,
   })
   const centers = page.items
@@ -53,10 +53,15 @@ export default function Catalog({ mode = 'explorer' }: { mode?: 'explorer' | 'di
 
     <div className="catalog-filters" role="search" aria-label="Buscar centros">
       <label className="search-field">Buscar un centro<input type="search" maxLength={150} placeholder="Nombre, distrito o ámbito…" value={query} onChange={event => { setQuery(event.target.value); resetPage() }} /></label>
-      <label>Distrito<select value={district} onChange={event => { setDistrict(event.target.value); resetPage() }}><option value="">Todos los distritos</option>{districts.map(value => <option key={value.ubigeo} value={value.ubigeo}>{value.name}</option>)}</select></label>
-      <label>Ámbito<select value={type} onChange={event => { setType(event.target.value); resetPage() }}><option value="">Todos los ámbitos</option>{categories.map(value => <option key={value}>{value}</option>)}</select></label>
+      <label>Distrito<select value={district} disabled={optionsLoading} onChange={event => { setDistrict(event.target.value); resetPage() }}><option value="">Todos los distritos</option>{districts.map(value => <option key={value.ubigeo} value={value.ubigeo}>{value.name}</option>)}</select></label>
+      <label>Ámbito<select value={type} disabled={optionsLoading} onChange={event => { setType(event.target.value); resetPage() }}><option value="">Todos los ámbitos</option>{categories.map(value => <option key={value}>{value}</option>)}</select></label>
       <button className="clear-filters" onClick={clear} disabled={!hasFilters && !selectedId && !offset}>Limpiar</button>
     </div>
+
+    {optionsError && <div className="catalog-feedback" role="status">
+      <div><strong>No se pudieron actualizar los filtros.</strong><p>{optionsError} Puedes seguir buscando por nombre y consultar las sedes.</p></div>
+      <button className="view-link" onClick={retryOptions}>Reintentar filtros</button>
+    </div>}
 
     {mode === 'explorer' && <SpatialControls origin={origin} radiusM={radiusM} picking={pickingOrigin}
       onPick={() => setPickingOrigin(value => !value)} onOrigin={chooseOrigin}

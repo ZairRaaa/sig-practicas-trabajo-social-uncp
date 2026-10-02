@@ -17,6 +17,7 @@ class SiteRead(BaseModel):
     latitude: float
     verification_status: Literal['pending', 'verified']
     verified_at: datetime | None
+    public_source: str | None
     distance_m: float | None = None
     is_demo: bool
 

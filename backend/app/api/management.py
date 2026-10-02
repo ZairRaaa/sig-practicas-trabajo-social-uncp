@@ -1,15 +1,15 @@
-from typing import Annotated, Literal
+from typing import Literal
 from uuid import UUID
 from fastapi import APIRouter, Depends, HTTPException, Query, Response
 from sqlalchemy import func, or_, select
 from sqlalchemy.exc import IntegrityError
-from app.api.auth import Database, require_roles
+from app.api.dependencies import Database, Staff
 from app.core.security import require_csrf
-from app.models import Experience, Site, User
+from app.models import Experience, ExperienceEvent, Site, User
 from app.schemas.management import ExperienceCreate, ExperienceState
+from app.services.experiences import matching_experiences, record_event
 
 router = APIRouter(prefix='/api/v1/management', tags=['Gestión de experiencias'])
-Staff = Annotated[User, Depends(require_roles('admin', 'coordinator'))]
 
 
 @router.get('/options')
@@ -64,10 +64,15 @@ def create_experience(data: ExperienceCreate, response: Response, user: Staff, s
     site = session.get(Site, data.site_id)
     if student is None or not student.active or student.role != 'student' or site is None or not site.active:
         raise HTTPException(422, 'Selecciona una estudiante y una sede activas.')
+    if matching_experiences(session, student.id, site.id, data.period):
+        raise HTTPException(409, 'Ya existe esa experiencia o una variante equivalente del periodo. Actualiza el listado para gestionarla.')
     entry = Experience(user_id=student.id, site_id=site.id, period=data.period,
                        authorization_reference=data.reference, enabled=True)
     session.add(entry)
     try:
+        session.flush()
+        record_event(session, entry, actor_id=user.id, origin='web',
+                     previous_enabled=None, previous_reference=None)
         session.commit()
     except IntegrityError:
         session.rollback()
@@ -88,7 +93,29 @@ def change_state(experience_id: UUID, data: ExperienceState, response: Response,
         site = session.get(Site, entry.site_id)
         if student is None or not student.active or student.role != 'student' or site is None or not site.active:
             raise HTTPException(422, 'La estudiante o sede ya no está activa.')
+    previous_enabled, previous_reference = entry.enabled, entry.authorization_reference
     entry.enabled = data.enabled
     entry.authorization_reference = data.reference
+    record_event(session, entry, actor_id=user.id, origin='web',
+                 previous_enabled=previous_enabled, previous_reference=previous_reference)
     session.commit()
     return {'id': entry.id, 'enabled': entry.enabled}
+
+
+@router.get('/experiences/{experience_id}/history')
+def history(experience_id: UUID, response: Response, user: Staff, session: Database,
+            offset: int = Query(default=0, ge=0, le=100000)):
+    response.headers['Cache-Control'] = 'no-store'
+    if session.get(Experience, experience_id) is None:
+        raise HTTPException(404, 'La experiencia no existe.')
+    rows = session.execute(select(ExperienceEvent, User.display_name)
+        .outerjoin(User, User.id == ExperienceEvent.actor_id)
+        .where(ExperienceEvent.experience_id == experience_id)
+        .order_by(ExperienceEvent.created_at.desc(), ExperienceEvent.id)
+        .offset(offset).limit(21)).all()
+    return {'has_more': len(rows) > 20, 'items': [
+        {'id': event.id, 'actor': actor, 'origin': event.origin,
+         'previous_enabled': event.previous_enabled, 'enabled': event.enabled,
+         'previous_reference': event.previous_reference, 'reference': event.reference,
+         'created_at': event.created_at}
+        for event, actor in rows[:20]]}

@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom'
 import { useComparison } from '../features/compare/CompareContext'
 import { loadCenter } from '../features/catalog/catalogApi'
 import type { Center } from '../features/catalog/centers'
+import { formatVerificationDate } from '../features/catalog/centers'
 
 type Entry = { id: string; center: Center | null; error: string | null }
 const rows: { label: string; value: (center: Center) => string }[] = [
@@ -12,11 +13,8 @@ const rows: { label: string; value: (center: Center) => string }[] = [
   { label: 'Dirección', value: center => center.address || 'No registrada' },
   { label: 'Descripción', value: center => center.description },
   { label: 'Estado del registro', value: center => center.verificationStatus === 'verified' ? 'Verificado' : 'Pendiente de verificación' },
-  { label: 'Fecha de verificación', value: center => {
-    if (!center.verifiedAt) return 'No registrada'
-    const date = new Date(center.verifiedAt)
-    return Number.isNaN(date.getTime()) ? 'Fecha no disponible' : date.toLocaleDateString('es-PE')
-  } },
+  { label: 'Fecha de verificación', value: center => formatVerificationDate(center.verifiedAt) },
+  { label: 'Fuente pública', value: center => center.publicSource || 'Referencia pública pendiente de registro' },
   { label: 'Tipo de información', value: center => center.isDemo ? 'Demostración · datos ficticios' : 'Registro del catálogo' },
   { label: 'Convenio y vacantes', value: () => 'Sin información confirmada' },
   { label: 'Valoración estudiantil', value: () => 'Aún no disponible' },

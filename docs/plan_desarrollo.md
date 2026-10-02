@@ -1,5 +1,7 @@
 # Plan de desarrollo por fases y commits
 
+Plan inicial conservado. Para el enfoque académico y alcance actuales, usar la [definición vigente](definicion_vigente.md); para las entregas, la [hoja de ruta](hoja_de_ruta.md). Las verificaciones de este plan continúan pendientes de ejecución según la restricción posterior registrada en el README.
+
 Trabajamos en el repositorio existente. No volver a ejecutar `git init` ni crear otro repositorio dentro de `frontend`.
 
 Cada fase debe dejar un resultado ejecutable o verificable. Usar commits pequeños por responsabilidad; no esperar al final de una fase grande para guardar todo. Los commits iniciales son locales; publicar en el remoto es una acción separada.

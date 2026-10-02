@@ -2,7 +2,7 @@ from typing import Annotated
 from fastapi import APIRouter, Depends, HTTPException, Response
 from sqlalchemy import select
 from sqlalchemy.exc import IntegrityError
-from app.api.auth import Database, current_user, require_roles
+from app.api.dependencies import Database, Student, current_user
 from app.core.config import get_settings
 from app.core.security import require_csrf
 from app.models import Experience, Site, SurveySubmission, User
@@ -10,7 +10,6 @@ from app.schemas.survey import SubmissionInput
 from app.services.questionnaire import BLOCKS, NOTICE, NOTICE_VERSION, VERSION
 
 router = APIRouter(prefix='/api/v1/survey', tags=['Cuestionario piloto'])
-Student = Annotated[User, Depends(require_roles('student'))]
 
 
 @router.get('/instrument')

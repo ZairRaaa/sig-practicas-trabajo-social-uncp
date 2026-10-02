@@ -15,6 +15,7 @@ interface SiteResponse {
   is_demo: boolean
   verification_status: 'pending' | 'verified'
   verified_at: string | null
+  public_source: string | null
   distance_m?: number | null
 }
 interface PageResponse { items: SiteResponse[]; total: number; limit: number; offset: number }
@@ -35,6 +36,7 @@ function toCenter(site: SiteResponse): Center {
     type: site.category, coordinates: [site.latitude, site.longitude],
     description: site.description || 'Sin descripción registrada.', address: site.address,
     isDemo: site.is_demo, verificationStatus: site.verification_status, verifiedAt: site.verified_at,
+    publicSource: site.public_source ?? null,
     distanceM: site.distance_m ?? null,
   }
 }

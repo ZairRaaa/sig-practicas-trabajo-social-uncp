@@ -1,0 +1,18 @@
+/* Controles globales: ninguna pantalla depende de cargar los estilos del catálogo. */
+button {
+  font-family: inherit;
+  cursor: pointer;
+}
+
+button:disabled {
+  opacity: .45;
+  cursor: default;
+}
+
+button:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible {
+  outline: 3px solid #ae642d;
+  outline-offset: 3px;
+}

@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom'
 
 const steps = [
   { number: '01', title: 'Explora el territorio', text: 'Consulta las sedes y su ubicación en el ámbito de estudio.' },
-  { number: '02', title: 'Compara con contexto', text: 'Revisa proximidad, condiciones y experiencias por periodo.' },
+  { number: '02', title: 'Compara con contexto', text: 'Contrasta hasta tres sedes por institución, ámbito, dirección y verificación. Consulta la proximidad en el explorador.' },
   { number: '03', title: 'Decide con información', text: 'Confirma requisitos y disponibilidad con la coordinación de prácticas.' },
 ]
 
@@ -30,7 +30,7 @@ export default function HomePage() { return <>
         <section className="section guide" id="guia" aria-labelledby="guide-title">
           <p className="eyebrow">UNA ELECCIÓN INFORMADA</p>
           <h2 id="guide-title">Del lugar a la experiencia</h2>
-          <p className="section-description">Explora la demostración para conocer cómo se organizará la consulta.</p>
+          <p className="section-description">Explora el catálogo y distingue las sedes de demostración de los registros reales. Las valoraciones del piloto son de consulta restringida.</p>
           <div className="steps">
             {steps.map(step => (
               <article key={step.number} className="step">

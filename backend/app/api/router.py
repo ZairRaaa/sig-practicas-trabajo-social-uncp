@@ -1,15 +1,13 @@
 from typing import Annotated
 from uuid import UUID
-from fastapi import APIRouter, Depends, HTTPException, Query
+from fastapi import APIRouter, HTTPException, Query
 from sqlalchemy import select, text
-from sqlalchemy.orm import Session
-from app.db.session import get_session
+from app.api.dependencies import Database
 from app.models import District, Institution, Site
 from app.schemas.catalog import DistrictRead, SitePage, SiteRead, SpatialSearch
 from app.services.catalog import get_site, list_sites
 
 router = APIRouter(prefix='/api/v1')
-Database = Annotated[Session, Depends(get_session)]
 
 
 @router.post('/spatial/search', response_model=SitePage, tags=['Análisis espacial'])
@@ -29,8 +27,13 @@ def health() -> dict[str, str]:
 @router.get('/ready', tags=['Estado'])
 def ready(session: Database) -> dict[str, str]:
     session.execute(text('SELECT PostGIS_Version()')).scalar_one()
-    session.execute(text('SELECT id FROM sites LIMIT 0'))
-    return {'status': 'ready', 'database': 'connected', 'spatial': 'available'}
+    session.execute(text('SELECT public_source FROM sites LIMIT 0'))
+    # Nombres fijos del esquema; no interpolar parámetros del cliente.
+    for table in ('institutions', 'districts', 'users', 'user_sessions',
+                  'experiences', 'experience_events', 'survey_submissions'):
+        session.execute(text(f'SELECT 1 FROM {table} LIMIT 0'))
+    return {'status': 'ready', 'database': 'connected', 'spatial': 'available',
+            'schema': 'required_tables_available'}
 
 
 @router.get('/sites', response_model=SitePage, tags=['Catálogo'])

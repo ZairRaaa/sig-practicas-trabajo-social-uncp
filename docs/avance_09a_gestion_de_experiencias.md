@@ -1,5 +1,7 @@
 # Avance 09A — Gestión visual de experiencias
 
+**Historial de entrega.** Las [correcciones posteriores](correcciones_analisis_integral.md) incorporan normalización de periodos e historial de cambios con migración 0006. Las limitaciones sobre ausencia de historial descritas abajo corresponden a la versión original de 09A.
+
 Ahora puedes habilitar experiencias desde la aplicación, sin buscar UUID ni ejecutar `assign_experience`. Los comandos de 08B siguen disponibles, pero ya no son necesarios para esta tarea cotidiana.
 
 ## Cómo utilizarlo

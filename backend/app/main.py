@@ -1,4 +1,6 @@
 from contextlib import asynccontextmanager
+import logging
+from uuid import uuid4
 from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
@@ -13,6 +15,7 @@ from app.core.config import get_settings
 from app.db.session import engine
 
 settings = get_settings()
+logger = logging.getLogger('territorio.api')
 
 
 @asynccontextmanager
@@ -41,6 +44,9 @@ async def validation_error(request: Request, exc: RequestValidationError) -> JSO
 @app.exception_handler(SQLAlchemyError)
 async def database_error(request: Request, exc: SQLAlchemyError) -> JSONResponse:
     # No enviar SQL, parámetros, credenciales ni mensajes del controlador al cliente.
+    incident = uuid4().hex
+    logger.error('Database failure incident=%s category=%s', incident, type(exc).__name__)
     return JSONResponse(status_code=503, content={
-        'detail': 'No se pudo consultar la base de datos. Revisa la configuración y las migraciones.'
+        'detail': 'No se pudo consultar la base de datos. Revisa la configuración y las migraciones.',
+        'incident': incident,
     })

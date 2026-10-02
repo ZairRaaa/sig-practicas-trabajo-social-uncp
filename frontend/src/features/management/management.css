@@ -31,5 +31,9 @@
 .management-state-form{border-top:1px solid #dce2d5;padding-top:18px;margin-top:20px;font-size:.9rem;line-height:1.6}
 .management-state-form textarea{margin-top:9px}
 .management-page button:disabled{opacity:.5;cursor:not-allowed}
+.management-history-section { margin: 18px 0; }
+.management-history { font-size: .83rem; line-height: 1.65; overflow-wrap: anywhere; }
+.management-history ol { padding-left: 20px; }
+.management-history li { padding: 12px 0; border-bottom: 1px solid #dce2d5; }
 @media(max-width:900px){.management-layout{grid-template-columns:1fr}.management-hero-note{display:none}.management-panel{max-width:none}}
 @media(max-width:540px){.management-page{padding:28px 16px 60px}.management-panel,.management-row{padding:20px}.management-filters{grid-template-columns:1fr}.management-register-heading,.management-row-heading{align-items:flex-start;flex-direction:column}.management-actions{align-items:stretch;flex-direction:column}.management-pagination{gap:8px;font-size:.78rem}}

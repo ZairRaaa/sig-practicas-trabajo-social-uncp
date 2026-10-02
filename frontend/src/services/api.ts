@@ -4,7 +4,41 @@ export class ApiError extends Error {
   constructor(message: string, public readonly status?: number) { super(message) }
 }
 
+type AuthFailure = 401 | 403
+const authListeners = new Set<(status: AuthFailure) => void>()
+let sessionRevision = 0
+
+export function markSessionChanged() {
+  sessionRevision += 1
+}
+
+export function subscribeAuthFailures(listener: (status: AuthFailure) => void) {
+  authListeners.add(listener)
+  return () => { authListeners.delete(listener) }
+}
+
+async function errorMessage(response: Response): Promise<string> {
+  // La API entrega mensajes públicos explícitos. Nunca mostrar cuerpos de errores 5xx.
+  if ([400, 401, 403, 404, 409, 422, 429].includes(response.status)) {
+    const payload: unknown = await response.json().catch(() => null)
+    if (payload && typeof payload === 'object' && 'detail' in payload
+      && typeof payload.detail === 'string' && payload.detail.trim().length > 0
+      && payload.detail.length <= 1000) return payload.detail
+  }
+  const messages: Record<number, string> = {
+    401: 'La sesión no está activa o las credenciales son incorrectas.',
+    403: 'No tienes permiso para esta acción o la sesión debe actualizarse.',
+    404: 'El recurso solicitado no existe o ya no está disponible.',
+    409: 'La información cambió. Actualiza el estado antes de continuar.',
+    422: 'Revisa los datos enviados; algún valor no es válido.',
+    429: 'Demasiados intentos. Espera un minuto antes de continuar.',
+    503: 'El servicio no está disponible. Puede faltar la conexión a la base o aplicar sus migraciones.',
+  }
+  return messages[response.status] ?? 'No se pudo completar la solicitud. Inténtalo de nuevo.'
+}
+
 async function requestJson<T>(path: string, signal: AbortSignal, body?: unknown, extraHeaders: Record<string, string> = {}): Promise<T> {
+  const requestRevision = sessionRevision
   const controller = new AbortController()
   const abort = () => controller.abort()
   signal.addEventListener('abort', abort, { once: true })
@@ -20,13 +54,12 @@ async function requestJson<T>(path: string, signal: AbortSignal, body?: unknown,
       body: body === undefined ? undefined : JSON.stringify(body),
     })
     if (!response.ok) {
-      const message = response.status === 401 ? 'La sesión no está activa o las credenciales son incorrectas.'
-        : response.status === 403 ? 'No tienes permiso para esta acción o la sesión debe actualizarse.'
-        : response.status === 429 ? 'Demasiados intentos. Espera un minuto antes de continuar.'
-        : response.status === 404 ? 'La sede no existe o ya no está disponible.'
-        : response.status === 422 ? 'Revisa los datos enviados; algún valor no es válido.'
-        : response.status === 503 ? 'El servicio no está disponible. Puede faltar la conexión a la base o aplicar sus migraciones.'
-          : 'No se pudo completar la solicitud. Inténtalo de nuevo.'
+      const message = await errorMessage(response)
+      if (!signal.aborted && requestRevision === sessionRevision
+        && path !== '/auth/login' && path !== '/auth/me'
+        && (response.status === 401 || response.status === 403)) {
+        authListeners.forEach(listener => listener(response.status as AuthFailure))
+      }
       throw new ApiError(message, response.status)
     }
     return await response.json() as T

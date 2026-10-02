@@ -57,6 +57,8 @@ class Site(Base):
     description: Mapped[str | None] = mapped_column(Text)
     location: Mapped[WKBElement] = mapped_column(Geometry('POINT', srid=4326))
     source: Mapped[str | None] = mapped_column(Text)
+    # Solo texto revisado para publicación; source conserva la evidencia interna.
+    public_source: Mapped[str | None] = mapped_column(String(1000))
     verification_status: Mapped[str] = mapped_column(String(20), server_default='pending')
     verified_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True))
     active: Mapped[bool] = mapped_column(Boolean, server_default='true')

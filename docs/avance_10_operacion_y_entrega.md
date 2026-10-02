@@ -1,5 +1,7 @@
 # Avance 10 — Operación local y preparación de entrega
 
+**Actualización posterior:** el código actual requiere las migraciones 0005 y 0006 y añade fuente pública, historial y otras correcciones. Sigue la [guía de actualización](correcciones_analisis_integral.md) antes del arranque. El resto de este documento conserva el alcance original del avance 10.
+
 Esta guía reúne el arranque habitual, la demostración y los pendientes del proyecto. Cerrar la hoja de ruta de código no significa que el sistema esté validado, publicado o que el estudio haya concluido.
 
 ## 1. Arranque habitual

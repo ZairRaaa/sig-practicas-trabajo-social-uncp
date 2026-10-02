@@ -6,6 +6,10 @@ Sistema web en desarrollo para consultar y comparar sedes de prácticas e integr
 
 Código entregado hasta el avance 10: catálogo y mapa, búsqueda espacial por radio, comparador de hasta tres sedes, acceso por roles, cuestionario piloto, gestión visual de experiencias y resultados descriptivos. React/TypeScript/Vite/Leaflet en `frontend`; FastAPI/SQLAlchemy y PostgreSQL/PostGIS en `backend`.
 
+Correcciones posteriores: textos actualizados, fuente pública y fecha de verificación, recuperación de sesión, mensajes de error, carga independiente de filtros, normalización de periodos, historial de experiencias y consulta de resultados por versión piloto. **El código actual requiere aplicar las migraciones 0005 y 0006** con `alembic upgrade head` antes de arrancar la API. Consulta la [guía de actualización](docs/correcciones_analisis_integral.md).
+
+La [definición vigente](docs/definicion_vigente.md) consolida el enfoque descriptivo de encuesta e información espacial y la matriz de alcance. Los diez avances son entregas de código; no significan investigación concluida ni todos los requisitos iniciales implementados.
+
 El usuario informó seis sedes demo cargadas y cuentas administrador y estudiante creadas. Desde el avance 03 no se ejecutan tests ni comprobaciones de funcionamiento por indicación del usuario. Código entregado no equivale a sistema validado ni a investigación concluida. El instrumento actual y todos sus envíos son piloto.
 
 ## Arranque habitual en Windows
@@ -45,13 +49,18 @@ La estudiante responde prioridades sin asignación previa. Para evaluar una expe
 
 ## Documentación
 
+- [Índice: documentación vigente e historial](docs/README.md).
+- [Definición vigente, objetivos y matriz de alcance](docs/definicion_vigente.md).
+- [Correcciones del análisis y actualización de la base](docs/correcciones_analisis_integral.md).
+- [Formato 01: recopilación de sedes reales](docs/formato_01_sedes_reales.md).
+- [Formato 02: decisiones de investigación y resultados](docs/formato_02_investigacion_y_resultados.md).
 - [Operación, demostración y preparación de entrega](docs/avance_10_operacion_y_entrega.md).
 - [Hoja de ruta y estado de los diez avances](docs/hoja_de_ruta.md).
 - [Acceso y creación de cuentas](docs/avance_08a_acceso_y_roles.md).
 - [Cuestionario piloto y migración 0004](docs/avance_08b_experiencias_y_cuestionario.md).
 - [Gestión visual de experiencias](docs/avance_09a_gestion_de_experiencias.md).
 - [Resultados y criterios de cálculo](docs/avance_09b_resultados_del_piloto.md).
-- [Propuesta, metodología y arquitectura](informacion_nuestro_proyecto.md).
+- [Propuesta inicial de metodología y arquitectura (antecedente)](informacion_nuestro_proyecto.md).
 - [Extractos del concurso](informacion_concurso_investigacion.md).
 - [Guía para elaborar el informe con otra IA](docs/guia_informe_para_otra_ia.md).
 - [Propuesta original conservada](docs/propuesta_original.md).

@@ -11,6 +11,7 @@ export interface Center {
   isDemo: boolean
   verificationStatus: 'pending' | 'verified'
   verifiedAt: string | null
+  publicSource: string | null
   distanceM: number | null
 }
 
@@ -21,4 +22,11 @@ export interface CatalogFilters { query: string; district: string; category: str
 
 export function formatDistance(meters: number) {
   return meters < 1000 ? `${Math.round(meters)} m` : `${(meters / 1000).toLocaleString('es-PE', { maximumFractionDigits: 2 })} km`
+}
+
+export function formatVerificationDate(value: string | null) {
+  if (!value) return 'No registrada'
+  const date = new Date(value)
+  return Number.isNaN(date.getTime()) ? 'Fecha no disponible'
+    : date.toLocaleDateString('es-PE', { timeZone: 'America/Lima' })
 }

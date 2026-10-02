@@ -1,6 +1,6 @@
 # Hoja de ruta: 10 avances orientativos
 
-Antes de esta entrega se habían documentado cinco avances. Estos bloques organizan el desarrollo; cada uno puede tener varios commits y no equivale a una semana.
+Estos bloques organizan el historial de desarrollo; cada uno puede tener varios commits y no equivale a una semana. El alcance vigente y sus pendientes están en la [matriz de requisitos](definicion_vigente.md).
 
 | Avance | Contenido | Estado |
 |---|---|---|
@@ -14,6 +14,7 @@ Antes de esta entrega se habían documentado cinco avances. Estos bloques organi
 | 08 | Acceso, experiencias habilitadas y cuestionario | 08A y 08B: código entregado; instrumento piloto pendiente de revisión académica |
 | 09 | Administración y resultados agregados | 09A y 09B: gestión de experiencias y resultados descriptivos del piloto entregados en código |
 | 10 | Preparación de entrega y documentación de operación | Lanzador local y guía de operación/demostración entregados; validación técnica y trabajo de campo pendientes |
+| Correcciones | Coherencia documental, sesión, filtros, fuentes públicas, periodos, historial y versiones piloto | Código posterior al análisis; migraciones 0005–0006 pendientes de aplicación. Ver [actualización](correcciones_analisis_integral.md) |
 
 Desde el avance 03 no se ejecutan tests ni verificaciones, por indicación del usuario. «Código entregado» no significa funcionamiento comprobado.
 

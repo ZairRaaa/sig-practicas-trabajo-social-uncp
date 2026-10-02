@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom'
 import type { Center } from './centers'
-import { formatDistance } from './centers'
+import { formatDistance, formatVerificationDate } from './centers'
 import CompareButton from '../compare/CompareButton'
 
 export default function CenterDetails({ center, directory, onClose }: {
@@ -17,6 +17,8 @@ export default function CenterDetails({ center, directory, onClose }: {
         <div><dt>Ámbito</dt><dd>{center.type}</dd></div>
         <div><dt>Dirección</dt><dd>{center.address || 'Pendiente de registro'}</dd></div>
         <div><dt>Estado del registro</dt><dd>{center.verificationStatus === 'verified' ? 'Verificado' : 'Por verificar'}</dd></div>
+        <div><dt>Fecha de verificación</dt><dd>{formatVerificationDate(center.verifiedAt)}</dd></div>
+        <div><dt>Fuente pública</dt><dd>{center.publicSource || 'Referencia pública pendiente de registro'}</dd></div>
         <div><dt>Disponibilidad</dt><dd>No informada</dd></div>
         {center.distanceM !== null && <div><dt>Distancia geográfica</dt><dd>{formatDistance(center.distanceM)} desde el punto elegido</dd></div>}
       </dl>

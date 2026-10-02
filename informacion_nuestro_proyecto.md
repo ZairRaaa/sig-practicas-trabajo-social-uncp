@@ -1,5 +1,7 @@
 # Propuesta mejorada: SIG de centros de prácticas de Trabajo Social
 
+**Antecedente de planificación.** Desde el 1 de octubre de 2026, consultar la [definición vigente](docs/definicion_vigente.md) para pregunta, objetivos y alcance. El equipo adoptó posteriormente el enfoque descriptivo registrado en la guía del informe; la evaluación comparativa descrita aquí queda como ampliación opcional. Se conserva este texto para explicar la evolución del proyecto, no como segunda metodología vigente.
+
 Revisión: 24 de septiembre de 2026. Documento de planificación; no presenta resultados obtenidos ni software implementado.
 
 La propuesta original se conserva en [docs/propuesta_original.md](docs/propuesta_original.md). Las bases del concurso se mantienen sin cambios.

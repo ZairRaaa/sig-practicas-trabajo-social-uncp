@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react'
 import type { FormEvent } from 'react'
 import { ApiError, getJson, postJson } from '../../services/api'
 import type { ExperienceRow } from './types'
+import ExperienceHistory from './ExperienceHistory'
 
 function StateEditor({ row, token, onSaved, onCancel }: { row: ExperienceRow; token: string; onSaved: () => void; onCancel: () => void }) {
   const [reference, setReference] = useState('')
@@ -23,7 +24,7 @@ function StateEditor({ row, token, onSaved, onCancel }: { row: ExperienceRow; to
   }
   return <form className="management-state-form" onSubmit={submit}><p>{row.enabled ? 'Se bloquearán nuevos envíos para esta experiencia. Las respuestas anteriores se conservan.' : 'La estudiante podrá responder si todavía no envió este bloque y la recepción del piloto está abierta.'}</p>
     <label htmlFor={`reason-${row.id}`}>Motivo del cambio</label><textarea id={`reason-${row.id}`} required maxLength={250} rows={2} disabled={busy} value={reference} onChange={event => setReference(event.target.value)} />
-    <p className="management-small">Este motivo sustituye la referencia vigente de habilitación.</p>
+    <p className="management-small">Este motivo será la referencia vigente. El historial conservará la referencia anterior y el responsable del cambio.</p>
     <div className="management-actions"><button className="button" disabled={busy || !reference.trim()}>{busy ? 'Guardando…' : row.enabled ? 'Confirmar deshabilitación' : 'Confirmar habilitación'}</button><button className="view-link" type="button" disabled={busy} onClick={onCancel}>Cancelar</button></div>
     {error && <p role="alert">{error}</p>}
   </form>
@@ -60,6 +61,7 @@ export default function ExperienceList({ token, revision, onChanged }: { token: 
       {data.items.map(row => <article key={row.id} className="management-row"><div className="management-row-heading"><div><h3>{row.student_name}</h3><span className="management-small">@{row.username}</span></div><span className={`management-badge ${row.enabled ? 'enabled' : ''}`}>{row.enabled ? 'Habilitada' : 'Deshabilitada'}</span></div>
         <p className="management-site">{row.site_name} {row.is_demo && <span className="management-demo">DEMO</span>}</p><p className="management-small">Periodo: <strong>{row.period}</strong></p><p className="management-reference">{row.reference}</p>
         {!row.eligible && <p className="management-warning">La cuenta estudiante o la sede no están activas. Esta experiencia no admite nuevos envíos.</p>}
+        <ExperienceHistory key={`${row.id}-${revision}`} id={row.id} />
         {editing === row.id ? <StateEditor row={row} token={token} onCancel={() => setEditing(null)} onSaved={() => { setNotice(`Estado actualizado para ${row.student_name}, periodo ${row.period}.`); setEditing(null); onChanged() }} /> : <button className="view-link" disabled={editing !== null || (!row.enabled && !row.eligible)} onClick={() => { setEditing(row.id); setNotice('') }}>{row.enabled ? 'Deshabilitar experiencia' : 'Volver a habilitar'}</button>}
       </article>)}
       {data.total > 0 && <div className="management-pagination"><button className="view-link" disabled={offset === 0 || editing !== null} onClick={() => setOffset(n => Math.max(0, n - 10))}>← Anterior</button><span>{offset + 1}–{Math.min(offset + 10, data.total)} de {data.total}</span><button className="view-link" disabled={offset + 10 >= data.total || editing !== null} onClick={() => setOffset(n => n + 10)}>Siguiente →</button></div>}

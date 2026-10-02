@@ -1,5 +1,7 @@
 # Avance 09B — Resultados descriptivos del piloto
 
+**Historial de entrega.** Las [correcciones posteriores](correcciones_analisis_integral.md) añaden selección de versión registrada en el panel. Las referencias a una única versión expuesta describen la entrega original de 09B. El registro actual sigue conteniendo únicamente el piloto v1.
+
 ## Acceso y uso
 
 1. Mantén React y el backend encendidos. Reinicia el backend si no utiliza recarga automática.

@@ -1,5 +1,7 @@
 # Guía autónoma para elaborar el informe de investigación
 
+Actualización de coherencia: la [definición vigente](definicion_vigente.md) consolida el enfoque descriptivo de esta guía. Sus bloques de necesidades de información y uso del sistema son ampliaciones propuestas, no preguntas ya implementadas. Para el estado técnico posterior al avance 10, consultar las [correcciones del análisis](correcciones_analisis_integral.md).
+
 Este archivo puede entregarse por sí solo a otra IA. Contiene el contexto, las decisiones técnicas, el enfoque del cuestionario y la estructura exigida por los extractos del concurso. Es una guía de redacción, no un informe terminado ni un instrumento validado.
 
 ## 1. Instrucciones para la IA que continuará el informe
@@ -60,7 +62,7 @@ Preguntas descriptivas complementarias:
 
 | Objetivo específico | Fuente/instrumento | Resultado que lo responde |
 |---|---|---|
-| Identificar criterios de elección y necesidades de información | Bloque de prioridades/necesidades del cuestionario | Distribuciones por criterio y necesidades reportadas |
+| Identificar criterios de elección | Bloque de prioridades del cuestionario | Distribuciones de importancia por criterio; necesidades solo si se amplía el instrumento |
 | Describir experiencias de prácticas por sede y periodo | Bloque de experiencia, solo para estudiantes elegibles | Valoraciones por dimensión y cantidad de respuestas |
 | Construir un padrón georreferenciado verificable | Ficha institucional y revisión cartográfica | Cobertura del padrón y mapa de sedes |
 | Integrar información en la aplicación | Diseño, implementación y registro de pruebas | Funciones implementadas y evidencia técnica |

@@ -2,6 +2,8 @@
 
 FastAPI + SQLAlchemy + PostgreSQL/PostGIS. Código preparado, aún no ejecutado ni verificado por solicitud del usuario. Python 3.11 o superior propuesto. Las dependencias se declaran con rangos; todavía no existe un bloqueo reproducible de versiones Python.
 
+**Esquema actual: `0006_experience_events`.** Las correcciones posteriores al avance 10 añaden `0005_public_source` y `0006_experience_events`; aplicar `alembic upgrade head` antes de arrancar esta versión. Ver [actualización y uso](../docs/correcciones_analisis_integral.md).
+
 ## Organización
 
 ```text
@@ -70,7 +72,7 @@ Mantener abierta la terminal. La documentación interactiva de la API estará en
 | Método/ruta | Función |
 |---|---|
 | `GET /api/v1/health` | Estado del proceso; no comprueba la base |
-| `GET /api/v1/ready` | Estado de conexión, PostGIS y existencia de la tabla de sedes |
+| `GET /api/v1/ready` | Conexión, PostGIS, tablas requeridas por los módulos y columna de fuente pública; no sustituye pruebas funcionales |
 | `GET /api/v1/sites` | Sedes activas, paginadas |
 | `GET /api/v1/sites/{uuid}` | Ficha o 404 |
 | `GET /api/v1/districts` | Distritos registrados |
@@ -85,6 +87,8 @@ Ejemplo de respuesta de una **base vacía**, sin registros inventados:
 ```
 
 Las coordenadas se devuelven en campos `longitude` y `latitude` separados. Al conectarlas a Leaflet se convertirán explícitamente al orden `[latitude, longitude]`. En PostGIS se almacenan puntos EPSG:4326, con longitud primero. El avance 06 añade POST /api/v1/spatial/search con latitude, longitude y radius_m en el cuerpo. Aplicar la migración 0002_spatial_index.
+
+Las respuestas del catálogo incluyen `public_source` y `verified_at`. `source` es evidencia interna y no se devuelve. Las referencias públicas se registran con `scripts.set_public_source`; no se copian automáticamente desde referencias internas.
 
 ## Alcance y límites
 

@@ -8,6 +8,7 @@ import '../features/results/results.css'
 
 function Results() {
   const [kind, setKind] = useState<'priorities' | 'experience'>('priorities')
+  const [version, setVersion] = useState('')
   const [scope, setScope] = useState<'demo' | 'non_demo'>('demo')
   const [site, setSite] = useState('')
   const [period, setPeriod] = useState('')
@@ -20,22 +21,34 @@ function Results() {
     const controller = new AbortController()
     setLoading(true); setError(''); setData(null)
     const params = new URLSearchParams({ kind })
+    const optionParams = new URLSearchParams()
+    if (version) {
+      params.set('version', version)
+      optionParams.set('version', version)
+    }
     if (kind === 'experience') {
       params.set('scope', scope)
       if (site) params.set('site_id', site)
       if (period) params.set('period', period)
     }
-    Promise.all([getJson<ResultOptions>('/results/options', controller.signal), getJson<Summary>(`/results/summary?${params}`, controller.signal)])
+    Promise.all([getJson<ResultOptions>(`/results/options?${optionParams}`, controller.signal), getJson<Summary>(`/results/summary?${params}`, controller.signal)])
       .then(([nextOptions, summary]) => { if (!controller.signal.aborted) { setOptions(nextOptions); setData(summary) } })
       .catch((reason: unknown) => { if (!controller.signal.aborted) setError(reason instanceof Error ? reason.message : 'No se pudieron cargar los resultados.') })
       .finally(() => { if (!controller.signal.aborted) setLoading(false) })
     return () => controller.abort()
-  }, [kind, scope, site, period, revision])
+  }, [kind, scope, site, period, version, revision])
   const available = options?.experiences.filter(item => item.is_demo === (scope === 'demo')) ?? []
   const sites = [...new Map(available.map(item => [item.site_id, item.site_name])).entries()]
   const periods = [...new Set(available.filter(item => !site || item.site_id === site).map(item => item.period))].sort()
   return <section className="results-page"><div className="results-navigation"><Link className="view-link" to="/cuenta">← Mi cuenta</Link><Link className="view-link" to="/gestion">Gestionar experiencias ↗</Link></div>
     <header className="results-hero"><p className="eyebrow">OBSERVATORIO / CUESTIONARIO</p><h1>Escuchar también<br />es conocer el territorio.</h1><p>Una lectura descriptiva de las prioridades y experiencias registradas.</p><span className="results-pilot">DATOS PILOTO · INSTRUMENTO PENDIENTE DE REVISIÓN</span></header>
+    <div className="results-filters"><div>
+      <label htmlFor="result-version">Versión del instrumento</label>
+      <select id="result-version" value={version} disabled={loading} onChange={event => { setVersion(event.target.value); setSite(''); setPeriod('') }}>
+        <option value="">Versión vigente</option>
+        {options?.versions.map(value => <option key={value} value={value}>{value}</option>)}
+      </select>
+    </div><p>Los resultados se calculan con las preguntas de la versión seleccionada. Todas las versiones disponibles en este panel son piloto.</p></div>
     <div className="results-tabs" role="group" aria-label="Bloque del cuestionario"><button aria-pressed={kind === 'priorities'} onClick={() => setKind('priorities')}>01 · Prioridades</button><button aria-pressed={kind === 'experience'} onClick={() => setKind('experience')}>02 · Experiencias</button></div>
     <div className="results-filters">{kind === 'experience' ? <>
       <div><label htmlFor="result-scope">Tipo de sede</label><select id="result-scope" value={scope} onChange={event => { setScope(event.target.value as 'demo' | 'non_demo'); setSite(''); setPeriod('') }}><option value="demo">Sedes de demostración</option><option value="non_demo">Sedes no demo · respuestas piloto</option></select></div>

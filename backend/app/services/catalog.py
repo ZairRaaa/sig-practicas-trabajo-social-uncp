@@ -14,7 +14,7 @@ def site_query():
         District.name.label('district_name'), Site.address, Site.description,
         func.ST_X(Site.location).label('longitude'),
         func.ST_Y(Site.location).label('latitude'),
-        Site.verification_status, Site.verified_at, Site.is_demo,
+        Site.verification_status, Site.verified_at, Site.public_source, Site.is_demo,
     ).join(Institution, Site.institution_id == Institution.id).outerjoin(
         District, Site.district_ubigeo == District.ubigeo
     ).where(Site.active.is_(True))
