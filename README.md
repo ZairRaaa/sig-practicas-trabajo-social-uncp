@@ -1,60 +1,71 @@
-# SIG de centros de prácticas de Trabajo Social — UNCP
+# Territorio — SIG de prácticas de Trabajo Social, UNCP
 
-Sistema en desarrollo para consultar y comparar centros mediante información institucional, proximidad espacial y valoración estudiantil.
+Sistema web en desarrollo para consultar y comparar sedes de prácticas e integrar prioridades y experiencias estudiantiles. «Territorio» es el nombre de trabajo de la interfaz.
 
-- [Propuesta mejorada, metodología, arquitectura y plan](informacion_nuestro_proyecto.md).
+## Estado de la entrega
+
+Código entregado hasta el avance 10: catálogo y mapa, búsqueda espacial por radio, comparador de hasta tres sedes, acceso por roles, cuestionario piloto, gestión visual de experiencias y resultados descriptivos. React/TypeScript/Vite/Leaflet en `frontend`; FastAPI/SQLAlchemy y PostgreSQL/PostGIS en `backend`.
+
+El usuario informó seis sedes demo cargadas y cuentas administrador y estudiante creadas. Desde el avance 03 no se ejecutan tests ni comprobaciones de funcionamiento por indicación del usuario. Código entregado no equivale a sistema validado ni a investigación concluida. El instrumento actual y todos sus envíos son piloto.
+
+## Arranque habitual en Windows
+
+Con PostgreSQL iniciado y la instalación inicial completada, abre dos terminales PowerShell en la raíz.
+
+Terminal 1:
+
+```powershell
+.\iniciar.ps1 -Servicio backend
+```
+
+Terminal 2:
+
+```powershell
+.\iniciar.ps1 -Servicio frontend
+```
+
+Abre [Territorio](http://localhost:5173). Para detener, Ctrl+C en cada terminal. El lanzador no instala dependencias ni aplica migraciones; exige el puerto 5173 para la interfaz. Si PowerShell bloquea scripts, usa los comandos directos de la [guía de operación](docs/avance_10_operacion_y_entrega.md).
+
+Para una máquina nueva: sigue la [preparación del backend](backend/README.md), instala el frontend con `npm ci` desde `frontend` y aplica las migraciones indicadas. Node compatible con `frontend/package.json` (`^20.19.0 || >=22.12.0`); Python 3.11 o superior propuesto. No sobrescribas un `.env` existente ni recrees cuentas para cada arranque.
+
+## Accesos principales
+
+| Función | Ruta | Rol |
+|---|---|---|
+| Mapa y búsqueda | `/explorar` | Público |
+| Directorio | `/centros` | Público |
+| Comparador | `/comparar` | Público |
+| Inicio de sesión | `/acceso` | Todos |
+| Cuenta y accesos | `/cuenta` | Autenticado |
+| Cuestionario piloto | `/cuestionario` | Estudiante responde; personal consulta |
+| Gestión de experiencias | `/gestion` | Admin/coordinación |
+| Resultados piloto | `/resultados` | Admin/coordinación |
+
+La estudiante responde prioridades sin asignación previa. Para evaluar una experiencia, el administrador selecciona su cuenta, sede y periodo desde Gestión. La recepción exige `PILOT_SURVEY_ENABLED=true` en `backend/.env` y reiniciar el backend tras cambiarlo. Desactivar la recepción conserva los datos. Consultar resultados no requiere abrir nuevos envíos.
+
+## Documentación
+
+- [Operación, demostración y preparación de entrega](docs/avance_10_operacion_y_entrega.md).
+- [Hoja de ruta y estado de los diez avances](docs/hoja_de_ruta.md).
+- [Acceso y creación de cuentas](docs/avance_08a_acceso_y_roles.md).
+- [Cuestionario piloto y migración 0004](docs/avance_08b_experiencias_y_cuestionario.md).
+- [Gestión visual de experiencias](docs/avance_09a_gestion_de_experiencias.md).
+- [Resultados y criterios de cálculo](docs/avance_09b_resultados_del_piloto.md).
+- [Propuesta, metodología y arquitectura](informacion_nuestro_proyecto.md).
 - [Extractos del concurso](informacion_concurso_investigacion.md).
+- [Guía para elaborar el informe con otra IA](docs/guia_informe_para_otra_ia.md).
 - [Propuesta original conservada](docs/propuesta_original.md).
-- [Guía autónoma para trabajar el informe con otra IA](docs/guia_informe_para_otra_ia.md): bases, índice, enfoque de encuesta y contexto técnico.
 
-## Estado actual: comparador de sedes
+## Datos y alcance
 
-Interfaz React, TypeScript, Vite y Leaflet en `frontend/`. El catálogo consulta la API e incluye búsqueda, filtros, fichas y paginación sincronizada con el mapa. No incluye datos fijos ocultos: una base vacía se muestra vacía. Puede cargarse opcionalmente un conjunto ficticio en PostgreSQL. «Territorio» es un nombre de trabajo para la interfaz.
+Las sedes demo son ficticias. La distancia geográfica no es distancia de ruta ni tiempo de viaje. El comparador no produce rankings. Los porcentajes del cuestionario excluyen «no aplica» de su denominador y distinguen envíos de participantes. Los resultados no se publican en el catálogo y no acreditan efectos causales.
 
-Backend FastAPI y esquema PostgreSQL/PostGIS en `backend/`. El usuario ha comunicado que puede abrir `/docs`; no se ha comprobado su base de datos. Sigue las [instrucciones del backend](backend/README.md) y el [avance 05: conexión y arranque](docs/avance_05_conexion_catalogo.md). Ver también el [plan de fases y commits](docs/plan_desarrollo.md).
+Quedan pendientes la revisión académica, padrón real, versión de campo, aplicación de encuesta, análisis del informe y validación técnica. También queda pendiente preparar una publicación con HTTPS y configuración de producción; el arranque descrito es local.
 
-Ahora hay páginas de Inicio, Explorador, Centros y El proyecto. El mapa ocupa una vista amplia y permite ocultar el panel. Ver [avance 03](docs/avance_03_paginas_y_explorador.md). Esta versión se entrega sin tests ni verificaciones, por indicación del usuario.
+Git conserva código, no los datos PostgreSQL. `.env`, respaldos, dependencias y compilaciones no deben incluirse en el repositorio. La guía de operación describe la transferencia y conservación de datos.
 
-## Ejecutar localmente
+## Desarrollo y Git
 
-Requiere Node `^20.19.0 || >=22.12.0` y npm. Se verificó con Node 22.14.0. React se instala dentro del proyecto; no necesita instalación global.
+Los avances se guardan en commits y ramas locales `codex/`. No se hace push ni merge a `main` como parte de estas entregas. Las guías de cada avance conservan su alcance histórico; la hoja de ruta y este README resumen el estado actual.
 
-Después de la instalación inicial, iniciar **dos terminales** desde la raíz del proyecto.
-
-Backend:
-
-```powershell
-cd backend
-.\.venv\Scripts\python.exe -m uvicorn app.main:app --reload --host 127.0.0.1 --port 8000
-```
-
-Frontend:
-
-```powershell
-cd frontend
-npm run dev
-```
-
-Abrir la dirección local que muestre Vite. Para detener cada proceso, usar Ctrl+C. PostgreSQL debe estar iniciado. No reinstalar dependencias ni ejecutar migraciones en cada arranque. El avance 06 añade la migración 0002_spatial_index: aplicarla una vez. No hay dependencias nuevas. Si aún no se instalaron las dependencias, usar `npm ci` en `frontend` y seguir la preparación del backend.
-
-## Verificar y compilar
-
-```powershell
-cd frontend
-npm run build
-```
-
-Este comando verifica tipos y crea `frontend/dist`. Para revisar esa compilación: `npm run preview`. `dist` y `node_modules` no se versionan; `package-lock.json` sí.
-
-## Flujo Git
-
-Se conserva el repositorio existente y su primer commit. El arranque se realiza en `codex/fase-1-base-react`, con commits separados para documentación e interfaz. Los cambios se guardan localmente; no se ha hecho push ni merge a `main`.
-
-Radio y distancia geográfica añadidos. Ver [avance 06 y su migración](docs/avance_06_consultas_espaciales.md) y [hoja de ruta de 10 avances](docs/hoja_de_ruta.md). Siguiente parte: acceso y preparación del cuestionario, en entregas acotadas. Los datos institucionales reales requieren autorización y revisión. Este avance se entrega sin tests ni verificaciones, conforme a la instrucción del usuario.
-
-
-Avance 07: nueva página de comparación de hasta tres sedes, con selección compartida y datos consultados a la API. [Detalle y arranque](docs/avance_07_comparador.md). No añade dependencias ni migraciones. Sin pruebas ni verificaciones en esta entrega.
-
-## Avance 08A: acceso y roles
-
-Página de acceso y cuenta, roles y sesiones en PostgreSQL. Requiere instalar la nueva dependencia Python, aplicar la migración y crear una cuenta local. Sigue [la guía 08A](docs/avance_08a_acceso_y_roles.md). El cuestionario llegará en 08B. Código entregado sin tests ni verificaciones.
+El comando existente `npm run build`, desde `frontend`, ejecuta la comprobación de tipos y genera `dist`. Se documenta para una futura etapa autorizada de validación; no se ejecutó en este avance. Las dependencias Python mantienen rangos y no cuentan aún con un archivo de bloqueo reproducible.

@@ -9,9 +9,9 @@ app/
   main.py          # Aplicación, CORS y errores públicos
   core/config.py   # Variables locales y URL segura de conexión
   db/              # Motor, sesiones y metadatos
-  models/          # Instituciones, distritos y sedes
+  models/          # Catálogo, cuentas, sesiones, experiencias y respuestas
   schemas/         # Contratos de respuesta
-  services/        # Consultas del catálogo
+  services/        # Consultas del catálogo e instrumento piloto
   api/             # Rutas HTTP
 migrations/        # Historial de esquema con Alembic
 .env.example       # Plantilla sin contraseña
@@ -65,7 +65,7 @@ Desde `backend`:
 
 Mantener abierta la terminal. La documentación interactiva de la API estará en [localhost:8000/docs](http://localhost:8000/docs). La API se limita a la máquina local con `127.0.0.1`. En otra terminal puede seguir ejecutándose React con `npm run dev` desde `frontend`.
 
-## Rutas previstas
+## Rutas del catálogo
 
 | Método/ruta | Función |
 |---|---|
@@ -88,9 +88,9 @@ Las coordenadas se devuelven en campos `longitude` y `latitude` separados. Al co
 
 ## Alcance y límites
 
-Las rutas son de consulta; el POST espacial tampoco modifica la base. No hay endpoints públicos de creación/edición, autenticación, encuestas ni importación. Los datos reales no deben exponerse hasta definir permisos. `active` indica que la sede no fue desactivada, no certifica convenio vigente ni vacantes. `verified` exige fuente y fecha, pero no sustituye una revisión institucional.
+Las rutas del catálogo son de consulta; el POST espacial tampoco modifica la base. Los avances 08 y 09 añaden autenticación, recepción de cuestionario y gestión de experiencias protegidas por sesión, rol y CSRF en escrituras. No existe edición pública del catálogo. `active` indica que la sede no fue desactivada, no certifica convenio vigente ni vacantes. `verified` exige fuente y fecha, pero no sustituye una revisión institucional.
 
-La base separa institución y sede; el distrito puede quedar sin asignar hasta verificarlo. Los polígonos distritales, periodos, convenios y experiencias se incorporarán mediante migraciones posteriores. No se cargan UBIGEO o coordenadas supuestamente oficiales sin fuente.
+La base separa institución y sede; el distrito puede quedar sin asignar hasta verificarlo. Las experiencias y su periodo se incorporaron en 0004_surveys. Polígonos distritales y gestión de convenios siguen fuera del alcance implementado. No se cargan UBIGEO o coordenadas supuestamente oficiales sin fuente.
 
 CORS permite los dos orígenes locales de Vite del archivo de ejemplo; si Vite cambia de puerto, actualizar `CORS_ORIGINS` (lista JSON) y reiniciar la API. CORS no sustituye autenticación.
 

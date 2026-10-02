@@ -12,7 +12,7 @@ Ayuda a redactar el informe académico en español, con estilo objetivo e impers
 - Usar `[PENDIENTE: dato necesario]` cuando falte información. Distinguir decisiones propuestas de hechos comprobados.
 - No redactar resultados como obtenidos mientras no se entreguen datos. Se pueden preparar tablas vacías y pautas de análisis.
 - Verificar toda referencia antes de citarla; no inventar autores, DOI o enlaces. La bibliografía técnica no sustituye antecedentes académicos.
-- Mantener PostgreSQL y PostGIS en la arquitectura. React ya está iniciado; el backend y la base espacial todavía están pendientes.
+- Mantener PostgreSQL y PostGIS en la arquitectura. Ya se entregó código React y FastAPI con migraciones para catálogo espacial, cuentas, experiencias y cuestionario piloto. No confundir código entregado con funcionamiento validado.
 - No afirmar mejora de decisiones, reducción de tiempos o impacto causal usando únicamente una encuesta de prioridades/experiencias.
 - No imponer la estructura extensa de una tesis: las bases recibidas piden un trabajo con formato de artículo.
 
@@ -28,7 +28,9 @@ Integrará tres componentes:
 
 La unidad geográfica es la **sede**: una institución puede tener varias ubicaciones. Las experiencias deben asociarse a una sede y un periodo.
 
-Estado actual: se creó la base React con TypeScript y Vite, una pantalla inicial y catálogo vacío. No hay todavía mapa funcional, datos reales, API, PostgreSQL/PostGIS configurados ni encuesta aplicada. Estos elementos forman parte del desarrollo previsto.
+Estado del desarrollo al avance 10: se entregó código de React/TypeScript/Vite/Leaflet, catálogo y mapa, búsqueda por radio, comparación de hasta tres sedes, API FastAPI, migraciones PostgreSQL/PostGIS, acceso por roles, experiencias habilitadas, cuestionario piloto y resultados descriptivos restringidos a administración/coordinación. El usuario informó que puede abrir la API, cargó seis sedes demo y creó cuentas administrador y estudiante. No se ha confirmado una aplicación de campo, instrumento validado ni padrón real revisado. Desde el avance 03 no se ejecutan tests ni comprobaciones de funcionamiento por indicación del usuario.
+
+El cuestionario implementado contiene cinco ítems de prioridades y cinco de experiencia, escalas de 1 a 5 y no aplica. Todos los envíos actuales se marcan como piloto y están vinculados a cuentas; no son anónimos. Los resultados muestran frecuencias y porcentajes por ítem sobre respuestas válidas, no índices de calidad ni efectos causales. La evaluación de experiencia exige una asignación de sede y periodo; esa habilitación técnica no demuestra por sí sola experiencia real. Antes de trabajo de campo se debe cerrar el instrumento y publicar una versión específica, separada del piloto.
 
 Ámbito espacial propuesto: Huancayo, El Tambo y Chilca, provincia de Huancayo. Confirmarlo con el padrón. Periodo propuesto: 2026, con semestre y fechas pendientes. No modificar fechas para aparentar cumplimiento de una convocatoria.
 
