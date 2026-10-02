@@ -8,6 +8,7 @@ import LoginPage from './pages/LoginPage'
 import AccountPage from './pages/AccountPage'
 import QuestionnairePage from './pages/QuestionnairePage'
 import ManagementPage from './pages/ManagementPage'
+import ResultsPage from './pages/ResultsPage'
 import { AuthProvider, useAuth } from './features/auth/AuthContext'
 import './features/auth/auth.css'
 import { CompareProvider, useComparison } from './features/compare/CompareContext'
@@ -25,6 +26,7 @@ function Application() {
     titles['/cuenta'] = 'Mi cuenta'
     titles['/cuestionario'] = 'Cuestionario piloto'
     titles['/gestion'] = 'Gestión de experiencias'
+    titles['/resultados'] = 'Resultados del piloto'
     document.title = `${titles[location.pathname] ?? 'Página no encontrada'} · Territorio UNCP`
     window.scrollTo({ top: 0, behavior: 'instant' })
     document.getElementById('contenido')?.focus({ preventScroll: true })
@@ -54,6 +56,7 @@ function Application() {
         <Route path="/cuenta" element={<AccountPage />} />
         <Route path="/cuestionario" element={<QuestionnairePage />} />
         <Route path="/gestion" element={<ManagementPage />} />
+        <Route path="/resultados" element={<ResultsPage />} />
         <Route path="*" element={<section className="section not-found"><p className="eyebrow">404 / FUERA DEL RECORRIDO</p><h1>No encontramos esa página</h1><p>Puedes volver al inicio o explorar las sedes de demostración.</p><Link className="button" to="/explorar">Ir al explorador ↗</Link></section>} />
       </Routes>
     </main>

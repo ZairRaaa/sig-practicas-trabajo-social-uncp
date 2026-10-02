@@ -12,7 +12,7 @@ Antes de esta entrega se habían documentado cinco avances. Estos bloques organi
 | 06 | Origen, radio y distancias | Código entregado; migración pendiente del usuario |
 | 07 | Comparador de hasta tres sedes | Código entregado; características del catálogo, sin ranking |
 | 08 | Acceso, experiencias habilitadas y cuestionario | 08A y 08B: código entregado; instrumento piloto pendiente de revisión académica |
-| 09 | Administración y resultados agregados | 09A: gestión visual de experiencias entregada en código; 09B: resultados agregados pendiente |
+| 09 | Administración y resultados agregados | 09A y 09B: gestión de experiencias y resultados descriptivos del piloto entregados en código |
 | 10 | Preparación de entrega y documentación de operación | Pendiente |
 
 Desde el avance 03 no se ejecutan tests ni verificaciones, por indicación del usuario. «Código entregado» no significa funcionamiento comprobado.

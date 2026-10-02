@@ -25,6 +25,7 @@ export default function AccountPage() {
       <article className="auth-card"><h2>Participación y permisos</h2><p>{auth.user.role === 'student' ? 'Consulta el cuestionario piloto y las experiencias habilitadas para tu cuenta. Participar es voluntario.' : 'Gestiona las experiencias de las estudiantes y consulta el instrumento piloto. Los envíos están reservados a cuentas de estudiante.'}</p>
         <Link className="button" to="/cuestionario">{auth.user.role === 'student' ? 'Ir al cuestionario' : 'Consultar instrumento'} ↗</Link>
         {auth.user.role !== 'student' && <p><Link className="button" to="/gestion">Gestionar experiencias ↗</Link></p>}
+        {auth.user.role !== 'student' && <p><Link className="view-link" to="/resultados">Ver resultados del piloto ↗</Link></p>}
       </article></div>
     {message && <div className="auth-message" role="status"><p>{message}</p><button className="view-link" disabled={busy} onClick={auth.reload}>Actualizar sesión</button></div>}
   </section>

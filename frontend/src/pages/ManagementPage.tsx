@@ -10,6 +10,7 @@ function Management({ token }: { token: string }) {
   const refresh = () => setRevision(value => value + 1)
   return <section className="management-page"><Link className="view-link" to="/cuenta">← Mi cuenta</Link><header className="management-hero"><div><p className="eyebrow">COORDINACIÓN / EXPERIENCIAS</p><h1>Conecta cada estudiante<br />con su experiencia.</h1><p>Organiza las sedes y los periodos habilitados para participar en el cuestionario.</p></div><div className="management-hero-note"><span>01</span><strong>Selecciona</strong><span>02</span><strong>Habilita</strong><span>03</span><strong>Gestiona</strong></div></header>
     <p className="management-guidance">Las asignaciones habilitan el bloque «Mi experiencia». El bloque «Mis prioridades» no requiere una sede. La recepción del cuestionario depende de que el piloto esté abierto.</p>
+    <p><Link className="view-link" to="/resultados">Consultar resultados agregados del piloto ↗</Link></p>
     <div className="management-layout"><ExperienceForm token={token} onSaved={refresh} /><ExperienceList token={token} revision={revision} onChanged={refresh} /></div>
   </section>
 }
