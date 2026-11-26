@@ -34,6 +34,6 @@ export default function SpatialControls({ origin, radiusM, picking, onPick, onOr
       <label>Longitud<input required type="number" min={-180} max={180} step="any" placeholder="−75.21" value={longitude} onChange={event => setLongitude(event.target.value)} /></label>
       <button className="view-link" type="submit">Usar coordenadas</button>
     </form></details>
-    <p className="spatial-disclaimer">Distancia geográfica, no recorrido ni tiempo de viaje. El círculo del mapa es orientativo; PostGIS determina los resultados. El origen no se guarda.</p>
+    <p className="spatial-disclaimer">El círculo representa un radio de distancia geográfica. El origen se usa durante la consulta.</p>
   </section>
 }

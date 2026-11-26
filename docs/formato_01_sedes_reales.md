@@ -133,3 +133,16 @@ Cuando el informe muestre cero fichas con correcciones, ejecuta la carga explíc
 ```
 
 La carga inserta las nuevas fichas como `is_demo=false` en una sola transacción. Una corrección pendiente bloquea todo el lote. Al repetir un lote idéntico, las filas ya ingresadas se identifican por su código y UUID. Un conflicto que implique cambiar una sede existente requiere revisión aparte. Conserva los códigos y la salida con sus UUID para vincular las fichas del Formato 02 con el catálogo.
+
+## 6. Vista local de sedes candidatas
+
+Territorio incluye una selección preliminar de cuatro sedes de la provincia de Huancayo con fuentes públicas. Incluye Huayucachi como candidata al ámbito del padrón. Las fichas distinguen el servicio o convenio documentado de las asignaciones y plazas que debe confirmar la coordinación. Las fotos incluidas acreditan autoría, licencia y lugar representado.
+
+Para ver la selección desde la raíz, activa el catálogo preliminar solo en la terminal del frontend:
+
+```powershell
+$env:VITE_CATALOGO_PREVIO = 'true'
+.\iniciar.ps1 -Servicio frontend
+```
+
+Abre el [explorador local](http://localhost:5173/explorar). Este modo de desarrollo lee las fichas del proyecto y usa Leaflet para estimar las distancias del catálogo preliminar. El acceso por roles, las experiencias y el piloto usan el backend habitual. Para regresar al catálogo PostgreSQL, detén Vite, quita la variable con `Remove-Item Env:VITE_CATALOGO_PREVIO` y vuelve a iniciar el frontend.

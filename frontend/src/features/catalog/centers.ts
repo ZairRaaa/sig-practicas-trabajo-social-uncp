@@ -13,6 +13,20 @@ export interface Center {
   verifiedAt: string | null
   publicSource: string | null
   distanceM: number | null
+  preview?: {
+    relationship: string
+    sources: { label: string; url: string }[]
+    photo?: CenterPhoto
+  }
+}
+
+export interface CenterPhoto {
+  url: string
+  source: string
+  caption: string
+  author: string
+  license: string
+  licenseUrl: string
 }
 
 export interface DistrictOption { ubigeo: string; name: string }

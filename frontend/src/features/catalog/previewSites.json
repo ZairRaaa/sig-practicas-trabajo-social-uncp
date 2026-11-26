@@ -1,0 +1,91 @@
+[
+  {
+    "id": "SEDE-001",
+    "name": "Bienestar Universitario — Servicio Social",
+    "institution": "Universidad Nacional del Centro del Perú",
+    "type": "Educación",
+    "district": "El Tambo",
+    "districtCode": "120114",
+    "address": "Av. Mariscal Castilla 3909, Ciudad Universitaria",
+    "latitude": -12.03306,
+    "longitude": -75.23722,
+    "description": "La Dirección de Bienestar Universitario incluye el Servicio Social entre sus servicios para estudiantes. El marcador y la fotografía corresponden al campus principal.",
+    "relationship": "Servicio Social institucional. Asignación de prácticas por confirmar.",
+    "sources": [
+      { "label": "UNCP · Bienestar Universitario y dirección", "url": "https://uncp.edu.pe/la-universidad/bienestar-universitario/" },
+      { "label": "Repositorio UNCP · Coordenadas del campus", "url": "https://repositorio.uncp.edu.pe/server/api/core/bitstreams/e76c378a-dcfd-4034-b8ff-ff005904da6d/content" }
+    ],
+    "photo": {
+      "url": "https://upload.wikimedia.org/wikipedia/commons/4/47/UNCP_Universidad_del_Centro_del_Peru_Huancayo.jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:UNCP_Universidad_del_Centro_del_Peru_Huancayo.jpg",
+      "caption": "Edificio principal de la UNCP",
+      "author": "Ottocarotto",
+      "license": "CC BY-SA 3.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0/"
+    }
+  },
+  {
+    "id": "SEDE-002",
+    "name": "Hospital Nacional Ramiro Prialé Prialé",
+    "institution": "EsSalud · Red Asistencial Junín",
+    "type": "Salud",
+    "district": "El Tambo",
+    "districtCode": "120114",
+    "address": "Av. Independencia 296",
+    "latitude": -12.05165,
+    "longitude": -75.22824,
+    "description": "Hospital de la Red Asistencial Junín de EsSalud. La Facultad de Trabajo Social registra un convenio institucional con EsSalud para el periodo 2025–2028.",
+    "relationship": "Convenio con EsSalud documentado por la facultad. Asignación al hospital y vacantes por confirmar.",
+    "sources": [
+      { "label": "EsSalud · Directorio de la Red Asistencial Junín", "url": "https://www.essalud.gob.pe/transparencia/DIRECTORIO_Redes_Provincias.pdf" },
+      { "label": "UNCP · Convenios de Trabajo Social", "url": "https://fats.uncp.edu.pe/convenios" },
+      { "label": "OpenStreetMap · Ubicación del hospital", "url": "https://www.openstreetmap.org/way/777343964" }
+    ],
+    "photo": {
+      "url": "https://upload.wikimedia.org/wikipedia/commons/a/a6/Hospital_Ramiro_Prial%C3%A9_Prial%C3%A9_01.jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:Hospital_Ramiro_Prial%C3%A9_Prial%C3%A9_01.jpg",
+      "caption": "Hospital Nacional Ramiro Prialé Prialé",
+      "author": "Guillermo Carlos Gómez",
+      "license": "CC BY-SA 4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/"
+    }
+  },
+  {
+    "id": "SEDE-003",
+    "name": "Hospital Nacional del Centro Daniel Alcides Carrión",
+    "institution": "Hospital Nacional del Centro Daniel Alcides Carrión",
+    "type": "Salud",
+    "district": "Huancayo",
+    "districtCode": "120101",
+    "address": "Av. Daniel Alcides Carrión 1556",
+    "latitude": -12.07303,
+    "longitude": -75.22168,
+    "description": "La Facultad de Trabajo Social publica un acuerdo de docencia y servicio con este hospital. DIRESA Junín documenta su departamento de Servicio Social y la evaluación socioeconómica de pacientes.",
+    "relationship": "Acuerdo formativo publicado por la facultad. Cupos y periodo de asignación por confirmar.",
+    "sources": [
+      { "label": "UNCP · Acuerdo con el Hospital Carrión", "url": "https://fats.uncp.edu.pe/convenios" },
+      { "label": "Hospital Carrión · Dirección institucional", "url": "https://www.hdachyo.gob.pe/index.php/contactos/ubicacion" },
+      { "label": "DIRESA Junín · Departamento de Servicio Social", "url": "https://www.diresajunin.gob.pe/noticia/id/2023071207_carrin_inicia_cruzada_de_donacin_en_apoyo_a_pacientes_en_estado_de_abandono/" },
+      { "label": "CENEPRED · Distrito de la sede", "url": "https://sigrid.cenepred.gob.pe/sigridv3/storage/biblioteca/17178_plan-de-prevencion-y-reduccion-del-riesgo-de-desastres-del-distrito-de-huancayo-provincia-de-huancayo-departamento-de-junin.pdf" },
+      { "label": "OpenStreetMap · Ubicación del hospital", "url": "https://www.openstreetmap.org/way/516477398" }
+    ]
+  },
+  {
+    "id": "SEDE-004",
+    "name": "Centro de Salud de Huayucachi",
+    "institution": "Red de Salud Valle del Mantaro",
+    "type": "Salud",
+    "district": "Huayucachi",
+    "districtCode": "120121",
+    "address": "Carretera a Chupuro s/n",
+    "latitude": -12.14005,
+    "longitude": -75.22433,
+    "description": "Establecimiento de atención primaria en Huayucachi. Figura en la relación de convenios de la Facultad de Trabajo Social para el periodo 2024–2027.",
+    "relationship": "Convenio del centro documentado por la facultad. Cupos y periodo de asignación por confirmar.",
+    "sources": [
+      { "label": "UNCP · Convenio con el Centro de Salud de Huayucachi", "url": "https://fats.uncp.edu.pe/convenios" },
+      { "label": "Ficha del establecimiento · Dirección y coordenadas", "url": "https://www.establecimientosdesalud.info/junin/centro-de-salud-huayucachi-huayucachi/" },
+      { "label": "OpenStreetMap · Ubicación del centro de salud", "url": "https://www.openstreetmap.org/node/6916825160" }
+    ]
+  }
+]

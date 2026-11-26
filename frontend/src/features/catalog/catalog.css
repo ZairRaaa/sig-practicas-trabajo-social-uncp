@@ -34,6 +34,12 @@
 .center-detail { margin-top: 14px; padding: 20px; border: 1px solid #dae3d3; background: #eef2e8; border-radius: 10px; }
 .detail-top { display: flex; align-items: center; justify-content: space-between; }
 .detail-top .eyebrow { margin: 0; font-size: 9px; }
+.detail-photo { margin: 12px 0; }
+.detail-photo img { display: block; width: 100%; max-height: 300px; object-fit: contain; background: #e8eddf; border-radius: 8px; }
+.detail-photo figcaption { margin-top: 6px; font-size: 11px; }
+.detail-photo a, .detail-sources a { color: #24513b; text-decoration: underline; }
+.detail-sources { margin: 0; padding-left: 16px; }
+.detail-sources li + li { margin-top: 4px; }
 .detail-top button { border: 0; background: transparent; font-size: 24px; line-height: 1; color: #365d42; padding: 5px 10px; }
 .center-detail h3 { font-size: 17px; margin: 5px 0 8px; }
 .center-detail p { font-size: 12px; color: #62725f; margin: 0; }

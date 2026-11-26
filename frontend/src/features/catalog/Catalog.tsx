@@ -3,6 +3,7 @@ import { Link, useSearchParams } from 'react-router-dom'
 import CenterMap from './CenterMap'
 import CenterDetails from './CenterDetails'
 import { useCatalog } from './useCatalog'
+import { catalogPreviewEnabled } from './catalogApi'
 import SpatialControls from './SpatialControls'
 import { formatDistance } from './centers'
 import type { Origin } from './centers'
@@ -47,7 +48,7 @@ export default function Catalog({ mode = 'explorer' }: { mode?: 'explorer' | 'di
       <div className="catalog-actions"><Link to={mode === 'explorer' ? '/centros' : '/explorar'} className="view-link">{mode === 'explorer' ? 'Ver directorio ↗' : 'Abrir mapa ↗'}</Link>{mode === 'explorer' && <button className="view-link" onClick={() => setExpanded(value => !value)} aria-pressed={expanded}>{expanded ? 'Mostrar panel' : 'Ampliar mapa'}</button>}</div>
     </div>
     <p className="catalog-description">Consulta las sedes registradas y abre una ficha para conocer su información.</p>
-    <div className="catalog-source"><span className="source-dot" />Fuente: catálogo de la API<span>La disponibilidad de plazas debe confirmarse con la coordinación.</span></div>
+    <div className="catalog-source"><span className="source-dot" />{catalogPreviewEnabled ? 'Vista previa de sedes reales' : 'Fuente: catálogo de la API'}<span>{catalogPreviewEnabled ? 'Selección preliminar. Confirma las asignaciones y plazas con la coordinación.' : 'La disponibilidad de plazas debe confirmarse con la coordinación.'}</span></div>
     {centers.some(center => center.isDemo) && <div className="demo-notice"><strong>Incluye datos ficticios.</strong> Las fichas etiquetadas «Demostración» y sus ubicaciones no representan centros habilitados ni vacantes reales.</div>}
     {focusedId && <div className="focused-notice">Consulta de una sede por enlace directo.<button onClick={clear}>Volver al catálogo completo</button></div>}
 
@@ -77,7 +78,7 @@ export default function Catalog({ mode = 'explorer' }: { mode?: 'explorer' | 'di
         <div className="cards">
           {centers.map((center, index) => <div key={center.id} className="catalog-card-item"><button className={`center-card ${selected?.id === center.id ? 'selected' : ''}`} onClick={() => selectCenter(center.id)} aria-pressed={selected?.id === center.id} aria-controls="center-detail">
             <span className="card-number" aria-hidden="true">{String(index + 1).padStart(2, '0')}</span>
-            <span className="card-content"><span className={`type-badge type-${center.type === 'Salud' ? 'health' : center.type === 'Educación' ? 'education' : 'community'}`}>{center.type}</span><strong>{center.name}</strong><span className="card-district">{center.district}</span><span className={`record-tag ${center.isDemo ? 'record-demo' : ''}`}>{center.isDemo ? 'Demostración' : center.verificationStatus === 'verified' ? 'Registro verificado' : 'Por verificar'}</span></span>
+            <span className="card-content"><span className={`type-badge type-${center.type === 'Salud' ? 'health' : center.type === 'Educación' ? 'education' : 'community'}`}>{center.type}</span><strong>{center.name}</strong><span className="card-district">{center.district}</span><span className={`record-tag ${center.isDemo ? 'record-demo' : ''}`}>{center.preview ? 'Candidata' : center.isDemo ? 'Demostración' : center.verificationStatus === 'verified' ? 'Registro verificado' : 'Por verificar'}</span></span>
             <span className="card-tail">{center.distanceM !== null && <span className="distance-badge" aria-label={`Distancia geográfica: ${formatDistance(center.distanceM)}`}>{formatDistance(center.distanceM)}</span>}<span className="card-arrow" aria-hidden="true">↗</span></span>
           </button><CompareButton id={center.id} name={center.name} /></div>)}
           {ready && !centers.length && <div className="no-results"><span aria-hidden="true">⌕</span><h3>{hasFilters ? 'No encontramos coincidencias' : 'El catálogo está vacío'}</h3><p>{hasFilters ? 'Prueba otro nombre o combina menos filtros.' : 'Las sedes aparecerán cuando se incorporen registros a la base de datos.'}</p>{(hasFilters || offset > 0) && <button className="button" onClick={clear}>Restablecer búsqueda</button>}</div>}

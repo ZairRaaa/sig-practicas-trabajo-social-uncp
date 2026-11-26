@@ -12,11 +12,11 @@ const rows: { label: string; value: (center: Center) => string }[] = [
   { label: 'Ámbito de intervención', value: center => center.type },
   { label: 'Dirección', value: center => center.address || 'No registrada' },
   { label: 'Descripción', value: center => center.description },
-  { label: 'Estado del registro', value: center => center.verificationStatus === 'verified' ? 'Verificado' : 'Pendiente de verificación' },
+  { label: 'Estado del registro', value: center => center.preview ? 'Candidata para el padrón' : center.verificationStatus === 'verified' ? 'Verificado' : 'Pendiente de verificación' },
   { label: 'Fecha de verificación', value: center => formatVerificationDate(center.verifiedAt) },
-  { label: 'Fuente pública', value: center => center.publicSource || 'Referencia pública pendiente de registro' },
-  { label: 'Tipo de información', value: center => center.isDemo ? 'Demostración · datos ficticios' : 'Registro del catálogo' },
-  { label: 'Convenio y vacantes', value: () => 'Sin información confirmada' },
+  { label: 'Fuente pública', value: center => center.preview?.sources[0]?.label || center.publicSource || 'Referencia pública pendiente de registro' },
+  { label: 'Tipo de información', value: center => center.preview ? 'Sede real · vista previa' : center.isDemo ? 'Demostración · datos ficticios' : 'Registro del catálogo' },
+  { label: 'Convenio y vacantes', value: center => center.preview?.relationship || 'Sin información confirmada' },
   { label: 'Valoración estudiantil', value: () => 'Aún no disponible' },
 ]
 

@@ -20,8 +20,14 @@ interface SiteResponse {
 }
 interface PageResponse { items: SiteResponse[]; total: number; limit: number; offset: number }
 export const PAGE_SIZE = 12
+export const catalogPreviewEnabled = import.meta.env.DEV && import.meta.env.VITE_CATALOGO_PREVIO === 'true'
 
 export async function loadCenter(id: string, signal: AbortSignal): Promise<Center> {
+  if (catalogPreviewEnabled) {
+    const { findCenter } = await import('./previewCatalog')
+    signal.throwIfAborted()
+    return findCenter(id)
+  }
   return toCenter(await getJson<SiteResponse>(`/sites/${encodeURIComponent(id)}`, signal))
 }
 
@@ -42,6 +48,11 @@ function toCenter(site: SiteResponse): Center {
 }
 
 export async function loadCatalog(filters: CatalogFilters, signal: AbortSignal): Promise<CatalogPage> {
+  if (catalogPreviewEnabled) {
+    const { findPage } = await import('./previewCatalog')
+    signal.throwIfAborted()
+    return findPage(filters, PAGE_SIZE)
+  }
   if (filters.siteId) {
     const site = await getJson<SiteResponse>(`/sites/${encodeURIComponent(filters.siteId)}`, signal)
     return { items: [toCenter(site)], total: 1, limit: PAGE_SIZE, offset: 0 }
@@ -62,7 +73,12 @@ export async function loadCatalog(filters: CatalogFilters, signal: AbortSignal):
   return { ...page, items: page.items.map(toCenter) }
 }
 
-export function loadOptions(signal: AbortSignal) {
+export async function loadOptions(signal: AbortSignal): Promise<[DistrictOption[], string[]]> {
+  if (catalogPreviewEnabled) {
+    const { findOptions } = await import('./previewCatalog')
+    signal.throwIfAborted()
+    return findOptions()
+  }
   return Promise.all([
     getJson<DistrictOption[]>('/districts', signal),
     getJson<string[]>('/categories', signal),
