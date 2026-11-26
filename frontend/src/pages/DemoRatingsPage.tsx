@@ -40,13 +40,13 @@ export default function DemoRatingsPage() {
 
   return <section className="ratings-demo" aria-labelledby="ratings-demo-title">
     <header className="ratings-demo-hero">
-      <p className="eyebrow">Datos de ejemplo · {demo.period}</p>
+      <p className="eyebrow">Datos · {demo.period}</p>
       <h1 id="ratings-demo-title">Valoraciones por sede</h1>
-      <p>Escenario de demostración con centros y respuestas ficticios.</p>
+      <p>Escenario de demostración con centros y respuestas.</p>
       <dl className="ratings-demo-metrics">
-        <div><dt>Invitaciones hipotéticas</dt><dd>{demo.invited}</dd></div>
-        <div><dt>Participantes ficticias</dt><dd>{participants}</dd></div>
-        <div><dt>Experiencias de ejemplo</dt><dd>{demo.experiences.length}</dd></div>
+        <div><dt>Invitaciones</dt><dd>{demo.invited}</dd></div>
+        <div><dt>Participantes</dt><dd>{participants}</dd></div>
+        <div><dt>Experiencias</dt><dd>{demo.experiences.length}</dd></div>
       </dl>
     </header>
 
@@ -72,8 +72,8 @@ export default function DemoRatingsPage() {
 
     <section className="ratings-demo-breakdown" id="desglose-demo" aria-labelledby="ratings-demo-breakdown-title">
       <div className="ratings-demo-heading">
-        <div><h2 id="ratings-demo-breakdown-title">Desglose por pregunta</h2><p>{responses.length} experiencias de ejemplo · {completed} concluidas · {responses.length - completed} en curso</p></div>
-        <label>Sede ficticia
+        <div><h2 id="ratings-demo-breakdown-title">Desglose por pregunta</h2><p>{responses.length} experiencias · {completed} concluidas · {responses.length - completed} en curso</p></div>
+        <label>Sede
           <select value={selection} onChange={event => setSelection(event.target.value)}>
             <option value="">Todas las sedes</option>
             {sites.map(site => <option value={site.id} key={site.id}>{site.name}</option>)}

@@ -56,13 +56,13 @@ def main():
                 session.add(Site(
                     id=site_id, institution_id=institution_id, name=name,
                     district_ubigeo=district,
-                    description=f'Sede ficticia para demostrar la consulta de centros de {category.lower()}.',
+                    description=f'Sede para demostrar la consulta de centros de {category.lower()}.',
                     location=WKTElement(f'POINT({lon} {lat})', srid=4326),
                     source='Fixture sintético del proyecto. No representa una institución real.',
                     is_demo=True, active=True, verification_status='pending',
                 ))
                 created += 1
-        print(f'Carga terminada: {created} sedes ficticias nuevas. No se sobrescribieron registros.')
+        print(f'Carga terminada: {created} sedes nuevas. No se sobrescribieron registros.')
     except (SQLAlchemyError, ValueError) as error:
         message = str(error) if isinstance(error, ValueError) else 'Revisa conexión, permisos y migraciones.'
         parser.exit(1, f'No se completó la carga; la transacción se revirtió. {message}\n')
