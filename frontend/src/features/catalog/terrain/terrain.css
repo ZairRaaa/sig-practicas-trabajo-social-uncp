@@ -16,6 +16,7 @@
 .terrain-legend i { width: clamp(30px, 7vw, 90px); height: 6px; border-radius: 4px; background: linear-gradient(90deg, #246e8b, #8ba384, #efd99f); }
 .terrain-pin { position: absolute; width: 25px; height: 25px; transform: translate(-50%, -50%); padding: 0; border: 2px solid #10223d; border-radius: 50%; background: #cfddff; color: #142444; font-size: .75rem; font-weight: 800; box-shadow: 0 3px 8px #081529aa; }
 .terrain-pin-line { position: absolute; height: 2px; z-index: 90; background: #e5f2ffb5; transform-origin: 0 50%; pointer-events: none; }
+.terrain-pin.is-reference { border-style: dashed; background: #fff3d7; }
 .terrain-pin:hover, .terrain-pin.is-selected { background: #ffdc94; }
 .terrain-origin { position: absolute; z-index: 70; width: 10px; height: 10px; transform: translate(-50%, -50%); background: #ffde9b; border: 2px solid #172946; border-radius: 50%; }
 .terrain-caption { display: flex; justify-content: space-between; gap: 4px 12px; flex-wrap: wrap; }

@@ -18,7 +18,12 @@ const centers: Center[] = records.map(record => ({
   verifiedAt: null,
   publicSource: null,
   distanceM: null,
-  preview: { relationship: record.relationship, sources: record.sources, photo: record.photo },
+  preview: {
+    relationship: record.relationship,
+    sources: record.sources,
+    coordinateReference: record.coordinateReference,
+    photo: record.photo,
+  },
 }))
 
 function searchKey(value: string) {

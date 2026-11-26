@@ -27,7 +27,8 @@ export default function CenterDetails({ center, directory, onClose }: {
         <div><dt>Distrito</dt><dd>{center.district}</dd></div>
         <div><dt>Ámbito</dt><dd>{center.type}</dd></div>
         <div><dt>Dirección</dt><dd>{center.address || 'Pendiente de registro'}</dd></div>
-        {!center.coordinates && <div><dt>Ubicación en el mapa</dt><dd>Coordenadas pendientes de verificación</dd></div>}
+        {center.preview?.coordinateReference ? <div><dt>Ubicación referencial</dt><dd>{center.preview.coordinateReference}</dd></div>
+          : !center.coordinates && <div><dt>Ubicación en el mapa</dt><dd>Coordenadas pendientes de verificación</dd></div>}
         {center.preview ? <>
           <div><dt>Relación con Trabajo Social</dt><dd>{center.preview.relationship}</dd></div>
           <div><dt>Fuentes públicas</dt><dd><ul className="detail-sources">{center.preview.sources.map(source =>
@@ -39,7 +40,7 @@ export default function CenterDetails({ center, directory, onClose }: {
           <div><dt>Fuente pública</dt><dd>{center.publicSource || 'Referencia pública pendiente de registro'}</dd></div>
         </>}
         <div><dt>Disponibilidad</dt><dd>No informada</dd></div>
-        {center.distanceM !== null && <div><dt>Distancia geográfica</dt><dd>{formatDistance(center.distanceM)} desde el punto elegido</dd></div>}
+        {center.distanceM !== null && <div><dt>{center.preview?.coordinateReference ? 'Distancia aproximada' : 'Distancia geográfica'}</dt><dd>{formatDistance(center.distanceM)} desde el punto elegido</dd></div>}
       </dl>
       <p className="detail-note">{center.preview ? 'Ficha preliminar para revisión de la coordinación.' : center.isDemo ? 'Información ficticia para demostrar el funcionamiento.' : 'Un registro verificado no certifica convenio vigente ni vacantes.'} Las valoraciones estudiantiles aún no están disponibles.</p>
       {directory && center.coordinates && <Link className="button detail-map-link" to={`/explorar?sede=${encodeURIComponent(center.id)}`}>Ubicar en el mapa ↗</Link>}

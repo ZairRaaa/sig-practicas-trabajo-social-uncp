@@ -90,6 +90,7 @@
 .center-pin { background: transparent; border: 0; }
 .center-pin span { display: grid; place-items: center; width: 34px; height: 34px; border: 2px solid var(--surface); border-radius: 50% 50% 50% 4px; background: var(--primary); color: var(--on-primary); font-size: .8rem; font-weight: 750; box-shadow: 0 2px 8px #0b14365e; transform: rotate(-45deg); }
 .center-pin b { transform: rotate(45deg); }
+.center-pin.is-reference span { border-style: dashed; background: var(--surface); color: var(--ink); border-color: var(--primary); }
 .center-pin.is-selected span { color: var(--gold-ink); background: var(--gold); box-shadow: 0 0 0 4px #c4832965; }
 :root[data-theme="dark"] .center-map .leaflet-tile-pane { filter: invert(.89) hue-rotate(180deg) saturate(.62) brightness(.93); }
 .center-map .leaflet-control-zoom a, .center-map .leaflet-control-attribution, .center-map .leaflet-control-scale-line, .center-map .leaflet-tooltip { background: var(--surface); color: var(--ink); border-color: var(--border-strong); }

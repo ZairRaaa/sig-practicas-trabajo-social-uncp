@@ -16,6 +16,7 @@ export interface Center {
   preview?: {
     relationship: string
     sources: { label: string; url: string }[]
+    coordinateReference?: string
     photo?: CenterPhoto
   }
 }

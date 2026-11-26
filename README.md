@@ -71,6 +71,8 @@ La estudiante responde prioridades sin asignación previa. Para evaluar una expe
 
 En el explorador se puede alternar entre el mapa 2D y el **Relieve 3D** del valle del Mantaro. El relieve se gira arrastrando o con los controles de giro. Sus marcadores abren las mismas fichas del catálogo. Las sedes con coordenadas pendientes conservan su lugar en la lista.
 
+La vista preliminar se activa con `VITE_CATALOGO_PREVIO=true` en el servidor de desarrollo de Vite. La DEMUNA de Chilca y la de El Tambo aparecen con borde discontinuo, ficha con fuentes y distancia aproximada. Las direcciones proceden del [directorio del MIMP](https://www.gob.pe/institucion/mimp/informes-publicaciones/4245664-directorio-de-demuna). Los puntos de referencia se tomaron de la [cartografía de Chilca](https://peru-streets.openalfa.com/streets/pasaje-san-andres-chilca-province-of-huancayo) y del [trazado del Pasaje Argentina](https://callejero-peru.openalfa.com/calles/pasaje-argentina-el-tambo-provincia-de-huancayo). La entrada exacta de cada oficina queda por confirmar antes de incorporar sus coordenadas al padrón de PostgreSQL.
+
 El relieve se carga como una cuadrícula local de 73 × 61 puntos interpolada a partir de cuatro teselas Terrarium de nivel 11. La vista exagera la altura para distinguir el terreno y presenta las elevaciones como aproximaciones. Las teselas se consultaron el 26 de noviembre de 2026. [Terrain Tiles de Mapzen en AWS](https://registry.opendata.aws/terrain-tiles/) · [Atribución de SRTM al USGS](https://github.com/tilezen/joerd/blob/master/docs/attribution.md#srtm).
 
 ## Datos y alcance
@@ -83,6 +85,6 @@ Git conserva código, no los datos PostgreSQL. `.env`, respaldos, dependencias y
 
 ## Desarrollo y Git
 
-Los avances se guardan en commits y ramas locales `codex/`. No se hace push ni merge a `main` como parte de estas entregas. Las guías de cada avance conservan su alcance histórico; la hoja de ruta y este README resumen el estado actual.
+Los avances se preparan en commits separados en ramas locales `codex/`. La publicación en `main` se hace por indicación del responsable. Las guías de cada avance conservan su alcance histórico.
 
 El comando existente `npm run build`, desde `frontend`, ejecuta la comprobación de tipos y genera `dist`. Se documenta para una futura etapa autorizada de validación; no se ejecutó en este avance. Las dependencias Python mantienen rangos y no cuentan aún con un archivo de bloqueo reproducible.

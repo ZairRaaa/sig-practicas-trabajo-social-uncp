@@ -19,10 +19,11 @@ export default function CenterMap({ centers, selectedId, onSelect, origin, radiu
   const markers = useRef(new Map<string, L.Marker>())
   const [tileError, setTileError] = useState(false)
   const unlocatedCount = centers.filter(center => !center.coordinates).length
+  const referenceCount = centers.filter(center => center.coordinates && center.preview?.coordinateReference).length
 
   useEffect(() => {
     if (!container.current) return
-    const instance = L.map(container.current, { scrollWheelZoom: false }).setView([-12.069, -75.213], 13)
+    const instance = L.map(container.current, { scrollWheelZoom: false, zoomSnap: 0.25 }).setView([-12.069, -75.213], 13)
     map.current = instance
     L.tileLayer(import.meta.env.VITE_TILE_URL || 'https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
       attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
@@ -66,14 +67,16 @@ export default function CenterMap({ centers, selectedId, onSelect, origin, radiu
     centers.forEach((center, index) => {
       if (!center.coordinates) return
       points.push(center.coordinates)
+      const reference = center.preview?.coordinateReference
+      const name = center.name + (reference ? ' · Ubicación referencial' : center.isDemo ? ' · Ubicación ficticia' : '')
       const label = document.createElement('span')
-      label.textContent = `${center.name}${center.isDemo ? ' · Ubicación ficticia' : ''}`
+      label.textContent = name
       const marker = L.marker(center.coordinates, {
-        title: center.name,
+        title: name,
         alt: `Seleccionar ${center.name}`,
-        icon: L.divIcon({ className: 'center-pin', html: `<span><b>${index + 1}</b></span>`, iconSize: [34, 40], iconAnchor: [17, 40] }),
+        icon: L.divIcon({ className: reference ? 'center-pin is-reference' : 'center-pin', html: `<span><b>${index + 1}</b></span>`, iconSize: [34, 40], iconAnchor: [17, 40] }),
       }).bindTooltip(label).on('click', () => onSelect(center.id)).addTo(instance)
-      marker.getElement()?.setAttribute('aria-label', `Seleccionar ${center.name}`)
+      marker.getElement()?.setAttribute('aria-label', `Seleccionar ${name}`)
       markers.current.set(center.id, marker)
     })
     if (points.length && !origin) instance.fitBounds(L.latLngBounds(points), { padding: [45, 45], maxZoom: 14, animate: false })
@@ -89,7 +92,7 @@ export default function CenterMap({ centers, selectedId, onSelect, origin, radiu
 
   return <div className="map-shell">
     <div ref={container} className="center-map" role="region" aria-label="Mapa de sedes; también disponibles en la lista de centros" />
-    <div className="map-caption"><span className="map-dot" />Sedes en el mapa · {centers.length - unlocatedCount}{unlocatedCount > 0 && ` · ${unlocatedCount} con coordenadas pendientes`}{centers.some(center => center.isDemo) ? ' · Incluye ubicaciones ficticias' : ''}</div>
+    <div className="map-caption"><span className="map-dot" />Sedes en el mapa · {centers.length - unlocatedCount}{referenceCount > 0 && ` · ${referenceCount} con ubicación referencial`}{unlocatedCount > 0 && ` · ${unlocatedCount} con coordenadas pendientes`}{centers.some(center => center.isDemo) ? ' · Incluye ubicaciones ficticias' : ''}</div>
     {tileError && <p className="map-error" role="status">No se pudo cargar parte del mapa base. Puedes seguir consultando las fichas en la lista.</p>}
   </div>
 }

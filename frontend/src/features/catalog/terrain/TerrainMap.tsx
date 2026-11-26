@@ -111,6 +111,7 @@ export default function TerrainMap({ centers, selectedId, onSelect, origin, radi
     return [{ center, index, sample, point, marker }]
   })
   const pending = centers.filter(center => !center.coordinates).length
+  const referenceCount = pins.filter(({ center }) => center.preview?.coordinateReference).length
   const outOfBounds = centers.length - pins.length - pending
   const localOrigin = origin && terrainPoint(origin)
   const originPoint = localOrigin && projection.project(localOrigin.vertex)
@@ -140,16 +141,16 @@ export default function TerrainMap({ centers, selectedId, onSelect, origin, radi
             width: Math.hypot(marker.x - point.x, marker.y - point.y),
             transform: `rotate(${Math.atan2(marker.y - point.y, marker.x - point.x)}rad)` }} />
           <button type="button"
-          className={`terrain-pin${center.id === selectedId ? ' is-selected' : ''}`}
+          className={`terrain-pin${center.preview?.coordinateReference ? ' is-reference' : ''}${center.id === selectedId ? ' is-selected' : ''}`}
           style={{ left: marker.x, top: marker.y, zIndex: center.id === selectedId ? 200 : 120 - Math.round(point.depth) }}
-          aria-label={`${center.name}${center.isDemo ? ', ubicación ficticia' : ''}, ${meters.format(sample.elevation)} metros de altitud aproximada`}
-          title={`${center.name}${center.isDemo ? ' · Ubicación ficticia' : ''} · ${meters.format(sample.elevation)} m aprox.`}
+          aria-label={`${center.name}${center.preview?.coordinateReference ? ', ubicación referencial' : center.isDemo ? ', ubicación ficticia' : ''}, ${meters.format(sample.elevation)} metros de altitud aproximada`}
+          title={`${center.name}${center.preview?.coordinateReference ? ' · Ubicación referencial' : center.isDemo ? ' · Ubicación ficticia' : ''} · ${meters.format(sample.elevation)} m aprox.`}
           onClick={() => onSelect(center.id)}>{index + 1}</button>
         </Fragment>)}
       </>}
     </div>
     <div className="map-caption terrain-caption">
-      <span>Arrastra para girar · {pins.length} sedes en el área{pending ? ` · ${pending} sin coordenadas` : ''}{outOfBounds ? ` · ${outOfBounds} fuera del área` : ''}</span>
+      <span>Arrastra para girar · {pins.length} sedes en el área{referenceCount ? ` · ${referenceCount} con ubicación referencial` : ''}{pending ? ` · ${pending} sin coordenadas` : ''}{outOfBounds ? ` · ${outOfBounds} fuera del área` : ''}</span>
       <span>Relieve exagerado · <a href="https://github.com/tilezen/joerd/blob/master/docs/attribution.md#srtm" target="_blank" rel="noreferrer">Mapzen · SRTM (USGS)</a></span>
     </div>
   </section>

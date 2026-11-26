@@ -122,12 +122,14 @@
     "district": "El Tambo",
     "districtCode": "120114",
     "address": "Pasaje Argentina 153",
-    "latitude": null,
-    "longitude": null,
+    "latitude": -12.04635,
+    "longitude": -75.21823,
+    "coordinateReference": "Punto en el Pasaje Argentina. Falta confirmar la entrada del número 153.",
     "description": "Servicio de la municipalidad para la defensa de los derechos de niñas, niños y adolescentes. El directorio del MIMP identifica el local de atención en el pasaje Argentina.",
     "relationship": "Servicio municipal documentado. Funciones de Trabajo Social en la sede y asignación de practicantes por confirmar.",
     "sources": [
-      { "label": "MIMP · Directorio DEMUNA de octubre de 2026 (Excel)", "url": "https://cdn.www.gob.pe/uploads/document/file/10106839/4245664-demuna_07oct2026.xlsx?v=1791588255" }
+      { "label": "MIMP · Directorio DEMUNA de octubre de 2026 (Excel)", "url": "https://cdn.www.gob.pe/uploads/document/file/10106839/4245664-demuna_07oct2026.xlsx?v=1791588255" },
+      { "label": "OpenStreetMap · Trazado del Pasaje Argentina en OpenAlfa", "url": "https://callejero-peru.openalfa.com/calles/pasaje-argentina-el-tambo-provincia-de-huancayo" }
     ]
   },
   {
@@ -138,13 +140,15 @@
     "district": "Chilca",
     "districtCode": "120107",
     "address": "Av. Huancavelica 430",
-    "latitude": null,
-    "longitude": null,
+    "latitude": -12.08086,
+    "longitude": -75.20860,
+    "coordinateReference": "Punto en la Av. Huancavelica, cerca del número 428 cartografiado. Falta confirmar la entrada del número 430.",
     "description": "Servicio municipal de orientación y protección de los derechos de niñas, niños y adolescentes. La municipalidad lo incluye en sus actividades de difusión de servicios sociales.",
     "relationship": "Servicio municipal documentado. Funciones de Trabajo Social en la sede y asignación de practicantes por confirmar.",
     "sources": [
       { "label": "MIMP · Directorio DEMUNA de octubre de 2026 (Excel)", "url": "https://cdn.www.gob.pe/uploads/document/file/10106839/4245664-demuna_07oct2026.xlsx?v=1791588255" },
-      { "label": "Municipalidad de Chilca · Servicios municipales en campaña social", "url": "https://munichilca.gob.pe/site/2026/08/17/municipalidad-impulsa-campanas-gratuitas-de-salud-en-chilca/" }
+      { "label": "Municipalidad de Chilca · Servicios municipales en campaña social", "url": "https://munichilca.gob.pe/site/2026/08/17/municipalidad-impulsa-campanas-gratuitas-de-salud-en-chilca/" },
+      { "label": "OpenStreetMap · Referencias junto a la Av. Huancavelica 428 en OpenAlfa", "url": "https://peru-streets.openalfa.com/streets/pasaje-san-andres-chilca-province-of-huancayo" }
     ]
   }
 ]
