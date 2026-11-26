@@ -10,7 +10,7 @@
 | [Preparación del backend](../backend/README.md) | Instalación y base de datos |
 | [Operación local](avance_10_operacion_y_entrega.md) | Arranque, demostración y conservación; leer también las correcciones |
 | [Guía del informe](guia_informe_para_otra_ia.md) | Redacción académica y propuesta de estructura |
-| [Formato 01](formato_01_sedes_reales.md) | Recopilación del padrón real |
+| [Formato 01](formato_01_sedes_reales.md) | Recopilación, vista previa y carga del padrón real |
 | [Formato 02](formato_02_investigacion_y_resultados.md) | Decisiones del estudio y preparación de resultados |
 | [Extractos del concurso](../informacion_concurso_investigacion.md) | Reglas recibidas; no son las bases completas |
 

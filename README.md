@@ -8,6 +8,8 @@ Código entregado hasta el avance 10: catálogo y mapa, búsqueda espacial por r
 
 Correcciones posteriores: textos actualizados, fuente pública y fecha de verificación, recuperación de sesión, mensajes de error, carga independiente de filtros, normalización de periodos, historial de experiencias y consulta de resultados por versión piloto. **El código actual requiere aplicar las migraciones 0005 y 0006** con `alembic upgrade head` antes de arrancar la API. Consulta la [guía de actualización](docs/correcciones_analisis_integral.md).
 
+La primera fase del padrón real incorpora un importador CSV con vista previa por sede y carga local explícita. Los datos autorizados y la ejecución de la carga siguen pendientes. [Formato 01](docs/formato_01_sedes_reales.md#5-preparar-y-cargar-el-csv-en-windows).
+
 La [definición vigente](docs/definicion_vigente.md) consolida el enfoque descriptivo de encuesta e información espacial y la matriz de alcance. Los diez avances son entregas de código; no significan investigación concluida ni todos los requisitos iniciales implementados.
 
 El usuario informó seis sedes demo cargadas y cuentas administrador y estudiante creadas. Desde el avance 03 no se ejecutan tests ni comprobaciones de funcionamiento por indicación del usuario. Código entregado no equivale a sistema validado ni a investigación concluida. El instrumento actual y todos sus envíos son piloto.
@@ -52,7 +54,7 @@ La estudiante responde prioridades sin asignación previa. Para evaluar una expe
 - [Índice: documentación vigente e historial](docs/README.md).
 - [Definición vigente, objetivos y matriz de alcance](docs/definicion_vigente.md).
 - [Correcciones del análisis y actualización de la base](docs/correcciones_analisis_integral.md).
-- [Formato 01: recopilación de sedes reales](docs/formato_01_sedes_reales.md).
+- [Formato 01: recopilación, vista previa y carga de sedes reales](docs/formato_01_sedes_reales.md).
 - [Formato 02: decisiones de investigación y resultados](docs/formato_02_investigacion_y_resultados.md).
 - [Operación, demostración y preparación de entrega](docs/avance_10_operacion_y_entrega.md).
 - [Hoja de ruta y estado de los diez avances](docs/hoja_de_ruta.md).

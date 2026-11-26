@@ -4,7 +4,7 @@
 
 **Cómo usarlo:** duplica la ficha de la sección 2 por cada sede física. Escribe `PENDIENTE` cuando falte información; no inventes valores. Puedes empezar con una sola sede completa. Guarda tu copia rellenada fuera del repositorio si contiene referencias internas.
 
-Este documento prepara los datos: no los importa automáticamente ni publica nada en la web. Cuando esté completo, se podrá preparar una carga acorde al modelo existente. No necesitas buscar ni crear UUID: son identificadores técnicos que asignará el sistema.
+Este documento guía la recopilación. La [sección 5](#5-preparar-y-cargar-el-csv-en-windows) explica cómo generar el CSV, revisar las fichas y cargar las sedes. El importador asigna los UUID a partir de los códigos de trabajo.
 
 ## 1. Alcance del catálogo
 
@@ -86,3 +86,50 @@ No hace falta recoger datos de personas atendidas, casos sociales, nombres de su
 Entrega la sección 1 y al menos una ficha con institución, sede, categoría, distrito, dirección, descripción, fuente y ubicación o enlace. Con eso podremos detectar qué falta y preparar la incorporación de datos reales sin solicitar contraseñas ni acceso a tu cuenta de PostgreSQL.
 
 El catálogo también aporta al informe: cantidad de sedes registradas, distribución por distrito/ámbito y cobertura del padrón. No llamar a ese registro «todas las sedes existentes» si el padrón no es exhaustivo.
+
+## 5. Preparar y cargar el CSV en Windows
+
+Conserva la sección 1 como ficha general del padrón. Define el ámbito y el periodo, identifica la fuente principal y registra los conteos que conozcas y qué información se puede publicar. Completa una fila del CSV por sede física. Los campos opcionales de la sección 2C y la información de investigación del [Formato 02](formato_02_investigacion_y_resultados.md) se conservan por separado.
+
+Desde la raíz del proyecto en PowerShell, genera una plantilla vacía en `data/private/`, carpeta excluida de Git. El comando conserva el archivo si ya existe.
+
+```powershell
+cd backend
+New-Item -ItemType Directory -Force -Path ..\data\private | Out-Null
+$padron = '..\data\private\sedes_reales.csv'
+.\.venv\Scripts\python.exe -m scripts.import_sites $padron --plantilla
+```
+
+Guarda el CSV en UTF-8 con los encabezados de la plantilla. Se admite punto y coma o coma como separador de columnas. Mantén el UBIGEO como texto para conservar ceros iniciales, las fechas como `AAAA-MM-DD` y las coordenadas con punto decimal.
+
+| Campos del CSV | Qué completar |
+|---|---|
+| `codigo_sede`, `institucion`, `sede`, `categoria` | Un código único y estable como `SEDE-001`, el nombre oficial de la institución, el nombre de la sede física y un ámbito consistente. Usa el mismo nombre y categoría para las demás sedes de esa institución. |
+| `departamento`, `provincia`, `distrito`, `direccion`, `descripcion` | Ubicación administrativa, dirección pública y descripción breve respaldada. |
+| `latitud`, `longitud`, `fuente_ubicacion`, `enlace_ubicacion` | Coordenadas WGS84 y su fuente o enlace directo al local. Puedes comenzar con el enlace. La vista previa señalará que faltan las coordenadas mientras estén pendientes. |
+| `fuente_institucional`, `fecha_consulta` | Referencia identificable que respalde la ficha y fecha en que se consultó. |
+| `ubicacion_confirmada`, `estado_revision`, `fecha_revision`, `responsable_revision` | Para verificar una sede, indica `Confirmado` y `Revisado con evidencia`, la fecha de revisión y el rol o código del responsable. Usa `Pendiente` donde corresponda. |
+| `mostrar_catalogo`, `sustento_publicacion` | Decide `Sí` o `No`. Para `Sí`, completa la revisión y registra el sustento de publicación. Con `No`, la sede se registra inactiva. Si la decisión sigue pendiente, la fila requiere corrección. |
+| `ubigeo`, `fuente_ubigeo` | Añade el código oficial de seis dígitos y su fuente si los tienes. Sin código se conserva el distrito en la evidencia de la ficha y queda pendiente en el catálogo y su filtro. |
+| `referencia_publica`, `observaciones` | Opcionales. Escribe en `referencia_publica` solo texto autorizado para aparecer en la web. Las referencias internas y las observaciones se guardan en la evidencia privada. |
+
+**Vista previa del archivo.** Desde `backend`, usa el mismo `$padron` en PowerShell. El informe muestra la línea, el código, el estado y las correcciones o avisos. Comprueba campos, formatos, rangos de coordenadas y posibles conflictos dentro del lote. La correspondencia entre las coordenadas, el local y el UBIGEO se revisa con las fuentes del equipo.
+
+```powershell
+.\.venv\Scripts\python.exe -m scripts.import_sites $padron
+```
+
+**Consulta y carga local.** Con una copia de seguridad disponible, aplica las migraciones pendientes si corresponde y consulta la base configurada en `backend/.env`. La consulta es de solo lectura y añade conflictos con registros existentes a la vista previa.
+
+```powershell
+.\.venv\Scripts\python.exe -m alembic upgrade head
+.\.venv\Scripts\python.exe -m scripts.import_sites $padron --consultar-base
+```
+
+Cuando el informe muestre cero fichas con correcciones, ejecuta la carga explícita:
+
+```powershell
+.\.venv\Scripts\python.exe -m scripts.import_sites $padron --aplicar
+```
+
+La carga inserta las nuevas fichas como `is_demo=false` en una sola transacción. Una corrección pendiente bloquea todo el lote. Al repetir un lote idéntico, las filas ya ingresadas se identifican por su código y UUID. Un conflicto que implique cambiar una sede existente requiere revisión aparte. Conserva los códigos y la salida con sus UUID para vincular las fichas del Formato 02 con el catálogo.

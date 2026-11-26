@@ -1,6 +1,6 @@
 # Definición vigente del proyecto
 
-Actualización: 1 de octubre de 2026. Consolida el enfoque descriptivo registrado en la guía del informe. No acredita aprobación del asesor, datos recolectados ni funcionamiento validado.
+Enfoque descriptivo consolidado el 1 de octubre de 2026 a partir de la guía del informe. El estado de la carga del padrón se actualizó el 26 de noviembre de 2026. No acredita aprobación del asesor, datos recolectados ni funcionamiento validado.
 
 ## 1. Referencia para el equipo
 
@@ -20,7 +20,7 @@ El enfoque de trabajo es aplicado, con desarrollo tecnológico y componente desc
 |---|---|---|---|
 | Identificar criterios relevantes al elegir una sede | Bloque de prioridades | Distribuciones de importancia por ítem | Cinco ítems piloto implementados; campo pendiente |
 | Describir experiencias de prácticas por sede y periodo | Bloque de experiencia y elegibilidad | Distribuciones por ítem y número de participantes/envíos | Cinco ítems piloto implementados; campo pendiente |
-| Construir un padrón georreferenciado verificable | Formato 01 y revisión de fuentes/coordenadas | Cobertura, sedes por distrito/ámbito y mapa | Formato disponible; padrón e importador pendientes |
+| Construir un padrón georreferenciado verificable | Formato 01 y revisión de fuentes/coordenadas | Cobertura, sedes por distrito/ámbito y mapa | Formato e importador disponibles en código; padrón, carga y validación pendientes |
 | Integrar la información en la aplicación y documentar su funcionamiento | Implementación y registro de verificaciones | Funciones y evidencia técnica efectivamente obtenida | Código disponible; validación pendiente |
 
 Las necesidades de información y la facilidad de uso son posibles ampliaciones del instrumento. No forman parte de los diez ítems implementados. No presentar tablas o conclusiones sobre esas variables si no se incorporan y aplican preguntas específicas. La publicación de valoraciones en el comparador requiere reglas de divulgación y evidencia suficiente; actualmente los agregados son de consulta restringida.
@@ -41,7 +41,7 @@ Las necesidades de información y la facilidad de uso son posibles ampliaciones 
 | Fecha y fuente pública de sede | Implementado en correcciones | Aplicar 0005 y registrar referencias autorizadas |
 | Historial de asignaciones | Implementado en correcciones | Aplicar 0006; no reconstruye eventos anteriores |
 | Normalización de periodos | Implementado en correcciones | Variantes I/1 y II/2 equivalentes; acordar otros códigos |
-| Importación y edición de sedes reales | Pendiente | Padrón y validación de carga |
+| Importación y edición de sedes reales | Implementado parcialmente | Vista previa y carga inicial por CSV en código. Pendientes padrón, ejecución, validación y edición de sedes |
 | Exportación agregada para el informe | Pendiente | Formato, filtros, versiones y divulgación |
 | Integración de valoraciones en fichas/comparador | Pendiente | Protocolo y protección de grupos pequeños |
 | Población, muestra, elegibilidad y aviso definitivo | Pendiente del equipo/asesor | Completar Formato 02 |
