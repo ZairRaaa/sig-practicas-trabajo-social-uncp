@@ -18,6 +18,7 @@ export default function CenterMap({ centers, selectedId, onSelect, origin, radiu
   const map = useRef<L.Map | null>(null)
   const markers = useRef(new Map<string, L.Marker>())
   const [tileError, setTileError] = useState(false)
+  const unlocatedCount = centers.filter(center => !center.coordinates).length
 
   useEffect(() => {
     if (!container.current) return
@@ -61,7 +62,10 @@ export default function CenterMap({ centers, selectedId, onSelect, origin, radiu
     if (!instance) return
     markers.current.forEach(marker => marker.remove())
     markers.current.clear()
+    const points: Origin[] = []
     centers.forEach((center, index) => {
+      if (!center.coordinates) return
+      points.push(center.coordinates)
       const label = document.createElement('span')
       label.textContent = `${center.name}${center.isDemo ? ' · Ubicación ficticia' : ''}`
       const marker = L.marker(center.coordinates, {
@@ -72,7 +76,7 @@ export default function CenterMap({ centers, selectedId, onSelect, origin, radiu
       marker.getElement()?.setAttribute('aria-label', `Seleccionar ${center.name}`)
       markers.current.set(center.id, marker)
     })
-    if (centers.length && !origin) instance.fitBounds(L.latLngBounds(centers.map(center => center.coordinates)), { padding: [45, 45], maxZoom: 14, animate: false })
+    if (points.length && !origin) instance.fitBounds(L.latLngBounds(points), { padding: [45, 45], maxZoom: 14, animate: false })
   }, [centers, onSelect, origin])
 
   useEffect(() => {
@@ -85,7 +89,7 @@ export default function CenterMap({ centers, selectedId, onSelect, origin, radiu
 
   return <div className="map-shell">
     <div ref={container} className="center-map" role="region" aria-label="Mapa de sedes; también disponibles en la lista de centros" />
-    <div className="map-caption"><span className="map-dot" />Mapa de esta página · {centers.length} sedes{centers.some(center => center.isDemo) ? ' · Incluye ubicaciones ficticias' : ''}</div>
+    <div className="map-caption"><span className="map-dot" />Sedes en el mapa · {centers.length - unlocatedCount}{unlocatedCount > 0 && ` · ${unlocatedCount} con coordenadas pendientes`}{centers.some(center => center.isDemo) ? ' · Incluye ubicaciones ficticias' : ''}</div>
     {tileError && <p className="map-error" role="status">No se pudo cargar parte del mapa base. Puedes seguir consultando las fichas en la lista.</p>}
   </div>
 }

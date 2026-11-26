@@ -59,7 +59,12 @@ export default function ComparePage() {
             const entry = entries.find(item => item.id === site.id)
             return <td key={site.id}>{loading ? 'Cargando…' : entry?.center ? row.value(entry.center) : 'No disponible'}</td>
           })}</tr>)}
-            <tr><th scope="row">Ubicación</th>{selections.map(site => <td key={site.id}>{entries.find(entry => entry.id === site.id)?.center ? <Link className="text-link" to={`/explorar?sede=${encodeURIComponent(site.id)}`}>Abrir ficha en el mapa ↗</Link> : 'No disponible'}</td>)}</tr>
+            <tr><th scope="row">Ubicación</th>{selections.map(site => {
+              const center = entries.find(entry => entry.id === site.id)?.center
+              return <td key={site.id}>{center?.coordinates
+                ? <Link className="text-link" to={`/explorar?sede=${encodeURIComponent(center.id)}`}>Abrir ficha en el mapa ↗</Link>
+                : center ? 'Coordenadas pendientes de verificación' : 'No disponible'}</td>
+            })}</tr>
           </tbody>
         </table>
       </div>

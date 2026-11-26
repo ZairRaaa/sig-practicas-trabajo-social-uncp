@@ -5,7 +5,7 @@ export interface Center {
   district: string
   districtCode: string | null
   type: string
-  coordinates: [number, number] // Leaflet: latitude, longitude.
+  coordinates: Origin | null
   description: string
   address: string | null
   isDemo: boolean

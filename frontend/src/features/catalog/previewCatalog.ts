@@ -10,7 +10,7 @@ const centers: Center[] = records.map(record => ({
   district: record.district,
   districtCode: record.districtCode,
   type: record.type,
-  coordinates: [record.latitude, record.longitude],
+  coordinates: record.latitude === null || record.longitude === null ? null : [record.latitude, record.longitude],
   description: record.description,
   address: record.address,
   isDemo: false,
@@ -42,7 +42,9 @@ export function findPage(filters: CatalogFilters, limit: number): CatalogPage {
   )
   if (origin) {
     const start = latLng(origin)
-    items = items.map(center => ({ ...center, distanceM: start.distanceTo(center.coordinates) }))
+    items = items.flatMap(center => center.coordinates
+      ? [{ ...center, distanceM: start.distanceTo(center.coordinates) }]
+      : [])
       .filter(center => center.distanceM <= radiusM)
       .sort((first, second) => first.distanceM - second.distanceM)
   } else {

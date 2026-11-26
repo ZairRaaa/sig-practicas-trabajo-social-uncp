@@ -136,7 +136,7 @@ La carga inserta las nuevas fichas como `is_demo=false` en una sola transacción
 
 ## 6. Vista local de sedes candidatas
 
-Territorio incluye una selección preliminar de cuatro sedes de la provincia de Huancayo con fuentes públicas. Incluye Huayucachi como candidata al ámbito del padrón. Las fichas distinguen el servicio o convenio documentado de las asignaciones y plazas que debe confirmar la coordinación. Las fotos incluidas acreditan autoría, licencia y lugar representado.
+Territorio incluye una selección preliminar de siete sedes de la provincia de Huancayo con fuentes públicas, entre ellas las DEMUNA de Huancayo, El Tambo y Chilca. El Tambo y Chilca tienen dirección publicada y se pueden consultar y comparar mientras se verifican sus coordenadas. Las sedes con coordenadas disponibles se muestran en el mapa y en la búsqueda por radio. Huayucachi queda como candidata al ámbito del padrón. La coordinación debe confirmar qué sedes reciben practicantes y en qué periodo.
 
 Para ver la selección desde la raíz, activa el catálogo preliminar solo en la terminal del frontend:
 
