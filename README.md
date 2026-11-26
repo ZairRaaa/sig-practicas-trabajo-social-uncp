@@ -67,6 +67,12 @@ La estudiante responde prioridades sin asignación previa. Para evaluar una expe
 - [Guía para elaborar el informe con otra IA](docs/guia_informe_para_otra_ia.md).
 - [Propuesta original conservada](docs/propuesta_original.md).
 
+## Relieve 3D en el explorador
+
+En el explorador se puede alternar entre el mapa 2D y el **Relieve 3D** del valle del Mantaro. El relieve se gira arrastrando o con los controles de giro. Sus marcadores abren las mismas fichas del catálogo. Las sedes con coordenadas pendientes conservan su lugar en la lista.
+
+El relieve se carga como una cuadrícula local de 73 × 61 puntos interpolada a partir de cuatro teselas Terrarium de nivel 11. La vista exagera la altura para distinguir el terreno y presenta las elevaciones como aproximaciones. Las teselas se consultaron el 26 de noviembre de 2026. [Terrain Tiles de Mapzen en AWS](https://registry.opendata.aws/terrain-tiles/) · [Atribución de SRTM al USGS](https://github.com/tilezen/joerd/blob/master/docs/attribution.md#srtm).
+
 ## Datos y alcance
 
 Las sedes demo son ficticias. La distancia geográfica no es distancia de ruta ni tiempo de viaje. El comparador no produce rankings. Los porcentajes del cuestionario excluyen «no aplica» de su denominador y distinguen envíos de participantes. Los resultados no se publican en el catálogo y no acreditan efectos causales.

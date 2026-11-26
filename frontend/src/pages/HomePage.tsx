@@ -15,7 +15,10 @@ export default function HomePage() {
         <p className="eyebrow">Prácticas preprofesionales</p>
         <h1 id="home-title">Encuentra tu sede <em>de prácticas.</em></h1>
         <p className="intro">Explora y compara los centros de prácticas de Trabajo Social de la UNCP en Huancayo y sus alrededores.</p>
-        <Link className="button hero-button" to="/explorar">Explorar el mapa <span aria-hidden="true">↗</span></Link>
+        <div className="hero-actions">
+          <Link className="button hero-button" to="/explorar">Explorar el mapa <span aria-hidden="true">↗</span></Link>
+          <Link className="view-link hero-secondary" to="/explorar?relieve=3d">Ver relieve 3D <span aria-hidden="true">↗</span></Link>
+        </div>
       </div>
       <div className="hero-location">
         <span>Huancayo · Valle del Mantaro</span>

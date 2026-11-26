@@ -40,13 +40,13 @@ export default function DemoRatingsPage() {
 
   return <section className="ratings-demo" aria-labelledby="ratings-demo-title">
     <header className="ratings-demo-hero">
-      <p className="eyebrow">Simulación · {demo.period}</p>
+      <p className="eyebrow">Datos de ejemplo · {demo.period}</p>
       <h1 id="ratings-demo-title">Valoraciones por sede</h1>
       <p>Escenario de demostración con centros y respuestas ficticios.</p>
       <dl className="ratings-demo-metrics">
         <div><dt>Invitaciones hipotéticas</dt><dd>{demo.invited}</dd></div>
         <div><dt>Participantes ficticias</dt><dd>{participants}</dd></div>
-        <div><dt>Experiencias simuladas</dt><dd>{demo.experiences.length}</dd></div>
+        <div><dt>Experiencias de ejemplo</dt><dd>{demo.experiences.length}</dd></div>
       </dl>
     </header>
 
@@ -63,7 +63,7 @@ export default function DemoRatingsPage() {
               <span className="ratings-demo-stars" aria-hidden="true">★★★★★<span style={{ width: `${rating.average * 20}%` }}>★★★★★</span></span>
               <strong>{formatScore.format(rating.average)} / 5</strong>
             </div>}
-            <p>{rating.valid} respuestas válidas · Simulación</p>
+            <p>{rating.valid} respuestas de ejemplo válidas</p>
             <a className="text-link" href="#desglose-demo" onClick={() => setSelection(site.id)} aria-label={`Ver desglose de ${site.name}`}>Ver desglose <span aria-hidden="true">↓</span></a>
           </article>
         })}
@@ -72,7 +72,7 @@ export default function DemoRatingsPage() {
 
     <section className="ratings-demo-breakdown" id="desglose-demo" aria-labelledby="ratings-demo-breakdown-title">
       <div className="ratings-demo-heading">
-        <div><h2 id="ratings-demo-breakdown-title">Desglose por pregunta</h2><p>{responses.length} experiencias simuladas · {completed} concluidas · {responses.length - completed} en curso</p></div>
+        <div><h2 id="ratings-demo-breakdown-title">Desglose por pregunta</h2><p>{responses.length} experiencias de ejemplo · {completed} concluidas · {responses.length - completed} en curso</p></div>
         <label>Sede ficticia
           <select value={selection} onChange={event => setSelection(event.target.value)}>
             <option value="">Todas las sedes</option>
@@ -80,7 +80,7 @@ export default function DemoRatingsPage() {
           </select>
         </label>
       </div>
-      <div className="ratings-demo-table-wrap" role="region" tabIndex={0} aria-label="Resultados simulados por alternativa">
+      <div className="ratings-demo-table-wrap" role="region" tabIndex={0} aria-label="Resultados de ejemplo por alternativa">
         <table className="ratings-demo-table">
           <caption>Frecuencia y porcentaje por alternativa. Los porcentajes se calculan sobre las respuestas válidas.</caption>
           <thead><tr><th scope="col">Ítem</th>{options.map(option => <th key={option} scope="col">{option}</th>)}<th scope="col">NA</th><th scope="col">Válidas</th><th scope="col">Mediana</th></tr></thead>

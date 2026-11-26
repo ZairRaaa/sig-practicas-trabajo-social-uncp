@@ -41,6 +41,7 @@
 .card-content { display: grid; justify-items: start; gap: 4px; min-width: 0; flex: 1; }
 .card-content strong { font-size: .94rem; line-height: 1.27; overflow-wrap: anywhere; }
 .card-number { display: grid; place-items: center; width: 26px; height: 26px; flex: 0 0 auto; border-radius: 8px; background: var(--surface-raised); color: var(--link); font-weight: 750; font-size: .78rem; }
+.card-number-pending { border: 1px dashed var(--border-strong); background: var(--surface); color: var(--muted); }
 .card-district { color: var(--muted); font-size: .79rem; }
 .card-tail { display: grid; justify-items: end; gap: 7px; }
 .card-arrow { color: var(--link); }
@@ -56,6 +57,11 @@
 
 .map-column { overflow: hidden; }
 .spatial-controls { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 12px; padding: 10px 12px; }
+.map-mode { display: inline-flex; gap: 3px; padding: 3px; border: 1px solid var(--border); border-radius: 9px; background: var(--surface-soft); }
+.map-mode button { min-height: 31px; padding: 4px 8px; border: 0; border-radius: 6px; background: transparent; color: var(--link); font-size: .78rem; font-weight: 690; }
+.map-mode button[aria-pressed="true"] { color: var(--on-primary); background: var(--primary); }
+.map-mode button:hover:not([aria-pressed="true"]) { background: var(--surface-raised); }
+.terrain-loading { padding: 16px; color: var(--muted); }
 .spatial-controls h2 { font-size: .9rem; letter-spacing: 0; }
 .spatial-actions { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
 .spatial-actions label { display: inline-flex; align-items: center; gap: 5px; font-size: .78rem; font-weight: 650; }

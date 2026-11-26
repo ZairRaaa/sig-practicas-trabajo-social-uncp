@@ -7,6 +7,8 @@ interface Props {
   radiusM: number
   picking: boolean
   expanded: boolean
+  terrain: boolean
+  onMapMode: (terrain: boolean) => void
   onExpand: () => void
   onPick: () => void
   onOrigin: (origin: Origin) => void
@@ -14,7 +16,7 @@ interface Props {
   onClear: () => void
 }
 
-export default function SpatialControls({ origin, radiusM, picking, expanded, onExpand, onPick, onOrigin, onRadius, onClear }: Props) {
+export default function SpatialControls({ origin, radiusM, picking, expanded, terrain, onMapMode, onExpand, onPick, onOrigin, onRadius, onClear }: Props) {
   const [latitude, setLatitude] = useState('')
   const [longitude, setLongitude] = useState('')
   const submit = (event: FormEvent<HTMLFormElement>) => {
@@ -24,6 +26,10 @@ export default function SpatialControls({ origin, radiusM, picking, expanded, on
       && Math.abs(lat) <= 90 && Math.abs(lon) <= 180) onOrigin([lat, lon])
   }
   return <section className="spatial-controls" aria-labelledby="spatial-title">
+    <div className="map-mode" role="group" aria-label="Vista del mapa">
+      <button type="button" onClick={() => onMapMode(false)} aria-pressed={!terrain}>Mapa 2D</button>
+      <button type="button" onClick={() => onMapMode(true)} aria-pressed={terrain}>Relieve 3D</button>
+    </div>
     <h2 id="spatial-title">Proximidad</h2>
     <div className="spatial-actions">
       <button className={`view-link ${picking ? 'picking-active' : ''}`} onClick={onPick} aria-pressed={picking}>{picking ? 'Cancelar' : origin ? 'Cambiar origen' : 'Elegir origen'}</button>

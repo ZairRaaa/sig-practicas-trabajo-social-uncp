@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef, useState } from 'react'
+import { lazy, Suspense, useCallback, useEffect, useRef, useState } from 'react'
 import { Link, useSearchParams } from 'react-router-dom'
 import CenterMap from './CenterMap'
 import CenterDetails from './CenterDetails'
@@ -11,9 +11,12 @@ import CompareButton from '../compare/CompareButton'
 import CompareTray from '../compare/CompareTray'
 import './catalog.css'
 
+const TerrainMap = lazy(() => import('./terrain/TerrainMap'))
+
 export default function Catalog({ mode = 'explorer' }: { mode?: 'explorer' | 'directory' }) {
   const [params, setParams] = useSearchParams()
   const focusedId = params.get('sede')
+  const terrain = mode === 'explorer' && params.get('relieve') === '3d'
   const [expanded, setExpanded] = useState(false)
   const [query, setQuery] = useState('')
   const [district, setDistrict] = useState('')
@@ -45,6 +48,21 @@ export default function Catalog({ mode = 'explorer' }: { mode?: 'explorer' | 'di
   const resetPage = () => { setOffset(0); setSelectedId(null); releaseFocus() }
   const clear = () => { setQuery(''); setDistrict(''); setType(''); setOrigin(null); setPickingOrigin(false); resetPage() }
   const chooseOrigin = (point: Origin) => { setOrigin(point); setPickingOrigin(false); resetPage() }
+  const changeMapMode = (showTerrain: boolean) => {
+    if (terrain === showTerrain) return
+    const next = new URLSearchParams(params)
+    if (showTerrain) {
+      next.set('relieve', '3d')
+      setPickingOrigin(false)
+    } else {
+      next.delete('relieve')
+    }
+    setParams(next, { replace: true })
+  }
+  const pickOrigin = () => {
+    if (terrain) changeMapMode(false)
+    setPickingOrigin(value => !value)
+  }
   const hasFilters = Boolean(query || district || type || focusedId || origin)
   const ready = !loading && !error
   const closeDetail = () => {
@@ -71,8 +89,8 @@ export default function Catalog({ mode = 'explorer' }: { mode?: 'explorer' | 'di
 
     <div className="catalog-filters" role="search" aria-label="Buscar centros">
       <label className="search-field">Buscar un centro<input type="search" maxLength={150} placeholder="Nombre, distrito o ámbito…" value={query} onChange={event => { setQuery(event.target.value); resetPage() }} /></label>
-      <label>Distrito<select value={district} disabled={optionsLoading} onChange={event => { setDistrict(event.target.value); resetPage() }}><option value="">Todos los distritos</option>{districts.map(value => <option key={value.ubigeo} value={value.ubigeo}>{value.name}</option>)}</select></label>
-      <label>Ámbito<select value={type} disabled={optionsLoading} onChange={event => { setType(event.target.value); resetPage() }}><option value="">Todos los ámbitos</option>{categories.map(value => <option key={value}>{value}</option>)}</select></label>
+      <label>Distrito<select value={district} disabled={optionsLoading} onChange={event => { setDistrict(event.target.value); resetPage() }}><option value="">Todos</option>{districts.map(value => <option key={value.ubigeo} value={value.ubigeo}>{value.name}</option>)}</select></label>
+      <label>Ámbito<select value={type} disabled={optionsLoading} onChange={event => { setType(event.target.value); resetPage() }}><option value="">Todos</option>{categories.map(value => <option key={value}>{value}</option>)}</select></label>
       <button className="clear-filters" onClick={clear} disabled={!hasFilters && !selectedId && !offset}>Limpiar filtros</button>
     </div>
 
@@ -86,18 +104,20 @@ export default function Catalog({ mode = 'explorer' }: { mode?: 'explorer' | 'di
     <div className="catalog-workspace" aria-busy={loading}>
       {mode === 'explorer' && <div className="map-column">
         <SpatialControls origin={origin} radiusM={radiusM} picking={pickingOrigin} expanded={expanded}
-          onExpand={() => setExpanded(value => !value)} onPick={() => setPickingOrigin(value => !value)} onOrigin={chooseOrigin}
+          terrain={terrain} onMapMode={changeMapMode} onExpand={() => setExpanded(value => !value)} onPick={pickOrigin} onOrigin={chooseOrigin}
           onRadius={radius => { setRadiusM(radius); resetPage() }}
           onClear={() => { setOrigin(null); setPickingOrigin(false); resetPage() }} />
-        <CenterMap centers={centers} selectedId={activeSiteId ?? null} onSelect={selectCenter}
-          origin={origin} radiusM={radiusM} pickingOrigin={pickingOrigin} onOrigin={chooseOrigin} />
+        {terrain ? <Suspense fallback={<p className="terrain-loading" role="status">Cargando relieve del valle…</p>}>
+          <TerrainMap centers={centers} selectedId={activeSiteId ?? null} onSelect={selectCenter} origin={origin} radiusM={radiusM} />
+        </Suspense> : <CenterMap centers={centers} selectedId={activeSiteId ?? null} onSelect={selectCenter}
+          origin={origin} radiusM={radiusM} pickingOrigin={pickingOrigin} onOrigin={chooseOrigin} />}
       </div>}
       {mode === 'explorer' && details ? details : <div className="catalog-list" id="catalog-results">
         <div className="results-heading"><p role="status" ref={listRef} tabIndex={-1}>{loading ? 'Consultando sedes…' : ready ? `${page.total} ${page.total === 1 ? 'sede encontrada' : 'sedes encontradas'}` : 'Sedes'}</p></div>
         <div className="cards">
           {centers.map((center, index) => <div key={center.id} className="catalog-card-item"><button className={`center-card ${selected?.id === center.id ? 'selected' : ''}`} onClick={() => selectCenter(center.id)} aria-pressed={selected?.id === center.id} aria-controls={selected?.id === center.id ? 'center-detail' : undefined}>
-            {mode === 'explorer' && center.coordinates && <span className="card-number" aria-hidden="true">{index + 1}</span>}
-            <span className="card-content"><span className={`type-badge type-${center.type === 'Salud' ? 'health' : center.type === 'Educación' ? 'education' : 'community'}`}>{center.type}</span><strong>{center.name}</strong><span className="card-district">{center.district}</span><span className={`record-tag ${center.isDemo ? 'record-demo' : ''}`}>{center.preview ? 'Candidata' : center.isDemo ? 'Demostración' : center.verificationStatus === 'verified' ? 'Registro verificado' : 'Por verificar'}</span></span>
+            {mode === 'explorer' && <span className={`card-number${center.coordinates ? '' : ' card-number-pending'}`} aria-hidden="true">{index + 1}</span>}
+            <span className="card-content"><span className={`type-badge type-${center.type === 'Salud' ? 'health' : center.type === 'Educación' ? 'education' : 'community'}`}>{center.type}</span><strong>{center.name}</strong><span className="card-district">{center.district}</span><span className={`record-tag ${center.isDemo ? 'record-demo' : ''}`}>{center.preview ? 'Candidata' : center.isDemo ? 'Demostración' : center.verificationStatus === 'verified' ? 'Registro verificado' : 'Por verificar'}{!center.coordinates && ' · Ubicación pendiente'}</span></span>
             <span className="card-tail">{center.distanceM !== null && <span className="distance-badge" aria-label={`Distancia geográfica: ${formatDistance(center.distanceM)}`}>{formatDistance(center.distanceM)}</span>}<span className="card-arrow" aria-hidden="true">↗</span></span>
           </button><CompareButton id={center.id} name={center.name} /></div>)}
           {ready && !centers.length && <div className="no-results"><h3>{hasFilters ? 'No encontramos coincidencias' : 'El catálogo está vacío'}</h3><p>{hasFilters ? 'Prueba otro nombre o combina menos filtros.' : 'Las sedes aparecerán cuando se incorporen registros a la base de datos.'}</p>{(hasFilters || offset > 0) && <button className="button" onClick={clear}>Restablecer búsqueda</button>}</div>}

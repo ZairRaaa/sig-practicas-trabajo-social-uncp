@@ -41,6 +41,9 @@
 .hero .intro { margin: 23px 0 28px; color: #e0e8fa; font-size: clamp(1rem, 1.5vw, 1.19rem); line-height: 1.55; max-width: 390px; }
 .hero .hero-button { background: var(--gold); color: var(--gold-ink); min-height: 50px; padding-inline: 19px; }
 .hero .hero-button:hover:not(:disabled) { background: #fff0c8; }
+.hero-actions { display: flex; flex-wrap: wrap; gap: 8px; }
+.hero .hero-secondary { min-height: 50px; color: #fff; background: #15294bcc; border-color: #bcd0ff88; }
+.hero .hero-secondary:hover { background: #2a4369; border-color: #e0ebff; }
 .hero-location { position: absolute; right: 22px; bottom: 19px; max-width: calc(100% - 44px); background: #10203eea; padding: 10px 13px; border: 1px solid #ffffff38; border-radius: 10px; display: grid; color: #fff; font-size: .76rem; }
 .hero-location small { color: #d5def1; font-size: .65rem; }
 .hero-location a { text-decoration: underline; text-underline-offset: 2px; }
