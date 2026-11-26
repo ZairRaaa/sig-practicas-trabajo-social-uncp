@@ -15,12 +15,11 @@ function SitePhoto({ photo }: { photo: CenterPhoto }) {
 }
 
 export default function CenterDetails({ center, directory, onClose }: {
-  center: Center | undefined; directory: boolean; onClose: () => void
+  center: Center; directory: boolean; onClose: () => void
 }) {
   return <div id="center-detail" className="center-detail" aria-live="polite">
-    {center ? <>
-      <div className="detail-top"><span className="eyebrow">{center.isDemo ? 'FICHA DE DEMOSTRACIÓN' : 'FICHA DE SEDE'}</span><button aria-label="Cerrar ficha" onClick={onClose}>×</button></div>
-      <h3>{center.name}</h3><p>{center.description}</p>
+      <div className="detail-top"><button className="view-link" onClick={onClose}><span aria-hidden="true">←</span> Volver a sedes</button>{center.isDemo && <span className="record-demo">Demostración</span>}</div>
+      <h2>{center.name}</h2><p>{center.description}</p>
       {center.preview?.photo && <SitePhoto key={center.id} photo={center.preview.photo} />}
       <CompareButton id={center.id} name={center.name} />
       <dl>
@@ -44,6 +43,5 @@ export default function CenterDetails({ center, directory, onClose }: {
       </dl>
       <p className="detail-note">{center.preview ? 'Ficha preliminar para revisión de la coordinación.' : center.isDemo ? 'Información ficticia para demostrar el funcionamiento.' : 'Un registro verificado no certifica convenio vigente ni vacantes.'} Las valoraciones estudiantiles aún no están disponibles.</p>
       {directory && center.coordinates && <Link className="button detail-map-link" to={`/explorar?sede=${encodeURIComponent(center.id)}`}>Ubicar en el mapa ↗</Link>}
-    </> : <div className="detail-placeholder"><span aria-hidden="true">◎</span><div><h3>Un punto, una historia por conocer</h3><p>Selecciona una sede en el mapa o en la lista para abrir su ficha.</p></div></div>}
   </div>
 }

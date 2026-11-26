@@ -9,6 +9,8 @@ import AccountPage from './pages/AccountPage'
 import QuestionnairePage from './pages/QuestionnairePage'
 import ManagementPage from './pages/ManagementPage'
 import ResultsPage from './pages/ResultsPage'
+import ThemeToggle from './ThemeToggle'
+import socialWorkLogo from './assets/trabajo-social-uncp.png'
 import { AuthProvider, useAuth } from './features/auth/AuthContext'
 import './features/auth/auth.css'
 import { CompareProvider, useComparison } from './features/compare/CompareContext'
@@ -34,16 +36,23 @@ function Application() {
 
   return <div className={`app-shell ${explorer ? 'app-shell-explorer' : ''}`}>
     <a className="skip-link" href="#contenido">Saltar al contenido</a>
-    <header className="header app-header">
-      <Link className="brand" to="/" aria-label="Territorio, inicio"><span className="brand-icon" aria-hidden="true">t.</span><span>territorio<span className="brand-caption">PRÁCTICAS · UNCP</span></span></Link>
-      <nav aria-label="Navegación principal">
-        <NavLink to="/" end>Inicio</NavLink>
-        <NavLink to="/explorar">Explorador</NavLink>
-        <NavLink to="/centros">Centros</NavLink>
-        <NavLink to="/comparar">Comparar{selections.length ? ` (${selections.length})` : ''}</NavLink>
-        <NavLink to="/proyecto">El proyecto</NavLink>
-      </nav>
-      <Link className="account-link" to={auth.user ? '/cuenta' : '/acceso'}>{auth.loading ? 'Cuenta' : auth.user ? 'Mi cuenta' : 'Iniciar sesión'}</Link>
+    <header className="app-header">
+      <div className="header-inner">
+        <Link className="brand" to="/" aria-label="Territorio, Trabajo Social UNCP, inicio">
+          <img src={socialWorkLogo} alt="" width="50" height="50" />
+          <span>Territorio<span className="brand-caption">Trabajo Social · UNCP</span></span>
+        </Link>
+        <nav className="main-nav" aria-label="Navegación principal">
+          <NavLink to="/" end>Inicio</NavLink>
+          <NavLink to="/explorar">Mapa</NavLink>
+          <NavLink to="/centros">Directorio</NavLink>
+          <NavLink to="/comparar">Comparar{selections.length > 0 && <span className="nav-count">{selections.length}</span>}</NavLink>
+        </nav>
+        <div className="header-actions">
+          <ThemeToggle />
+          <NavLink className="account-link" to={auth.user ? '/cuenta' : '/acceso'}>{auth.loading ? 'Cuenta' : auth.user ? 'Mi cuenta' : 'Ingresar'}</NavLink>
+        </div>
+      </div>
     </header>
     <main id="contenido" tabIndex={-1} className={explorer ? 'explorer-main' : 'page-main'}>
       <Routes>
@@ -57,10 +66,10 @@ function Application() {
         <Route path="/cuestionario" element={<QuestionnairePage />} />
         <Route path="/gestion" element={<ManagementPage />} />
         <Route path="/resultados" element={<ResultsPage />} />
-        <Route path="*" element={<section className="section not-found"><p className="eyebrow">404 / FUERA DEL RECORRIDO</p><h1>No encontramos esa página</h1><p>Puedes volver al inicio o explorar las sedes de demostración.</p><Link className="button" to="/explorar">Ir al explorador ↗</Link></section>} />
+        <Route path="*" element={<section className="section not-found"><h1>Página no encontrada</h1><Link className="button" to="/explorar">Abrir el mapa <span aria-hidden="true">↗</span></Link></section>} />
       </Routes>
     </main>
-    {!explorer && <footer><span>territorio · UNCP</span><p>Información, experiencia y territorio. Trabajo Social.</p><Link to="/proyecto">Acerca del proyecto ↗</Link></footer>}
+    <footer className="app-footer"><span>Territorio · Trabajo Social UNCP</span><Link to="/proyecto">Acerca del proyecto <span aria-hidden="true">↗</span></Link></footer>
   </div>
 }
 

@@ -1,45 +1,37 @@
 import { Link } from 'react-router-dom'
+import panorama from '../assets/huancayo-panorama.jpg'
 
-const steps = [
-  { number: '01', title: 'Explora el territorio', text: 'Consulta las sedes y su ubicación en el ámbito de estudio.' },
-  { number: '02', title: 'Compara con contexto', text: 'Contrasta hasta tres sedes por institución, ámbito, dirección y verificación. Consulta la proximidad en el explorador.' },
-  { number: '03', title: 'Decide con información', text: 'Confirma requisitos y disponibilidad con la coordinación de prácticas.' },
+const actions = [
+  { to: '/centros', icon: '☷', title: 'Directorio', description: 'Busca sedes por nombre, distrito o ámbito.' },
+  { to: '/comparar', icon: '▥', title: 'Comparador', description: 'Revisa hasta tres fichas una al lado de la otra.' },
+  { to: '/proyecto', icon: '◎', title: 'Sobre Territorio', description: 'Conoce el proyecto de Trabajo Social de la UNCP.' },
 ]
 
-export default function HomePage() { return <>
-        <section className="hero" id="inicio" aria-labelledby="titulo">
-          <div className="hero-copy">
-            <p className="eyebrow">TRABAJO SOCIAL / UNCP</p>
-            <h1 id="titulo">Tu próximo paso,<br /><em>en el territorio.</em></h1>
-            <p className="intro">Un espacio para conocer y comparar los centros de prácticas preprofesionales de Trabajo Social.</p>
-            <Link className="button" to="/explorar">Abrir el explorador <span aria-hidden="true">↗</span></Link>
-            <p className="scope">Ámbito propuesto · Huancayo, El Tambo y Chilca</p>
-          </div>
-          <div className="territory-art" aria-hidden="true">
-            <div className="contour contour-one" />
-            <div className="contour contour-two" />
-            <div className="contour contour-three" />
-            <span className="art-coordinate">EXPLORAR / CONOCER / COMPARAR</span>
-            <div className="art-center">Un lugar para<br /><i>aprender haciendo.</i></div>
-            <span className="art-note">TRABAJO SOCIAL EN EL TERRITORIO</span>
-          </div>
-        </section>
+export default function HomePage() {
+  return <div className="home-page">
+    <section className="hero" aria-labelledby="home-title">
+      <img className="hero-image" src={panorama} alt="" fetchPriority="high" width="1280" height="960" />
+      <div className="hero-copy">
+        <p className="eyebrow">Prácticas preprofesionales</p>
+        <h1 id="home-title">Encuentra tu sede <em>de prácticas.</em></h1>
+        <p className="intro">Explora y compara los centros de prácticas de Trabajo Social de la UNCP en Huancayo y sus alrededores.</p>
+        <Link className="button hero-button" to="/explorar">Explorar el mapa <span aria-hidden="true">↗</span></Link>
+      </div>
+      <div className="hero-location">
+        <span>Huancayo · Valle del Mantaro</span>
+        <small>Foto de <a href="https://commons.wikimedia.org/wiki/File:Vista_Panor%C3%A1mica_de_la_ciudad_de_Huancayo.jpg" target="_blank" rel="noreferrer">Johann Wilde Huaman Ricaldi</a> · <a href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank" rel="noreferrer">CC BY-SA 4.0</a></small>
+      </div>
+    </section>
 
-
-
-        <section className="section guide" id="guia" aria-labelledby="guide-title">
-          <p className="eyebrow">UNA ELECCIÓN INFORMADA</p>
-          <h2 id="guide-title">Del lugar a la experiencia</h2>
-          <p className="section-description">Explora el catálogo y distingue las sedes de demostración de los registros reales. Las valoraciones del piloto son de consulta restringida.</p>
-          <div className="steps">
-            {steps.map(step => (
-              <article key={step.number} className="step">
-                <span className="step-number">{step.number}</span>
-                <h3>{step.title}</h3><p>{step.text}</p>
-              </article>
-            ))}
-          </div>
-          <aside className="notice"><strong>La información necesita contexto.</strong> La cercanía geográfica no equivale al tiempo de viaje. Un centro registrado no garantiza convenio vigente ni vacantes.</aside>
-        </section>
-</> }
-
+    <section className="home-actions" aria-labelledby="home-actions-title">
+      <h2 id="home-actions-title">Herramientas de Territorio</h2>
+      <div className="home-action-grid">
+        {actions.map(action => <Link key={action.to} to={action.to} className="home-action">
+          <span className="home-action-icon" aria-hidden="true">{action.icon}</span>
+          <div><h3>{action.title}</h3><p>{action.description}</p></div>
+          <span className="action-arrow" aria-hidden="true">↗</span>
+        </Link>)}
+      </div>
+    </section>
+  </div>
+}

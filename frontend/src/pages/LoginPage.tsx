@@ -31,7 +31,7 @@ export default function LoginPage() {
   if (auth.loading) return <p className="auth-loading" role="status">Recuperando sesión…</p>
   if (auth.user) return <Navigate to="/cuenta" replace />
   return <section className="auth-page">
-    <div className="auth-story"><p className="eyebrow">TU ESPACIO EN TERRITORIO</p><h1>Una cuenta.<br /><em>Tu participación.</em></h1><p>Accede con la cuenta que te haya habilitado el equipo responsable. El catálogo y el mapa pueden consultarse sin iniciar sesión.</p><Link to="/explorar" className="text-link">Continuar explorando ↗</Link></div>
+    <div className="auth-story"><p className="eyebrow">Trabajo Social · UNCP</p><h1>Accede a Territorio</h1><p>Usa la cuenta que te asignó coordinación para acceder a tus experiencias y al cuestionario.</p><Link to="/explorar" className="text-link">Ver el mapa <span aria-hidden="true">↗</span></Link></div>
     <div className="auth-card"><h2>Iniciar sesión</h2><p>Introduce tu usuario y contraseña.</p>
       {auth.error && <p className="auth-message" role="status">{auth.error}</p>}
       <form onSubmit={submit}>

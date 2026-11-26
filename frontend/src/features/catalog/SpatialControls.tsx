@@ -6,13 +6,15 @@ interface Props {
   origin: Origin | null
   radiusM: number
   picking: boolean
+  expanded: boolean
+  onExpand: () => void
   onPick: () => void
   onOrigin: (origin: Origin) => void
   onRadius: (radius: number) => void
   onClear: () => void
 }
 
-export default function SpatialControls({ origin, radiusM, picking, onPick, onOrigin, onRadius, onClear }: Props) {
+export default function SpatialControls({ origin, radiusM, picking, expanded, onExpand, onPick, onOrigin, onRadius, onClear }: Props) {
   const [latitude, setLatitude] = useState('')
   const [longitude, setLongitude] = useState('')
   const submit = (event: FormEvent<HTMLFormElement>) => {
@@ -22,18 +24,18 @@ export default function SpatialControls({ origin, radiusM, picking, onPick, onOr
       && Math.abs(lat) <= 90 && Math.abs(lon) <= 180) onOrigin([lat, lon])
   }
   return <section className="spatial-controls" aria-labelledby="spatial-title">
-    <div className="spatial-heading"><div><span className="eyebrow">ANÁLISIS ESPACIAL</span><h2 id="spatial-title">¿Qué hay cerca?</h2></div><p>Elige un origen y encuentra sedes dentro de un radio.</p></div>
+    <h2 id="spatial-title">Proximidad</h2>
     <div className="spatial-actions">
-      <button className={`view-link ${picking ? 'picking-active' : ''}`} onClick={onPick} aria-pressed={picking}>{picking ? 'Cancelar selección' : origin ? 'Cambiar punto en el mapa' : 'Elegir punto en el mapa'}</button>
+      <button className={`view-link ${picking ? 'picking-active' : ''}`} onClick={onPick} aria-pressed={picking}>{picking ? 'Cancelar' : origin ? 'Cambiar origen' : 'Elegir origen'}</button>
       <label>Radio<select value={radiusM} onChange={event => onRadius(Number(event.target.value))}>{[500, 1000, 2000, 3000, 5000, 10000, 20000].map(radius => <option key={radius} value={radius}>{radius < 1000 ? `${radius} m` : `${radius / 1000} km`}</option>)}</select></label>
       {origin && <button className="clear-filters" onClick={onClear}>Quitar proximidad</button>}
     </div>
-    <p className="spatial-status" role="status">{picking ? 'Haz clic sobre el mapa para fijar el origen de la consulta.' : origin ? `Origen seleccionado: ${origin[0].toFixed(5)}, ${origin[1].toFixed(5)} · Resultados ordenados por cercanía.` : 'Sin origen seleccionado: se muestran las sedes sin filtro de distancia.'}</p>
-    <details className="coordinate-entry"><summary>Ingresar coordenadas manualmente</summary><form onSubmit={submit}>
+    <button className="view-link map-size-toggle" aria-pressed={expanded} onClick={onExpand}>{expanded ? 'Mostrar lista' : 'Ampliar mapa'}</button>
+    {(picking || origin) && <p className="spatial-status" role="status">{picking ? 'Selecciona un punto sobre el mapa.' : 'Sedes dentro del radio, ordenadas por distancia geográfica.'}</p>}
+    <details className="coordinate-entry"><summary>Ingresar coordenadas</summary><form onSubmit={submit}>
       <label>Latitud<input required type="number" min={-90} max={90} step="any" placeholder="−12.06" value={latitude} onChange={event => setLatitude(event.target.value)} /></label>
       <label>Longitud<input required type="number" min={-180} max={180} step="any" placeholder="−75.21" value={longitude} onChange={event => setLongitude(event.target.value)} /></label>
       <button className="view-link" type="submit">Usar coordenadas</button>
     </form></details>
-    <p className="spatial-disclaimer">El círculo representa un radio de distancia geográfica. El origen se usa durante la consulta.</p>
   </section>
 }

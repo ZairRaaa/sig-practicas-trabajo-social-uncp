@@ -42,8 +42,8 @@ export default function ComparePage() {
   const loading = selections.length > 0 && result?.key !== requestKey
   const hasError = entries.some(entry => entry.error)
   return <section className="compare-page" aria-labelledby="compare-title">
-    <div className="compare-heading"><div><p className="eyebrow">MIRAR LAS OPCIONES, CON CONTEXTO</p><h1 id="compare-title">Un lugar junto a otro.</h1><p>Hasta tres sedes, con información comparable y datos pendientes a la vista.</p></div><Link className="view-link" to="/centros">Elegir sedes ↗</Link></div>
-    {!selections.length ? <div className="compare-empty"><span aria-hidden="true">▥</span><h2>Tu comparación comienza en el catálogo</h2><p>Marca «Comparar sede» en dos o tres fichas del directorio o explorador.</p><Link className="button" to="/centros">Explorar centros ↗</Link></div> : <>
+    <div className="compare-heading"><div><h1 id="compare-title">Comparador de sedes</h1><p>Consulta en paralelo la información de hasta tres centros de prácticas.</p></div><Link className="view-link" to="/centros">Elegir sedes <span aria-hidden="true">↗</span></Link></div>
+    {!selections.length ? <div className="compare-empty"><span aria-hidden="true">▥</span><h2>Selecciona las sedes que te interesan</h2><p>Usa «Comparar sede» en el mapa o en el directorio.</p><Link className="button" to="/centros">Ir al directorio <span aria-hidden="true">↗</span></Link></div> : <>
       <div className="compare-toolbar"><p role="status">{loading ? 'Actualizando información desde el catálogo…' : `${selections.length} de 3 sedes seleccionadas`}</p><div><button className="view-link" onClick={() => setRevision(value => value + 1)} disabled={loading}>Actualizar datos</button><button className="clear-filters" onClick={clear}>Vaciar selección</button></div></div>
       {selections.length === 1 && <p className="compare-hint">Añade otra sede para comparar. Puedes hacerlo desde distintas páginas del catálogo.</p>}
       {hasError && <p className="compare-warning" role="alert">Algunas sedes no pudieron consultarse. Puedes reintentar con «Actualizar datos» o retirarlas de la selección.</p>}
@@ -51,9 +51,9 @@ export default function ComparePage() {
       <div className="comparison-scroll" tabIndex={0} role="region" aria-label="Tabla de comparación; desplázate horizontalmente en pantallas pequeñas" aria-busy={loading}>
         <table className="comparison-table">
           <caption>Información actual de las sedes seleccionadas</caption>
-          <thead><tr><th scope="col">Aspecto</th>{selections.map((site, index) => {
+          <thead><tr><th scope="col">Aspecto</th>{selections.map(site => {
             const entry = entries.find(item => item.id === site.id)
-            return <th scope="col" key={site.id}><span className="comparison-number">0{index + 1}</span><h2>{entry?.center?.name || site.name}</h2><button onClick={() => remove(site.id)} aria-label={`Quitar ${site.name}`}>Quitar ×</button>{entry?.error && <p className="comparison-cell-error">{entry.error}</p>}</th>
+            return <th scope="col" key={site.id}><h2>{entry?.center?.name || site.name}</h2><button onClick={() => remove(site.id)} aria-label={`Quitar ${site.name}`}>Quitar ×</button>{entry?.error && <p className="comparison-cell-error">{entry.error}</p>}</th>
           })}</tr></thead>
           <tbody>{rows.map(row => <tr key={row.label}><th scope="row">{row.label}</th>{selections.map(site => {
             const entry = entries.find(item => item.id === site.id)
