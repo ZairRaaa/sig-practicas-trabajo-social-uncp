@@ -159,3 +159,9 @@ Porcentaje = frecuencia de la alternativa / total válido del ítem × 100. Si e
 **Ahora:** las secciones 1 y 2, más los datos reales de sedes del Formato 01. Con ello podremos preparar el instrumento y el protocolo para revisión y definir la versión de campo. No necesitas tener ya respuestas.
 
 **Después de la aplicación:** versión final aplicada, registro de aplicación y tablas agregadas por ítem (o una extracción de datos con códigos y acceso acordado). Entonces podremos redactar resultados y discusión sin inventar cifras. El informe también podrá incorporar la distribución de sedes y la descripción del sistema, distinguiendo evidencia técnica realmente obtenida de funcionalidades solo implementadas.
+
+## Demostración local de valoraciones
+
+Abre [Valoraciones simuladas](http://127.0.0.1:5173/demostracion/valoraciones) mientras el frontend está en modo de desarrollo. La demostración usa 32 invitaciones hipotéticas y 28 experiencias sintéticas con códigos ficticios únicos. Sus siete centros son ficticios. El conjunto se carga como datos estáticos de la interfaz de desarrollo.
+
+Cada ficha muestra el promedio de B6 y su número de respuestas válidas. El desglose por sede conserva frecuencias, porcentajes por alternativa y mediana de B1–B6. Las respuestas «NA» se cuentan aparte. En una aplicación de campo, la pregunta global requiere aprobación y la publicación por sede requiere un criterio acordado para proteger grupos pequeños.

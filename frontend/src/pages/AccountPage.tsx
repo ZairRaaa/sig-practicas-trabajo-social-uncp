@@ -26,6 +26,7 @@ export default function AccountPage() {
         <Link className="button" to="/cuestionario">{auth.user.role === 'student' ? 'Ir al cuestionario' : 'Consultar instrumento'} ↗</Link>
         {auth.user.role !== 'student' && <p><Link className="button" to="/gestion">Gestionar experiencias ↗</Link></p>}
         {auth.user.role !== 'student' && <p><Link className="view-link" to="/resultados">Ver resultados del piloto ↗</Link></p>}
+        {import.meta.env.DEV && auth.user.role !== 'student' && <p><Link className="view-link" to="/demostracion/valoraciones">Ver valoración simulada por sede ↗</Link></p>}
       </article></div>
     {message && <div className="auth-message" role="status"><p>{message}</p><button className="view-link" disabled={busy} onClick={auth.reload}>Actualizar sesión</button></div>}
   </section>

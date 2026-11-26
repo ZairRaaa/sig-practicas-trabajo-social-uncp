@@ -1,4 +1,4 @@
-import { useEffect } from 'react'
+import { lazy, Suspense, useEffect } from 'react'
 import { BrowserRouter, Link, NavLink, Route, Routes, useLocation } from 'react-router-dom'
 import Catalog from './features/catalog/Catalog'
 import HomePage from './pages/HomePage'
@@ -17,6 +17,8 @@ import { CompareProvider, useComparison } from './features/compare/CompareContex
 import './features/compare/compare.css'
 import './shell.css'
 
+const DemoRatingsPage = import.meta.env.DEV ? lazy(() => import('./pages/DemoRatingsPage')) : null
+
 function Application() {
   const auth = useAuth()
   const { selections } = useComparison()
@@ -29,6 +31,7 @@ function Application() {
     titles['/cuestionario'] = 'Cuestionario piloto'
     titles['/gestion'] = 'Gestión de experiencias'
     titles['/resultados'] = 'Resultados del piloto'
+    if (DemoRatingsPage) titles['/demostracion/valoraciones'] = 'Valoraciones simuladas'
     document.title = `${titles[location.pathname] ?? 'Página no encontrada'} · Territorio UNCP`
     window.scrollTo({ top: 0, behavior: 'instant' })
     document.getElementById('contenido')?.focus({ preventScroll: true })
@@ -66,10 +69,11 @@ function Application() {
         <Route path="/cuestionario" element={<QuestionnairePage />} />
         <Route path="/gestion" element={<ManagementPage />} />
         <Route path="/resultados" element={<ResultsPage />} />
+        {DemoRatingsPage && <Route path="/demostracion/valoraciones" element={<Suspense fallback={<p className="section" role="status">Cargando demostración…</p>}><DemoRatingsPage /></Suspense>} />}
         <Route path="*" element={<section className="section not-found"><h1>Página no encontrada</h1><Link className="button" to="/explorar">Abrir el mapa <span aria-hidden="true">↗</span></Link></section>} />
       </Routes>
     </main>
-    <footer className="app-footer"><span>Territorio · Trabajo Social UNCP</span><Link to="/proyecto">Acerca del proyecto <span aria-hidden="true">↗</span></Link></footer>
+    <footer className="app-footer"><span>Territorio · Trabajo Social UNCP</span>{DemoRatingsPage && <Link to="/demostracion/valoraciones">Valoraciones simuladas</Link>}<Link to="/proyecto">Acerca del proyecto <span aria-hidden="true">↗</span></Link></footer>
   </div>
 }
 
